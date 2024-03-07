@@ -1,52 +1,63 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
+import * as React from "react";
+import RootList from "./RootList";
+import { List, ListItemButton, ListItemText } from "@mui/material";
+
+import CategoryIcon from "@mui/icons-material/Category";
+import PaletteIcon from "@mui/icons-material/Palette";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { Typography } from "@mui/material";
+import { useActionData } from "react-router-dom";
+
+const CategoryItemList = ({ name, count }) => {
+  return (
+    <ListItemButton sx={{ pl: 4 }}>
+      <ListItemText primary={name} />
+      <Typography variant="caption">{count} items</Typography>
+    </ListItemButton>
+  );
+};
+
+const ColorItemList = ({ colorHex, count }) => {
+  return (
+    <ListItemButton sx={{ pl: 4 }}>
+      <ListItemText
+        primary={<FiberManualRecordIcon sx={{ color: colorHex }} />}
+      />
+      <Typography variant="caption">{count} items</Typography>
+    </ListItemButton>
+  );
+};
 
 export default function ProductFilterList() {
+  const [colors, setColors] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
+  React.useEffect(() => {
+    const getColors = () => {
+      const data = [{ color: "red" }];
+      setColors(data);
+    };
+    return () => getColors();
+  }, []);
+
+  React.useEffect(() => {
+    const getCategories = () => {
+      const data = [{ name: "Dress" }, {name: "Glasses"}];
+      setCategories(data);
+    };
+    return () => getCategories();
+  }, []);
+
   return (
-    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      <nav aria-label="main mailbox folders">
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <DraftsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Drafts" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </nav>
-      <Divider />
-      <nav aria-label="secondary mailbox folders">
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemText primary="Trash" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemText primary="Spam" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </nav>
-    </Box>
+    <List>
+      <RootList name={"Categories"} icon={<CategoryIcon />}>
+        {categories.map((item) =><CategoryItemList name={item.name} count={3} />)}
+        
+      </RootList>
+      <RootList name={"Colors"} icon={<PaletteIcon />}>
+        {colors.map((item) => (
+          <ColorItemList colorHex={item.color} count={4} />
+        ))}
+      </RootList>
+    </List>
   );
 }
