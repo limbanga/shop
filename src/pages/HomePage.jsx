@@ -1,37 +1,21 @@
-import { Box, Button, Grid, Paper, Popover, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Drawer,
+  Grid,
+  Paper,
+  Popover,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ProductBoard from "../components/ProductBoard";
 import ProductFilterList from "../components/ProductFilterList";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-
-const OrderByPopover = ({ anchorEl, setAnchorEl }) => {
-  return (
-    <Popover
-      onClose={() => setAnchorEl(null)}
-      open={!!anchorEl}
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      elevation={1}
-    >
-      <Typography sx={{ px: 2, py: 1 }}>Lastest</Typography>
-      <Typography sx={{ px: 2, py: 1 }}>Oldest</Typography>
-      <Typography sx={{ px: 2, py: 1 }}>High price</Typography>
-      <Typography sx={{ px: 2, py: 1 }}>Low price</Typography>
-    </Popover>
-  );
-};
+import SortBar from "../components/SortBar";
+import FilterDrawer from "../components/FilterDrawer";
 
 const HomePage = () => {
+  const [openDrawer, setOpenDrawer] = useState(true);
   const [products, setProducts] = useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   useEffect(() => {
     const getProducts = () => {
@@ -48,7 +32,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <Box sx={{}}>
+    <>
       <Grid container spacing={2}>
         <Grid item md={3} sx={{ display: { xs: "none", md: "block" } }}>
           <Paper variant="outlined">
@@ -56,38 +40,20 @@ const HomePage = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} md={9}>
-          <Paper
-            variant="outlined"
-            sx={{
-              mb: "1rem",
-              px: "1rem",
-              py: ".5rem",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h6" color={"gray"}>
-              {products.length} items found
-            </Typography>
-            <Box sx={{display: 'flex', justifyContent: '', alignItems: 'center', gap: 2}}>
-              <Button
-                onClick={(e) => setAnchorEl(e.currentTarget)}
-                variant="text"
-                disableElevation
-                endIcon={<ExpandMoreIcon />}
-              >
-                Lastest
-              </Button>
-              <FilterAltIcon sx={{display: {xs: 'block', md: 'none'}}} />
-            </Box>
-          </Paper>
+          <SortBar itemFoundCount={products.length} openFilterDrawer={() => setOpenDrawer(true)} />
           <ProductBoard products={products} />
         </Grid>
       </Grid>
-
-      <OrderByPopover anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
-    </Box>
+      <Drawer
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        PaperProps={{
+          sx: { width: "300px" },
+        }}
+      >
+        <ProductFilterList />
+      </Drawer>
+    </>
   );
 };
 

@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import React, { useState } from "react";
 
-const ProductCard = ({product}) => {
+const ProductCard = ({ product }) => {
   const { name, price } = product;
 
   const [isFavorite, setIsFavorite] = useState(true);
@@ -36,12 +37,17 @@ const ProductCard = ({product}) => {
             </Tooltip>
           </Box>
 
-          <CardMedia
-            component="img"
-            height="194"
-            image="https://s.yimg.com/os/creatr-uploaded-images/2020-01/8ed8ded0-30db-11ea-9ffa-63728c0e08f8"
-            alt="Paella dish"
-          />
+          <Box sx={{ height: 200, display: "flex", justifyContent: "center" }}>
+            <img
+              style={{
+                objectFit: "contain",
+                width: "100%",
+              }}
+              src="https://s.yimg.com/os/creatr-uploaded-images/2020-01/8ed8ded0-30db-11ea-9ffa-63728c0e08f8"
+              alt="image of product"
+            />
+          </Box>
+
           <Typography variant="h6" sx={{ mt: ".25rem" }}>
             {name}
           </Typography>
@@ -61,10 +67,12 @@ const ProductCard = ({product}) => {
 
           <CardActions sx={{ px: 0 }}>
             <Button
-              variant="contained"
+              variant="text"
+              color="inherit"
               disableElevation
               fullWidth
               sx={{ textTransform: "none" }}
+              endIcon={<ArrowForwardIcon />}
             >
               View detail
             </Button>

@@ -6,7 +6,7 @@ const ProductBoard = ({ products }) => {
   return (
     <Grid container spacing={2}>
       {products.map((x) => (
-        <Grid item xs={4} key={x.name}>
+        <Grid item xs={12} sm={6} md={4} key={x.name}>
           <ProductCard product={x} />
         </Grid>
       ))}
