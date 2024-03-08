@@ -12,7 +12,9 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
 import React, { useState } from "react";
 
-const ProductCard = () => {
+const ProductCard = ({product}) => {
+  const { name, price } = product;
+
   const [isFavorite, setIsFavorite] = useState(true);
 
   return (
@@ -41,12 +43,12 @@ const ProductCard = () => {
             alt="Paella dish"
           />
           <Typography variant="h6" sx={{ mt: ".25rem" }}>
-            Product name
+            {name}
           </Typography>
 
           <Box sx={{ display: "flex", gap: "10px" }}>
             <Typography variant="h6" color={"error"}>
-              99$
+              {price} $
             </Typography>
             <Typography
               variant="h6"
