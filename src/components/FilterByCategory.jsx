@@ -1,14 +1,31 @@
 import React from "react";
 import RootList from "./RootList";
-import { Checkbox, ListItemButton, ListItemText, Typography } from "@mui/material";
+import {
+  Checkbox,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 
 import CategoryIcon from "@mui/icons-material/Category";
+import { useSearchParams } from "react-router-dom";
 
-const CategoryItemList = ({ name, count }) => {
+const CategoryItemList = ({ category }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { name } = category;
+
+  const handleOnCheck = (e) => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      searchParams.set("cate", name);
+      setSearchParams(searchParams);
+    }
+  };
+
   return (
     <ListItemButton sx={{ pl: 4 }}>
       <ListItemText primary={name} />
-      <Checkbox />
+      <Checkbox onChange={handleOnCheck} />
     </ListItemButton>
   );
 };
@@ -27,7 +44,7 @@ const FilterByCategory = () => {
   return (
     <RootList name={"Categories"} icon={<CategoryIcon />}>
       {categories.map((x) => (
-        <CategoryItemList key={x.name} name={x.name} count={3} />
+        <CategoryItemList key={x.name} category={x} />
       ))}
     </RootList>
   );

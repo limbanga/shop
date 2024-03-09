@@ -47,7 +47,7 @@ const Navbar = () => {
             fontWeight={"bold"}
             sx={{ my: 2, flexGrow: 1 }}
           >
-            Shopify
+            Limbanga
           </Typography>
 
           <Button
