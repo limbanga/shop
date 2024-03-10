@@ -57,11 +57,10 @@ const Navbar = () => {
                 />
                 <Typography
                   variant="h6"
-                  fontWeight={"600"}
-                  color="primary"
-                  sx={{ my: 2, flexGrow: 1 }}
+                  color="black"
+                  sx={{ my: 2, flexGrow: 1 , fontWeight: '300'}}
                 >
-                  Limbanga
+                  LimLord
                 </Typography>
               </Box>
 
