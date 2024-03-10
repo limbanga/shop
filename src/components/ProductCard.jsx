@@ -11,13 +11,14 @@ import {
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const { name, price , updated} = product;
+  const { id, name, price, updated } = product;
 
   return (
     <>
-      <Paper variant="outlined" sx={{p: "1rem"}}>
+      <Paper variant="outlined" sx={{ p: "1rem" }}>
         <Box sx={{ height: 200, display: "flex", justifyContent: "center" }}>
           <img
             style={{
@@ -30,8 +31,7 @@ const ProductCard = ({ product }) => {
         </Box>
 
         <Typography variant="h6" sx={{ mt: ".25rem" }}>
-          {name} - 
-          {updated}
+          {name} -{updated}
         </Typography>
 
         <Box sx={{ display: "flex", gap: "10px" }}>
@@ -49,6 +49,8 @@ const ProductCard = ({ product }) => {
 
         <Box sx={{ px: 0 }}>
           <Button
+            LinkComponent={RouterLink}
+            to={`product/${id}`}
             variant="text"
             color="inherit"
             disableElevation

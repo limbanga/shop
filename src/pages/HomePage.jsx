@@ -14,6 +14,7 @@ const HomePage = () => {
     const getProducts = (category, orderBy) => {
       let data = [
         {
+          id: 1,
           name: "Product name1",
           price: 123,
           image: "/askjdhk.png",
@@ -21,6 +22,8 @@ const HomePage = () => {
           category: "Dress",
         },
         {
+          id: 2,
+
           name: "Product name2",
           price: 345,
           image: "/askjdhk.png",
@@ -28,6 +31,8 @@ const HomePage = () => {
           category: "Shoes",
         },
         {
+          id: 3,
+
           name: "Product name3",
           price: 999,
           image: "/askjdhk.png",
@@ -35,6 +40,7 @@ const HomePage = () => {
           category: "Shoes",
         },
         {
+          id: 4,
           name: "Product name4",
           price: 333,
           image: "/askjdhk.png",
@@ -43,7 +49,7 @@ const HomePage = () => {
         },
       ];
 
-      if (category && category !== 'All') {
+      if (category && category !== "All") {
         data = data.filter((x) => x.category == category);
       }
 
