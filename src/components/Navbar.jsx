@@ -3,12 +3,6 @@ import {
   Box,
   Button,
   Container,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  Menu,
-  MenuItem,
   Popover,
   Toolbar,
   Typography,
@@ -18,7 +12,7 @@ import SellIcon from "@mui/icons-material/Sell";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -49,7 +43,7 @@ const Navbar = () => {
             >
               <Box
                 to={"/"}
-                component={Link}
+                component={RouterLink}
                 sx={{
                   display: "flex",
                   justifyContent: "start",
