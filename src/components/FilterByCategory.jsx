@@ -2,13 +2,17 @@ import React from "react";
 import RootList from "./RootList";
 import {
   Checkbox,
+  FormControlLabel,
   ListItemButton,
   ListItemText,
+  Radio,
+  RadioGroup,
   Typography,
 } from "@mui/material";
 
 import CategoryIcon from "@mui/icons-material/Category";
 import { useSearchParams } from "react-router-dom";
+import { pink } from "@mui/material/colors";
 
 const CategoryItemList = ({ category }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,8 +28,12 @@ const CategoryItemList = ({ category }) => {
 
   return (
     <ListItemButton sx={{ pl: 4 }}>
-      <ListItemText primary={name} />
-      <Checkbox onChange={handleOnCheck} />
+      <ListItemText primary={name} component={"label"} />
+      <Radio
+        onChange={handleOnCheck}
+        checked={searchParams.get("cate") == name}
+        color="primary"
+      />
     </ListItemButton>
   );
 };
@@ -35,7 +43,7 @@ const FilterByCategory = () => {
 
   React.useEffect(() => {
     const getCategories = () => {
-      const data = [{ name: "Dress" }, { name: "Glasses" }];
+      const data = [{ name: "Dress" }, { name: "Shoes" }, { name: "Jacket" }];
       setCategories(data);
     };
     return () => getCategories();
@@ -43,9 +51,12 @@ const FilterByCategory = () => {
 
   return (
     <RootList name={"Categories"} icon={<CategoryIcon />}>
-      {categories.map((x) => (
-        <CategoryItemList key={x.name} category={x} />
-      ))}
+      <RadioGroup>
+        <CategoryItemList category={{ name: "All" }} />
+        {categories.map((x) => (
+          <CategoryItemList key={x.name} category={x} />
+        ))}
+      </RadioGroup>
     </RootList>
   );
 };

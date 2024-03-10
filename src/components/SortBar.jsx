@@ -1,9 +1,17 @@
 import { Box, Button, Paper, Popover, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { useSearchParams } from "react-router-dom";
+import DoneIcon from "@mui/icons-material/Done";
 
-const OrderByPopover = ({ anchorEl, setAnchorEl }) => {
+const OrderByPopover = ({
+  anchorEl,
+  setAnchorEl,
+  orderByOptions,
+  handleSelectOrderByOptions,
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   return (
     <Popover
       onClose={() => setAnchorEl(null)}
@@ -19,16 +27,43 @@ const OrderByPopover = ({ anchorEl, setAnchorEl }) => {
       }}
       elevation={1}
     >
-      <Typography sx={{ px: 2, py: 1 }}>Lastest</Typography>
-      <Typography sx={{ px: 2, py: 1 }}>Oldest</Typography>
-      <Typography sx={{ px: 2, py: 1 }}>High price</Typography>
-      <Typography sx={{ px: 2, py: 1 }}>Low price</Typography>
+      {orderByOptions.map((x) => (
+        <Box
+          onClick={() => handleSelectOrderByOptions(x)}
+          key={x.name}
+          sx={{
+            width: "5rem",
+            mx: "1rem",
+            my: ".5rem",
+            display: "flex",
+            justifyContent: "start",
+            gap: 2,
+          }}
+        >
+          <Typography>{x.name}</Typography>
+          {searchParams.get("orderBy") == x.value && (
+            <DoneIcon fontSize="small" />
+          )}
+        </Box>
+      ))}
     </Popover>
   );
 };
 
 const SortBar = ({ itemFoundCount, openFilterDrawer }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [orderByDisplay, setOrderByDisplay] = useState("Lastest");
+  const orderByOptions = [
+    { name: "Lastest", value: "lastest" },
+    { name: "Oldest", value: "oldest" },
+  ];
+
+  const handleSelectOrderByOptions = (option) => {
+    searchParams.set("orderBy", option.value);
+    setSearchParams(searchParams);
+    setOrderByDisplay(option.name);
+  };
 
   return (
     <>
@@ -60,7 +95,7 @@ const SortBar = ({ itemFoundCount, openFilterDrawer }) => {
             disableElevation
             endIcon={<ExpandMoreIcon />}
           >
-            Lastest
+            {orderByDisplay}
           </Button>
           <FilterAltIcon
             onClick={openFilterDrawer}
@@ -68,7 +103,13 @@ const SortBar = ({ itemFoundCount, openFilterDrawer }) => {
           />
         </Box>
       </Paper>
-      <OrderByPopover anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+      <OrderByPopover
+        anchorEl={anchorEl}
+        setAnchorEl={setAnchorEl}
+        setOrderByDisplay={setOrderByDisplay}
+        orderByOptions={orderByOptions}
+        handleSelectOrderByOptions={handleSelectOrderByOptions}
+      />
     </>
   );
 };
