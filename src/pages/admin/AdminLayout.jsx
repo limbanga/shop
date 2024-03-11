@@ -9,7 +9,6 @@ export default function AdminLayout() {
     <>
       <Navbar />
       <Container sx={{ bgcolor: red, mt: "110px" }}>
-        <Typography variant="h4">Hello lim</Typography>
         <Outlet />
       </Container>
     </>

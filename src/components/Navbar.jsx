@@ -106,6 +106,13 @@ const Navbar = () => {
           >
             Register
           </Button>
+           <Button
+            fullWidth
+            LinkComponent={RouterLink}
+            to="/admin"
+          >
+            Admin page
+          </Button>
         </Box>
       </Popover>
     </>
