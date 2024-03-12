@@ -4,6 +4,7 @@ import ProductBoard from "../components/ProductBoard";
 import ProductFilterList from "../components/ProductFilterList";
 import SortBar from "../components/SortBar";
 import { useSearchParams } from "react-router-dom";
+import { AxiosInstance } from "../api/AxiosInstance";
 
 const HomePage = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -80,6 +81,11 @@ const HomePage = () => {
     const category = searchParams.get("cate");
     const orderBy = searchParams.get("orderBy");
     getProducts(category, orderBy);
+
+    // TODO: axios
+    AxiosInstance.get("/products/")
+      .then((x) => console.log(x.data))
+      .catch((err) => console.log(err));
   }, [searchParams]);
 
   return (

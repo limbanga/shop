@@ -16,60 +16,40 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Close } from "@mui/icons-material";
 import { SelectColorBox } from "../../components/SelectColorBox";
 import { UploadProductImage } from "../../components/UploadProductImage";
 import { grey } from "@mui/material/colors";
-
-const CategorySelectBox = () => {
-  return (
-    <>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "end",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography variant="h5">Select category</Typography>
-        <Tooltip title="Search for category">
-          <SearchIcon />
-        </Tooltip>
-      </Box>
-      <Typography variant="subtitle2">Recently use</Typography>
-      <Box sx={{ my: ".5rem", display: "flex", gap: ".25rem" }}>
-        {["Shoes", "Dress", "Jacket"].map((x) => (
-          <Paper
-            key={x}
-            variant="outlined"
-            sx={{ px: "1rem", py: ".5rem", color: "", borderColor: "" }}
-          >
-            <Typography>{x}</Typography>
-          </Paper>
-        ))}
-        <Paper
-          variant="outlined"
-          sx={{ px: "1rem", py: ".5rem", color: "", borderColor: "" }}
-        >
-          <Typography>More...</Typography>
-        </Paper>
-      </Box>
-    </>
-  );
-};
+import { CategorySelectBox } from "../../components/CategorySelectBox";
+import { AxiosInstance } from "../../api/AxiosInstance";
 
 export const ProductChangePage = () => {
-  const [mainImageFile, setMainImageFile] = useState(null);
+  const productFormInitState = { name: "", price: 999, categoryId: null };
+  const [productForm, setProductForm] = useState(productFormInitState);
+  const handleSaveForm = () => {
+    console.log(productForm);
+    // TODO : xu ly post request o day
+    AxiosInstance.post("/products/", productForm).then((x) => console.log(x));
+  };
+
+  const setCategoryId = (categoryId) => {
+    setProductForm((prev) => ({ ...prev, categoryId }));
+  };
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h4" textAlign="center" gutterBottom>
-        Create new product
-      </Typography>
       <Grid container spacing={2} sx={{ display: "flex", bgcolor: "" }}>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={4}>
           <Box sx={{ bgcolor: "", height: "100%" }}>
+            <Typography variant="h5" textAlign="center" gutterBottom>
+              Product infomation
+            </Typography>
             <TextField
+              value={productForm.name}
+              onChange={(e) =>
+                setProductForm((prev) => ({ ...prev, name: e.target.value }))
+              }
               label="Product name"
               required
               fullWidth
@@ -77,41 +57,48 @@ export const ProductChangePage = () => {
               sx={{ mt: 0 }}
             />
             <TextField
+              value={productForm.price}
+              onChange={(e) =>
+                setProductForm((prev) => ({ ...prev, price: e.target.value }))
+              }
               label="Price"
               required
               fullWidth
               margin="normal"
               type="number"
             />
-            <CategorySelectBox />
-            <SelectColorBox />
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={7}>
-          <Box sx={{ height: "100%", bgcolor: "pink" }}>
-            <UploadProductImage setMainImageFile={setMainImageFile} />
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={2} sx={{mt: 1}}>
-          <Grid item>
-            <Paper variant="outlined" sx={{ p: "1rem", height: "100px", display: 'flex', alignItems: 'center' }}>
-              <Button disableElevation endIcon={<AddIcon/>}>
-                Create variants
+            <CategorySelectBox setCategoryId={setCategoryId} />
+            <Box sx={{ my: ".5rem", display: "flex", justifyContent: "end" }}>
+              <Button onClick={handleSaveForm} endIcon={<ArrowForwardIcon />}>
+                Save
               </Button>
-            </Paper>
-          </Grid>
+            </Box>
+          </Box>
         </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Box
-          sx={{ my: ".5rem", display: "flex", justifyContent: "end" }}
-        >
-          <Button variant="contained" disableElevation>
-            Save
-          </Button>
-        </Box>
+        <Grid item xs={12} md={8}>
+          <Box sx={{ height: "100%", bgcolor: "" }}>
+            <Typography variant="h5" gutterBottom>
+              Create variant colors
+            </Typography>
+            <Grid container spacing={2} sx={{}}>
+              <Grid item>
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: "1rem",
+                    height: "100px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button disableElevation endIcon={<AddIcon />}>
+                    Create variants
+                  </Button>
+                </Paper>
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
       </Grid>
     </Container>
   );
