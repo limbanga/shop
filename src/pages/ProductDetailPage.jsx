@@ -18,10 +18,15 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductTabs from "../components/ProductTab";
-import { Add } from "@mui/icons-material";
+import { Add, ShoppingBag, Star } from "@mui/icons-material";
 
 export const ProductDetailPage = () => {
   const { id } = useParams();
+
+  const product = {
+    name: "Áo Thun Nam Ngắn Tay 5S Fashion Cổ Tròn, In Chữ Ardent TSO23027",
+    price: 130_000,
+  };
 
   const [selectedSizeOption, setSelectedSizeOption] = useState("web");
   const handleChange = (event, newAlignment) => {
@@ -35,15 +40,11 @@ export const ProductDetailPage = () => {
           <Box>
             <Box sx={{}}>
               <img
-                src="https://th.bing.com/th/id/R.ff6c26a0cfc58599e45990ccf0b6e811?rik=eXWN7aVwUFIpkw&pid=ImgRaw&r=0"
+                src="https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg"
                 alt="Image of product"
-                style={{ maxWidth: "100%" }}
+                style={{ width: "100%", height: 300, objectFit: 'contain' }}
               />
             </Box>
-            <Typography variant="h6" sx={{ my: ".5rem" }}>
-              More images:
-            </Typography>
-
             <Box sx={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
               {[
                 "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c?w=164&h=164&fit=crop&auto=format",
@@ -72,7 +73,7 @@ export const ProductDetailPage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           {/* name */}
-          <Typography variant="h2">Product name {id}</Typography>
+          <Typography variant="h4">{product.name}</Typography>
           {/* price */}
           <Box
             sx={{
@@ -82,14 +83,32 @@ export const ProductDetailPage = () => {
               my: "1rem",
             }}
           >
-            <Typography variant="h4">999.000 đ</Typography>
+            <Typography variant="h5">
+              {new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(product.price)}
+            </Typography>
             <Typography
-              variant="h5"
+              variant="h6"
               sx={{ textDecorationLine: "line-through", color: "grey" }}
             >
-              1899.000 đ
+              {new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(product.price)}
             </Typography>
-            <Chip label="50% discount" color="success" />
+          </Box>
+          {/* rating */}
+          <Box sx={{ display: "flex", gap: ".5rem", alignItems: "center" }}>
+            <Chip
+              icon={<Star />}
+              label="5.0"
+              variant="filled"
+              color="warning"
+              size="small"
+            />
+            <Typography variant="overline">235 sold</Typography>
           </Box>
           {/* color */}
           <Box sx={{ my: "1rem" }}>
@@ -103,67 +122,77 @@ export const ProductDetailPage = () => {
             </Box>
           </Box>
           {/* size */}
-          <Box sx={{ my: "1rem" }}>
+
+          <Box
+            sx={{
+              my: ".5rem",
+              display: "flex",
+              gap: "1rem",
+            }}
+          >
             <Typography variant="h5">Size</Typography>
-            <ToggleButtonGroup
-              color="primary"
-              value={selectedSizeOption}
-              exclusive
-              onChange={handleChange}
-              sx={{
-                display: "flex",
-                width: "100%",
-                maxWidth: "300px",
-                my: ".5rem",
-              }}
-              aria-label="size"
-            >
-              {["S", "M", "L"].map((x) => (
-                <ToggleButton
-                  value={x}
-                  size="small"
-                  sx={{ flexGrow: "1", fontWeight: "bold" }}
-                >
-                  {x}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-            <Box
-              sx={{
-                display: "flex",
-                gap: ".25rem",
-                alignItems: "center",
-                color: "grey",
-              }}
-            >
-              <StraightenIcon />
-              <Typography variant="body2">Help me choose size.</Typography>
-            </Box>
+
+            {["S", "M", "L", "XL", "XXL"].map((x) => (
+              <Paper
+                value={x}
+                variant="outlined"
+                sx={{
+                  p: ".25rem 2rem",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                <Typography>{x}</Typography>
+              </Paper>
+            ))}
           </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: ".25rem",
+              alignItems: "center",
+              color: "grey",
+            }}
+          >
+            <StraightenIcon sx={{ fontSize: "22px" }} />
+            <Typography sx={{ fontSize: "13px" }}>
+              Help me choose size.
+            </Typography>
+          </Box>
+
           {/* Quantity */}
-          <Box sx={{ my: ".5rem" }}>
+          <Box sx={{ my: ".5rem", display: "flex", gap: "1rem" }}>
             <Typography variant="h5">Quantity</Typography>
-            <Box sx={{ display: "flex", py: ".5rem" }}>
-              <TextField type="number" size="small" />
-            </Box>
+            <TextField type="number" size="small" min="0" />
           </Box>
           {/* action */}
           <Box
             sx={{
               my: "1rem",
               display: "flex",
-              justifyContent: "start",
               gap: ".5rem",
             }}
           >
-            <Button size="large" variant="outlined">
+            <Button
+              variant="outlined"
+              startIcon={<ShoppingBag />}
+              sx={{ flexGrow: "1", borderRadius: 0 }}
+            >
               Add to cart
             </Button>
-            <Button size="large" variant="contained" disableElevation>
+            <Button
+              variant="contained"
+              disableElevation
+              startIcon={<ShoppingBag />}
+              sx={{ flexGrow: "1", borderRadius: 0 }}
+            >
               Buy now
             </Button>
           </Box>
           {/* Tabs */}
+        </Grid>
+        <Grid item xs={12}>
           <ProductTabs />
         </Grid>
       </Grid>

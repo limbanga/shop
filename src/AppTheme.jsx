@@ -1,16 +1,27 @@
 import { createTheme } from "@mui/material";
+import { blue, red } from "@mui/material/colors";
 
 const AppTheme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          fontSize: '1rem',
-          textTransform: 'none',
+          textTransform: "none",
         },
       },
-    }
-  }
+      variants: [
+        {
+          props: { variant: "link" },
+          style: {
+            textTransform: "none",
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
+          },
+        },
+      ],
+    },
+  },
 });
 
-export default AppTheme;  
+export default AppTheme;

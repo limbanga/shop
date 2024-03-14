@@ -58,9 +58,9 @@ const Navbar = () => {
                 <Typography
                   variant="h6"
                   color="black"
-                  sx={{ my: 2, flexGrow: 1 , fontWeight: '300'}}
+                  sx={{ my: 2, flexGrow: 1, fontWeight: "300" }}
                 >
-                  LimLord
+                  Coolmate
                 </Typography>
               </Box>
 
@@ -106,11 +106,7 @@ const Navbar = () => {
           >
             Register
           </Button>
-           <Button
-            fullWidth
-            LinkComponent={RouterLink}
-            to="/admin"
-          >
+          <Button fullWidth LinkComponent={RouterLink} to="/admin">
             Admin page
           </Button>
         </Box>

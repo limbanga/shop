@@ -16,9 +16,9 @@ const HomePage = () => {
       let data = [
         {
           id: 1,
-          name: "Product name1",
+          name: "Áo Thun Nam Ngắn Tay 5S Fashion Cổ Tròn, In Chữ Ardent TSO23027",
           price: 123,
-          image: "/askjdhk.png",
+          image: "https://i5.walmartimages.com/asr/84658292-34f7-4599-87c8-1dbb8ecaf4be_1.b2d7cd3a82e4edb9840ed23645b6701b.jpeg",
           updated: "14",
           category: "Dress",
         },
@@ -27,7 +27,7 @@ const HomePage = () => {
 
           name: "Product name2",
           price: 345,
-          image: "/askjdhk.png",
+          image: "https://4menshop.com/images/thumbs/2024/02/ao-thun-theu-still-life-bo-co-kieu-form-slimfit-at143-18400-slide-products-65dd8201a04f4.jpg",
           updated: "12",
           category: "Shoes",
         },
@@ -36,7 +36,7 @@ const HomePage = () => {
 
           name: "Product name3",
           price: 999,
-          image: "/askjdhk.png",
+          image: "https://5sfashion.vn/storage/upload/images/products/WI1SidryvLeAbRZaETWbC5B4oczYj1Ek5ETVL7la.jpg",
           updated: "16",
           category: "Shoes",
         },
@@ -44,7 +44,7 @@ const HomePage = () => {
           id: 4,
           name: "Product name4",
           price: 333,
-          image: "/askjdhk.png",
+          image: "https://5sfashion.vn/storage/upload/images/products/NYbeTstwEhx9s7WhvwGYh68joHN0qMabhpz1rTLM.jpg",
           updated: "1",
           category: "Jacket",
         },
@@ -82,10 +82,10 @@ const HomePage = () => {
     const orderBy = searchParams.get("orderBy");
     getProducts(category, orderBy);
 
-    // TODO: axios
-    AxiosInstance.get("/products/")
-      .then((x) => console.log(x.data))
-      .catch((err) => console.log(err));
+    // // TODO: axios
+    // AxiosInstance.get("/products/")
+    //   .then((x) => console.log(x.data))
+    //   .catch((err) => console.log(err));
   }, [searchParams]);
 
   return (

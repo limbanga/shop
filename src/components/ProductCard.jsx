@@ -14,52 +14,56 @@ import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const { id, name, price, updated } = product;
+  const { id, name, price, image, updated } = product;
 
   return (
     <>
-      <Paper variant="outlined" sx={{ p: "1rem" }}>
-        <Box sx={{ height: 200, display: "flex", justifyContent: "center" }}>
+      <Paper variant="outlined" sx={{ height: "340px" }}>
+        <Box
+          sx={{ height: "200px", display: "flex", justifyContent: "center" }}
+        >
           <img
             style={{
               objectFit: "contain",
               width: "100%",
             }}
-            src="https://s.yimg.com/os/creatr-uploaded-images/2020-01/8ed8ded0-30db-11ea-9ffa-63728c0e08f8"
-            alt="image of product"
+            src={image}
+            alt="Image of product"
           />
         </Box>
 
-        <Typography variant="h6" sx={{ mt: ".25rem" }}>
-          {name} -{updated}
-        </Typography>
+        <Box sx={{ p: "1rem" }}>
+          <Box sx={{ height: "70px" }}>
+            <Typography variant="body1" sx={{ mt: ".25rem" }}>
+              {name}
+            </Typography>
+          </Box>
 
-        <Box sx={{ display: "flex", gap: "10px" }}>
-          <Typography variant="h6" color={"error"}>
-            {price} $
-          </Typography>
-          <Typography
-            variant="h6"
-            color={"GrayText"}
-            sx={{ textDecorationLine: "line-through" }}
+          <Box
+            sx={{
+              display: "flex",
+              gap: ".5rem",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            129$
-          </Typography>
-        </Box>
-
-        <Box sx={{ px: 0 }}>
-          <Button
-            LinkComponent={RouterLink}
-            to={`product/${id}`}
-            variant="text"
-            color="inherit"
-            disableElevation
-            fullWidth
-            sx={{ textTransform: "none" }}
-            endIcon={<ArrowForwardIcon />}
-          >
-            View detail
-          </Button>
+            <Typography variant="body1" color={"error"}>
+              {price} $
+            </Typography>
+            <Button
+              LinkComponent={RouterLink}
+              to={`product/${id}`}
+              color="inherit"
+              variant="link"
+              disableElevation
+              endIcon={<ArrowForwardIcon />}
+              sx={{
+                flexGrow: "1",
+              }}
+            >
+              View detail
+            </Button>
+          </Box>
         </Box>
       </Paper>
     </>
