@@ -12,43 +12,23 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const getProducts = (category, orderBy) => {
-      let data = [
-        {
-          id: 1,
-          name: "Áo Thun Nam Ngắn Tay 5S Fashion Cổ Tròn, In Chữ Ardent TSO23027",
-          price: 123,
-          image: "https://i5.walmartimages.com/asr/84658292-34f7-4599-87c8-1dbb8ecaf4be_1.b2d7cd3a82e4edb9840ed23645b6701b.jpeg",
-          updated: "14",
-          category: "Dress",
-        },
-        {
-          id: 2,
+    const getProducts = async (category, orderBy) => {
+      const response = await AxiosInstance.get("/product_variant__sizes/");
+      let data = response.data;
+      console.log(data);
 
-          name: "Product name2",
-          price: 345,
-          image: "https://4menshop.com/images/thumbs/2024/02/ao-thun-theu-still-life-bo-co-kieu-form-slimfit-at143-18400-slide-products-65dd8201a04f4.jpg",
-          updated: "12",
-          category: "Shoes",
-        },
-        {
-          id: 3,
+      // format data
+      data = data.map((x) => ({
+        id: x.id,
+        name: x.productVariant.product.name,
+        price: x.price,
+        size: x.size,
+        updated: x.updated,
+        image: x.productVariant.image,
+        code: x.productVariant.product.code,
+      }));
 
-          name: "Product name3",
-          price: 999,
-          image: "https://5sfashion.vn/storage/upload/images/products/WI1SidryvLeAbRZaETWbC5B4oczYj1Ek5ETVL7la.jpg",
-          updated: "16",
-          category: "Shoes",
-        },
-        {
-          id: 4,
-          name: "Product name4",
-          price: 333,
-          image: "https://5sfashion.vn/storage/upload/images/products/NYbeTstwEhx9s7WhvwGYh68joHN0qMabhpz1rTLM.jpg",
-          updated: "1",
-          category: "Jacket",
-        },
-      ];
+      console.log(data);
 
       if (category && category !== "All") {
         data = data.filter((x) => x.category == category);
@@ -81,11 +61,6 @@ const HomePage = () => {
     const category = searchParams.get("cate");
     const orderBy = searchParams.get("orderBy");
     getProducts(category, orderBy);
-
-    // // TODO: axios
-    // AxiosInstance.get("/products/")
-    //   .then((x) => console.log(x.data))
-    //   .catch((err) => console.log(err));
   }, [searchParams]);
 
   return (
@@ -119,3 +94,40 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+// let data = [
+//   {
+//     id: 1,
+//     name: "Áo Thun Nam Ngắn Tay 5S Fashion Cổ Tròn, In Chữ Ardent TSO23027",
+//     price: 123,
+//     image: "https://i5.walmartimages.com/asr/84658292-34f7-4599-87c8-1dbb8ecaf4be_1.b2d7cd3a82e4edb9840ed23645b6701b.jpeg",
+//     updated: "14",
+//     category: "Dress",
+//   },
+//   {
+//     id: 2,
+
+//     name: "Product name2",
+//     price: 345,
+//     image: "https://4menshop.com/images/thumbs/2024/02/ao-thun-theu-still-life-bo-co-kieu-form-slimfit-at143-18400-slide-products-65dd8201a04f4.jpg",
+//     updated: "12",
+//     category: "Shoes",
+//   },
+//   {
+//     id: 3,
+
+//     name: "Product name3",
+//     price: 999,
+//     image: "https://5sfashion.vn/storage/upload/images/products/WI1SidryvLeAbRZaETWbC5B4oczYj1Ek5ETVL7la.jpg",
+//     updated: "16",
+//     category: "Shoes",
+//   },
+//   {
+//     id: 4,
+//     name: "Product name4",
+//     price: 333,
+//     image: "https://5sfashion.vn/storage/upload/images/products/NYbeTstwEhx9s7WhvwGYh68joHN0qMabhpz1rTLM.jpg",
+//     updated: "1",
+//     category: "Jacket",
+//   },
+// ];

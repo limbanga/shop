@@ -22,15 +22,16 @@ import { Add, ShoppingBag, Star } from "@mui/icons-material";
 
 export const ProductDetailPage = () => {
   const { id } = useParams();
+  const [inputQuantity, setInputQuantity] = useState(1);
+  const handleChangeQuantity = (newQuantity) => {
+    if (newQuantity > 0) {
+      setInputQuantity(newQuantity);
+    }
+  };
 
   const product = {
     name: "Áo Thun Nam Ngắn Tay 5S Fashion Cổ Tròn, In Chữ Ardent TSO23027",
     price: 130_000,
-  };
-
-  const [selectedSizeOption, setSelectedSizeOption] = useState("web");
-  const handleChange = (event, newAlignment) => {
-    setSelectedSizeOption(newAlignment);
   };
 
   return (
@@ -42,7 +43,7 @@ export const ProductDetailPage = () => {
               <img
                 src="https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg"
                 alt="Image of product"
-                style={{ width: "100%", height: 300, objectFit: 'contain' }}
+                style={{ width: "100%", height: 300, objectFit: "contain" }}
               />
             </Box>
             <Box sx={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
@@ -162,9 +163,35 @@ export const ProductDetailPage = () => {
           </Box>
 
           {/* Quantity */}
-          <Box sx={{ my: ".5rem", display: "flex", gap: "1rem" }}>
+          <Box
+            sx={{
+              my: ".5rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              bgcolor: "",
+            }}
+          >
             <Typography variant="h5">Quantity</Typography>
-            <TextField type="number" size="small" min="0" />
+            <Box>
+              <Button size="small" color="error">
+                -
+              </Button>
+              <input
+                value={inputQuantity}
+                onChange={(e) => handleChangeQuantity(e.target.value)}
+                style={{
+                  height: "1.5rem",
+                  width: "1.5rem",
+                  textAlign: "center",
+                  outline: "none",
+                  border: "none",
+                }}
+              />
+              <Button size="small" color="success">
+                +
+              </Button>
+            </Box>
           </Box>
           {/* action */}
           <Box
@@ -176,6 +203,8 @@ export const ProductDetailPage = () => {
           >
             <Button
               variant="outlined"
+              color="dark"
+              size="large"
               startIcon={<ShoppingBag />}
               sx={{ flexGrow: "1", borderRadius: 0 }}
             >
@@ -183,6 +212,8 @@ export const ProductDetailPage = () => {
             </Button>
             <Button
               variant="contained"
+              color="dark"
+              size="large"
               disableElevation
               startIcon={<ShoppingBag />}
               sx={{ flexGrow: "1", borderRadius: 0 }}

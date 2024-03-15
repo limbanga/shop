@@ -48,7 +48,10 @@ const ProductCard = ({ product }) => {
             }}
           >
             <Typography variant="body1" color={"error"}>
-              {price} $
+              {new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(price)}
             </Typography>
             <Button
               LinkComponent={RouterLink}
