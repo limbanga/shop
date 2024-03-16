@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import SellIcon from "@mui/icons-material/Sell";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
@@ -51,16 +50,13 @@ const Navbar = () => {
                   textDecoration: "none",
                 }}
               >
-                <SellIcon
-                  sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-                  color="warning"
-                />
+                <img src="/shirt.svg" width="32"/>
                 <Typography
                   variant="h6"
                   color="black"
                   sx={{ my: 2, flexGrow: 1, fontWeight: "300" }}
                 >
-                  Coolmate
+                  Fashion
                 </Typography>
               </Box>
 

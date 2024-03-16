@@ -9,6 +9,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  useTheme,
 } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -19,10 +20,15 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductTabs from "../components/ProductTab";
 import { Add, ShoppingBag, Star } from "@mui/icons-material";
+import SizeSelecter from "../components/ProductDetailPage/SizeSelecter";
+
+
 
 export const ProductDetailPage = () => {
   const { id } = useParams();
   const [inputQuantity, setInputQuantity] = useState(1);
+  const [size, setSize] = useState(null);
+
   const handleChangeQuantity = (newQuantity) => {
     if (newQuantity > 0) {
       setInputQuantity(newQuantity);
@@ -123,30 +129,8 @@ export const ProductDetailPage = () => {
             </Box>
           </Box>
           {/* size */}
-
-          <Box
-            sx={{
-              my: ".5rem",
-              display: "flex",
-              gap: "1rem",
-            }}
-          >
-            <Typography variant="h5">Size</Typography>
-
-            {["S", "M", "L", "XL", "XXL"].map((x) => (
-              <Paper
-                value={x}
-                variant="outlined"
-                sx={{
-                  p: ".25rem 2rem",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
-              >
-                <Typography>{x}</Typography>
-              </Paper>
-            ))}
-          </Box>
+          <SizeSelecter size={size} setSize={setSize} />
+          {/* size */}
 
           <Box
             sx={{
