@@ -21,13 +21,15 @@ import { useParams } from "react-router-dom";
 import ProductTabs from "../components/ProductTab";
 import { Add, ShoppingBag, Star } from "@mui/icons-material";
 import SizeSelecter from "../components/ProductDetailPage/SizeSelecter";
-
-
+import { ColorSelect } from "../components/ProductDetailPage/ColorSelect";
 
 export const ProductDetailPage = () => {
   const { id } = useParams();
   const [inputQuantity, setInputQuantity] = useState(1);
   const [size, setSize] = useState(null);
+  const [image, setImage] = useState(
+    "https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg"
+  );
 
   const handleChangeQuantity = (newQuantity) => {
     if (newQuantity > 0) {
@@ -47,7 +49,7 @@ export const ProductDetailPage = () => {
           <Box>
             <Box sx={{}}>
               <img
-                src="https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg"
+                src={image}
                 alt="Image of product"
                 style={{ width: "100%", height: 300, objectFit: "contain" }}
               />
@@ -117,21 +119,8 @@ export const ProductDetailPage = () => {
             />
             <Typography variant="overline">235 sold</Typography>
           </Box>
-          {/* color */}
-          <Box sx={{ my: "1rem" }}>
-            <Typography variant="h5">Color</Typography>
-            <Box sx={{ display: "flex", gap: 2, my: ".5rem" }}>
-              {/* TODO: binding color from product */}
-              <CircleIcon color="action" />
-              <CircleIcon color="primary" />
-              <CircleIcon sx={{ color: "#4433ff" }} />
-              <CircleIcon sx={{ color: "red" }} />
-            </Box>
-          </Box>
-          {/* size */}
+          <ColorSelect image={image} setImage={setImage} />
           <SizeSelecter size={size} setSize={setSize} />
-          {/* size */}
-
           <Box
             sx={{
               display: "flex",
@@ -158,7 +147,12 @@ export const ProductDetailPage = () => {
           >
             <Typography variant="h5">Quantity</Typography>
             <Box>
-              <Button size="small" color="error">
+              <Button
+                onClick={() => handleChangeQuantity(inputQuantity - 1)}
+                size="small"
+                color="error"
+                sx={{ borderRadius: "0" }}
+              >
                 -
               </Button>
               <input
@@ -172,7 +166,12 @@ export const ProductDetailPage = () => {
                   border: "none",
                 }}
               />
-              <Button size="small" color="success">
+              <Button
+                onClick={() => handleChangeQuantity(inputQuantity + 1)}
+                size="small"
+                color="success"
+                sx={{ borderRadius: "0" }}
+              >
                 +
               </Button>
             </Box>
