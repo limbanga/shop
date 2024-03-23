@@ -20,7 +20,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
-import { AxiosInstance } from "../api/AxiosInstance";
+import { axiosInstance } from "../api/AxiosInstance";
 
 const CategoryPaper = ({ category, displayCategory }) => {
   if (!category) {

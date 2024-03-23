@@ -22,7 +22,7 @@ import { SelectColorBox } from "../../components/SelectColorBox";
 import { UploadProductImage } from "../../components/UploadProductImage";
 import { grey } from "@mui/material/colors";
 import { CategorySelectBox } from "../../components/CategorySelectBox";
-import { AxiosInstance } from "../../api/AxiosInstance";
+import { axiosInstance } from "../../api/AxiosInstance";
 
 export const ProductChangePage = () => {
   const productFormInitState = { name: "", price: 999, categoryId: null };

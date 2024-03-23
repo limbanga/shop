@@ -1,35 +1,19 @@
-import {
-  Box,
-  Button,
-  Chip,
-  Grid,
-  IconButton,
-  Paper,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Chip, Grid, Typography } from "@mui/material";
 import StraightenIcon from "@mui/icons-material/Straighten";
-import CircleIcon from "@mui/icons-material/Circle";
-import DoneIcon from "@mui/icons-material/Done";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductTabs from "../components/ProductTab";
 import { Add, ShoppingBag, Star } from "@mui/icons-material";
 import SizeSelecter from "../components/ProductDetailPage/SizeSelecter";
 import { ColorSelect } from "../components/ProductDetailPage/ColorSelect";
+import { axiosInstance } from "../api/AxiosInstance";
 
 export const ProductDetailPage = () => {
-  const { id } = useParams();
-  const [inputQuantity, setInputQuantity] = useState(1);
-  const [size, setSize] = useState(null);
-  const [image, setImage] = useState(
-    "https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg"
-  );
+  let { productSlug, variantSlug } = useParams();
+
+  // const [image, setImage] = useState(
+  //   "https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg"
+  // );
 
   const handleChangeQuantity = (newQuantity) => {
     if (newQuantity > 0) {
@@ -37,52 +21,85 @@ export const ProductDetailPage = () => {
     }
   };
 
-  const product = {
-    name: "Áo Thun Nam Ngắn Tay 5S Fashion Cổ Tròn, In Chữ Ardent TSO23027",
-    price: 130_000,
-  };
+  const [product, setProduct] = useState(null);
+  const [variants, setVariants] = useState([]);
+  const [variant, setVariant] = useState(null);
+  const [sizes, setSizes] = useState([]);
+  const [size, setSize] = useState(null);
+  const [inputQuantity, setInputQuantity] = useState(1);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/products/slug/${productSlug}`
+        );
+        // console.log(response);
+        const data = response.data;
+        const formatProduct = {
+          id: data.id,
+          name: data.name,
+        };
+        setProduct(formatProduct);
+        return data.id;
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    const fetchVariants = async (productId) => {
+      console.log(productId);
+      const response = await axiosInstance.get(`/variants/filter-by?`, {
+        params: {
+          productId: productId,
+        },
+      });
+
+      const { data } = response;
+      setVariants(data);
+      setVariant(data[0]);
+      return data;
+    };
+
+    const fetchSizes = async (variantId) => {
+      console.log(variantId);
+      const response = await axiosInstance.get(`/sizes/filter-by?`, {
+        params: {
+          variantId: variantId,
+        },
+      });
+
+      const { data } = response;
+      console.log("size");
+      console.log(data);
+      setSizes(data);
+      setSize(data[0]);
+    };
+
+    const fetchData = async () => {
+      fetchProduct()
+        .then(fetchVariants)
+        .then((x) => fetchSizes(x.id));
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Box>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Box>
-            <Box sx={{}}>
-              <img
-                src={image}
-                alt="Image of product"
-                style={{ width: "100%", height: 300, objectFit: "contain" }}
-              />
-            </Box>
-            <Box sx={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
-              {[
-                "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c?w=164&h=164&fit=crop&auto=format",
-                "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c?w=164&h=164&fit=crop&auto=format",
-                "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c?w=164&h=164&fit=crop&auto=format",
-                "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c?w=164&h=164&fit=crop&auto=format",
-              ].map((x) => (
-                <Box
-                  key={x}
-                  sx={{
-                    aspectRatio: "1/1",
-                    width: "100px",
-                    maxWidth: "33%",
-                    flexGrow: "1",
-                  }}
-                >
-                  <img
-                    src={x}
-                    loading="lazy"
-                    style={{ width: "100%", objectFit: "contain" }}
-                  />
-                </Box>
-              ))}
-            </Box>
+            <img
+              src={variant?.image}
+              alt="Image of product"
+              style={{ width: "100%", height: 400, objectFit: "contain" }}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
           {/* name */}
-          <Typography variant="h4">{product.name}</Typography>
+          <Typography variant="h4">{product?.name}</Typography>
           {/* price */}
           <Box
             sx={{
@@ -93,20 +110,20 @@ export const ProductDetailPage = () => {
             }}
           >
             <Typography variant="h5">
-              {new Intl.NumberFormat("vi-VN", {
+              {size? new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
-              }).format(product.price)}
+              }).format(size.price):'Choose size to view'}
             </Typography>
-            <Typography
+            {/* <Typography
               variant="h6"
               sx={{ textDecorationLine: "line-through", color: "grey" }}
             >
               {new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
-              }).format(product.price)}
-            </Typography>
+              }).format(product?.price)}
+            </Typography> */}
           </Box>
           {/* rating */}
           <Box sx={{ display: "flex", gap: ".5rem", alignItems: "center" }}>
@@ -119,8 +136,14 @@ export const ProductDetailPage = () => {
             />
             <Typography variant="overline">235 sold</Typography>
           </Box>
-          <ColorSelect image={image} setImage={setImage} />
-          <SizeSelecter size={size} setSize={setSize} />
+          {/* TODO: duyệt qua mảng variants, đưa hình ảnh vào */}
+          <ColorSelect
+            variants={variants}
+            variant={variant}
+            setVariant={setVariant}
+          />
+          {/* TODO: duyệt qua mảng size đưa giá và stock vào */}
+          <SizeSelecter sizes={sizes} size={size} setSize={setSize} />
           <Box
             sx={{
               display: "flex",

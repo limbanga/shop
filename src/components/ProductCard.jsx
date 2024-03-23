@@ -14,7 +14,9 @@ import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
-  const { id, name, price, image, updated } = product;
+  console.log(product);
+  const { id, name, price, image, updated, slugUrl, variantSlug, size } =
+    product;
 
   return (
     <>
@@ -55,7 +57,7 @@ const ProductCard = ({ product }) => {
             </Typography>
             <Button
               LinkComponent={RouterLink}
-              to={`product/${id}`}
+              to={`product/${slugUrl}/${variantSlug}/${size}`}
               color="inherit"
               variant="link"
               disableElevation

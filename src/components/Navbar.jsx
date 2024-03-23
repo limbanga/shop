@@ -50,11 +50,11 @@ const Navbar = () => {
                   textDecoration: "none",
                 }}
               >
-                <img src="/shirt.svg" width="32"/>
+                <img src="/crocodile.svg" width="32" height='32'/>
                 <Typography
                   variant="h6"
                   color="black"
-                  sx={{ my: 2, flexGrow: 1, fontWeight: "300" }}
+                  sx={{ml: '.25rem', fontWeight: "300" }}
                 >
                   Fashion
                 </Typography>
