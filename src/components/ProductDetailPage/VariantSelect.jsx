@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-export const ColorSelect = ({ variants, variant, setVariant }) => {
+export const VariantSelect = ({ variants, variant, setVariant }) => {
   const activeStyle = {
     outline: ".1px solid grey",
   };

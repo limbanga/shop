@@ -1,16 +1,12 @@
+import React from "react";
 import {
   Box,
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
   Paper,
-  Tooltip,
   Typography,
 } from "@mui/material";
+
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
@@ -57,7 +53,7 @@ const ProductCard = ({ product }) => {
             </Typography>
             <Button
               LinkComponent={RouterLink}
-              to={`product/${slugUrl}/${variantSlug}/${size}`}
+              to={`product/${slugUrl}`}
               color="inherit"
               variant="link"
               disableElevation

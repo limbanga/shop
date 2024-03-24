@@ -1,89 +1,107 @@
-import { Box, Button, Chip, Grid, Typography } from "@mui/material";
-import StraightenIcon from "@mui/icons-material/Straighten";
 import React, { useEffect, useState } from "react";
+
+import { Box, Button, Chip, Grid, Typography } from "@mui/material";
+import { ShoppingBag, Star } from "@mui/icons-material";
+
 import { useParams } from "react-router-dom";
+
 import ProductTabs from "../components/ProductTab";
-import { Add, ShoppingBag, Star } from "@mui/icons-material";
 import SizeSelecter from "../components/ProductDetailPage/SizeSelecter";
-import { ColorSelect } from "../components/ProductDetailPage/ColorSelect";
+import { VariantSelect } from "../components/ProductDetailPage/VariantSelect";
 import { axiosInstance } from "../api/AxiosInstance";
+import { SizeRecommend } from "../components/ProductDetailPage/SizeRecommend";
 
 export const ProductDetailPage = () => {
-  let { productSlug, variantSlug } = useParams();
+  let { productSlug } = useParams();
 
-  // const [image, setImage] = useState(
-  //   "https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg"
-  // );
+  //https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg
+
+  const [product, setProduct] = useState(null);
+  const [variant, setVariant] = useState(null);
+  const [size, setSize] = useState(null);
+  const [inputQuantity, setInputQuantity] = useState(1);
 
   const handleChangeQuantity = (newQuantity) => {
+    // console.log("onchange");
+    if (newQuantity === "") {
+      setInputQuantity("");
+      return;
+    }
+
     if (newQuantity > 0) {
       setInputQuantity(newQuantity);
     }
   };
 
-  const [product, setProduct] = useState(null);
-  const [variants, setVariants] = useState([]);
-  const [variant, setVariant] = useState(null);
-  const [sizes, setSizes] = useState([]);
-  const [size, setSize] = useState(null);
-  const [inputQuantity, setInputQuantity] = useState(1);
+  const handleOnblrQuantityInput = () => {
+    // console.log("onblur");
+    if (inputQuantity === "") {
+      setInputQuantity(1);
+    }
+  };
+
+  const fetchProduct = async () => {
+    try {
+      const response = await axiosInstance.get(`/products/slug/${productSlug}`);
+      // console.log("fetch product");
+      // console.log(response);
+      const data = response.data;
+      setProduct(data);
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    }
+  };
+
+  const fetchVariants = async (productId) => {
+    // console.log("fetchVariants" + productId);
+    const response = await axiosInstance.get(`/variants/filter-by?`, {
+      params: {
+        productId: productId,
+      },
+    });
+
+    const { data } = response;
+    setVariant(data[0]);
+    product.variants = data;
+  };
+
+  const fetchSizes = async (variantId) => {
+    // console.log("fetchSizes" + variantId);
+    const response = await axiosInstance.get(`/sizes/filter-by?`, {
+      params: {
+        variantId: variantId,
+      },
+    });
+
+    const { data } = response;
+    // console.log("size");
+    // console.log(data);
+    setSize(data[0]);
+    variant.sizes = data;
+  };
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/products/slug/${productSlug}`
-        );
-        // console.log(response);
-        const data = response.data;
-        const formatProduct = {
-          id: data.id,
-          name: data.name,
-        };
-        setProduct(formatProduct);
-        return data.id;
-      } catch (error) {
-        console.error("Error fetching product data:", error);
-      }
-    };
-
-    const fetchVariants = async (productId) => {
-      console.log(productId);
-      const response = await axiosInstance.get(`/variants/filter-by?`, {
-        params: {
-          productId: productId,
-        },
-      });
-
-      const { data } = response;
-      setVariants(data);
-      setVariant(data[0]);
-      return data;
-    };
-
-    const fetchSizes = async (variantId) => {
-      console.log(variantId);
-      const response = await axiosInstance.get(`/sizes/filter-by?`, {
-        params: {
-          variantId: variantId,
-        },
-      });
-
-      const { data } = response;
-      console.log("size");
-      console.log(data);
-      setSizes(data);
-      setSize(data[0]);
-    };
-
-    const fetchData = async () => {
-      fetchProduct()
-        .then(fetchVariants)
-        .then((x) => fetchSizes(x.id));
-    };
-
-    fetchData();
+    console.log("enter page -> load product");
+    fetchProduct();
   }, []);
+
+  useEffect(() => {
+    console.log("product loaded -> load variants");
+    product && fetchVariants(product.id);
+  }, [product]);
+
+  useEffect(() => {
+    console.log("variant changed -> load sizes");
+    const isSizesInCache = variant && variant.sizes;
+    if (isSizesInCache) {
+      console.log("sizes is already fetch, do not fetch again");
+      console.log(variant.sizes);
+    } else {
+      variant && fetchSizes(variant.id);
+    }
+    console.log("reset selected size to null");
+    setSize(null);
+  }, [variant]);
 
   return (
     <Box>
@@ -110,10 +128,12 @@ export const ProductDetailPage = () => {
             }}
           >
             <Typography variant="h5">
-              {size? new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(size.price):'Choose size to view'}
+              {size
+                ? new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(size.price)
+                : "Choose size to view"}
             </Typography>
             {/* <Typography
               variant="h6"
@@ -136,28 +156,20 @@ export const ProductDetailPage = () => {
             />
             <Typography variant="overline">235 sold</Typography>
           </Box>
-          {/* TODO: duyệt qua mảng variants, đưa hình ảnh vào */}
-          <ColorSelect
-            variants={variants}
+
+          <VariantSelect
+            variants={product?.variants || []}
             variant={variant}
             setVariant={setVariant}
           />
-          {/* TODO: duyệt qua mảng size đưa giá và stock vào */}
-          <SizeSelecter sizes={sizes} size={size} setSize={setSize} />
-          <Box
-            sx={{
-              display: "flex",
-              gap: ".25rem",
-              alignItems: "center",
-              color: "grey",
-            }}
-          >
-            <StraightenIcon sx={{ fontSize: "22px" }} />
-            <Typography sx={{ fontSize: "13px" }}>
-              Help me choose size.
-            </Typography>
-          </Box>
 
+          <SizeSelecter
+            sizes={variant?.sizes || []}
+            size={size}
+            setSize={setSize}
+          />
+
+          <SizeRecommend />
           {/* Quantity */}
           <Box
             sx={{
@@ -180,10 +192,11 @@ export const ProductDetailPage = () => {
               </Button>
               <input
                 value={inputQuantity}
+                onBlur={() => handleOnblrQuantityInput()}
                 onChange={(e) => handleChangeQuantity(e.target.value)}
                 style={{
                   height: "1.5rem",
-                  width: "1.5rem",
+                  width: "3rem",
                   textAlign: "center",
                   outline: "none",
                   border: "none",

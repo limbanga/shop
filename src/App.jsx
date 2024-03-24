@@ -19,7 +19,7 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/product/:productSlug/:variantSlug/:size" element={<ProductDetailPage />} />
+            <Route path="/product/:productSlug" element={<ProductDetailPage />} />
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="/admin/" element={<AdminLayout />}>
