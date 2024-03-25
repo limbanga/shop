@@ -1,6 +1,13 @@
 import React from "react";
 import RootList from "./RootList";
-import { ListItemButton, ListItemText, Radio, RadioGroup } from "@mui/material";
+import {
+  Button,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 
 import CategoryIcon from "@mui/icons-material/Category";
 import { useSearchParams } from "react-router-dom";
@@ -8,6 +15,7 @@ import { useSearchParams } from "react-router-dom";
 const CategoryItemList = ({ category }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { name } = category;
+  const htmlFor = `category-id_${name}`;
 
   const handleOnCheck = (e) => {
     const isChecked = e.target.checked;
@@ -18,17 +26,18 @@ const CategoryItemList = ({ category }) => {
   };
 
   return (
-    <ListItemButton sx={{ pl: 0 }} dense >
-      <Radio
-        onChange={handleOnCheck}
-        checked={searchParams.get("cate") == name}
-        color="primary"
-      />
-      <ListItemText
-        primary={name}
-        component={"label"}
-      />
-    </ListItemButton>
+    // TODO: handle change, create label 
+    <ListItem dense>
+      <ListItemButton sx={{ pl: 0 }}>
+        <Radio
+          name="category-radio"
+          onChange={handleOnCheck}
+          checked={searchParams.get("cate") == name}
+          color="primary"
+        />
+        <ListItemText primary={name} />
+      </ListItemButton>
+    </ListItem>
   );
 };
 
@@ -45,12 +54,10 @@ const FilterByCategory = () => {
 
   return (
     <RootList name={"Categories"} icon={<CategoryIcon />}>
-      <RadioGroup>
-        <CategoryItemList category={{ name: "All" }} />
-        {categories.map((x) => (
-          <CategoryItemList key={x.name} category={x} />
-        ))}
-      </RadioGroup>
+      <CategoryItemList category={{ name: "All" }} />
+      {categories.map((x) => (
+        <CategoryItemList key={x.name} category={x} />
+      ))}
     </RootList>
   );
 };

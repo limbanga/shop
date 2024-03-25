@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "./pages/Layout";
+import MainLayout from "./pages/MainLayout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NoPage from "./pages/NoPage";
 import HomePage from "./pages/HomePage";
@@ -15,7 +15,7 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

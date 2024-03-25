@@ -82,15 +82,17 @@ const HomePage = () => {
         </Grid>
       </Grid>
 
-      {/* <Drawer
+      <Drawer
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         PaperProps={{
-          sx: { width: "300px" },
+          sx: { width: "100%", maxWidth: 500 },
         }}
       >
+        {/* TODO: chinh sua drawer cho nay */}
+        <Typography textAlign="center">Find what your want</Typography>
         <ProductFilterList />
-      </Drawer> */}
+      </Drawer>
     </Container>
   );
 };

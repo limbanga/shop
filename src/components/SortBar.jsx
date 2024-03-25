@@ -1,9 +1,10 @@
-import { Box, Button, Paper, Popover, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { Box, Button, Pagination, Popover, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { useSearchParams } from "react-router-dom";
 import DoneIcon from "@mui/icons-material/Done";
+import { useSearchParams } from "react-router-dom";
+import { HighlightOff } from "@mui/icons-material";
 
 const OrderByPopover = ({
   anchorEl,
@@ -67,20 +68,29 @@ const SortBar = ({ itemFoundCount, openFilterDrawer }) => {
 
   return (
     <>
-      <Paper
-        variant="outlined"
+      <Box
         sx={{
           mb: "1rem",
-          px: "1rem",
           py: ".5rem",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <Typography variant="h6" color={"gray"}>
-          {itemFoundCount} items found
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <FilterAltIcon onClick={openFilterDrawer} color="action" />
+          <Box sx={{ color: "gray" }}>
+            <Button
+              color="inherit"
+              variant="outlined"
+              size="small"
+              endIcon={<HighlightOff />}
+            >
+              Ao khoac
+            </Button>
+          </Box>
+          <Button size="small" >Clear</Button>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -97,12 +107,8 @@ const SortBar = ({ itemFoundCount, openFilterDrawer }) => {
           >
             {orderByDisplay}
           </Button>
-          <FilterAltIcon
-            onClick={openFilterDrawer}
-            sx={{ display: { xs: "block", md: "none" } }}
-          />
         </Box>
-      </Paper>
+      </Box>
       <OrderByPopover
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
