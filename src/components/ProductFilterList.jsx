@@ -9,7 +9,7 @@ export default function ProductFilterList() {
   return (
     <List>
       <FilterByCategory />
-      <FilterByColor />
+      {/* <FilterByColor /> */}
     </List>
   );
 }

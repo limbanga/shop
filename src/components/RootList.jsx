@@ -17,8 +17,7 @@ const RootList = ({ name, icon, children }) => {
   return (
     <>
       <ListItemButton onClick={handleClick}>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={name} />
+        <ListItemText primary={name} sx={{color: 'primary.main'}} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>

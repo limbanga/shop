@@ -1,18 +1,9 @@
 import React from "react";
 import RootList from "./RootList";
-import {
-  Checkbox,
-  FormControlLabel,
-  ListItemButton,
-  ListItemText,
-  Radio,
-  RadioGroup,
-  Typography,
-} from "@mui/material";
+import { ListItemButton, ListItemText, Radio, RadioGroup } from "@mui/material";
 
 import CategoryIcon from "@mui/icons-material/Category";
 import { useSearchParams } from "react-router-dom";
-import { pink } from "@mui/material/colors";
 
 const CategoryItemList = ({ category }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,12 +18,15 @@ const CategoryItemList = ({ category }) => {
   };
 
   return (
-    <ListItemButton sx={{ pl: 4 }}>
-      <ListItemText primary={name} component={"label"} />
+    <ListItemButton sx={{ pl: 0 }} dense >
       <Radio
         onChange={handleOnCheck}
         checked={searchParams.get("cate") == name}
         color="primary"
+      />
+      <ListItemText
+        primary={name}
+        component={"label"}
       />
     </ListItemButton>
   );
