@@ -1,16 +1,11 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import React from "react";
 import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAltOutlined";
 import { Link as RouterLink } from "react-router-dom";
 import { FavoriteBorder, ShoppingBag } from "@mui/icons-material";
 import { MainDrawer } from "./MainDrawer";
+import { BrandLogo } from "./BrandLogo";
+import { routes } from "../../appconst/routes";
 
 const MainNavbar = () => {
   const [openMainDrawer, setOpenMainDrawer] = React.useState(false);
@@ -27,28 +22,10 @@ const MainNavbar = () => {
                 justifyContent: "start",
               }}
             >
-              <Box
-                to={"/"}
-                component={RouterLink}
-                sx={{
-                  display: "flex",
-                  justifyContent: "start",
-                  alignItems: "center",
-                  textDecoration: "none",
-                }}
-              >
-                <img src="/crocodile.svg" width="32" height="32" />
-                <Typography
-                  variant="h6"
-                  color="black"
-                  sx={{ ml: ".25rem", fontWeight: "300" }}
-                >
-                  Fashion
-                </Typography>
-              </Box>
+              <BrandLogo />
 
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {["Home", "Category", "Contact"].map((x) => (
+                {routes.map((x) => (
                   <Button key={x} color="inherit">
                     {x}
                   </Button>
