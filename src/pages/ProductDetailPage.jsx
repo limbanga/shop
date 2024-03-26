@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Box, Button, Chip, Grid, Typography } from "@mui/material";
+import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
 import { ShoppingBag, Star } from "@mui/icons-material";
 
 import { useParams } from "react-router-dom";
@@ -104,7 +104,7 @@ export const ProductDetailPage = () => {
   }, [variant]);
 
   return (
-    <Box>
+    <Container sx={{mt: '5rem'}}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Box>
@@ -246,6 +246,6 @@ export const ProductDetailPage = () => {
           <ProductTabs />
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };

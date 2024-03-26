@@ -5,6 +5,7 @@ import ProductFilterList from "../components/ProductFilterList";
 import SortBar from "../components/SortBar";
 import { useSearchParams } from "react-router-dom";
 import { axiosInstance } from "../api/AxiosInstance";
+import { FilterDrawer } from "../components/HomePage/FilterDrawer";
 
 const HomePage = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -66,31 +67,22 @@ const HomePage = () => {
   }, [searchParams]);
 
   return (
-    <Container sx={{ mt: "5rem" }}>
-      <Grid container spacing={2}>
-        <Grid item md={3} sx={{ display: { xs: "none", md: "block" } }}>
-          <Box variant="outlined">
-            <ProductFilterList />
-          </Box>
+    <>
+      <Container sx={{ mt: "5rem" }}>
+        <Grid container spacing={2}>
+          <Grid item md={3} sx={{ display: { xs: "none", md: "block" } }}>
+            <Box variant="outlined">
+              <ProductFilterList />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={9}>
+            <SortBar openFilterDrawer={() => setOpenDrawer(true)} />
+            <ProductBoard products={products} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={9}>
-          <SortBar openFilterDrawer={() => setOpenDrawer(true)} />
-          <ProductBoard products={products} />
-        </Grid>
-      </Grid>
-
-      <Drawer
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-        PaperProps={{
-          sx: { width: "100%", maxWidth: 500 },
-        }}
-      >
-        {/* TODO: chinh sua drawer cho nay */}
-        <Typography textAlign="center">Find what your want</Typography>
-        <ProductFilterList />
-      </Drawer>
-    </Container>
+      </Container>
+      <FilterDrawer open={openDrawer} setOpen={setOpenDrawer} />
+    </>
   );
 };
 
