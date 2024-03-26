@@ -14,8 +14,6 @@ import { SizeRecommend } from "../components/ProductDetailPage/SizeRecommend";
 export const ProductDetailPage = () => {
   let { productSlug } = useParams();
 
-  //https://5sfashion.vn/storage/upload/images/products/dhkLjeWqJYyD1PqNLSE2gY4qC0VpIXWk3lv0Gjs6.jpg
-
   const [product, setProduct] = useState(null);
   const [variant, setVariant] = useState(null);
   const [size, setSize] = useState(null);

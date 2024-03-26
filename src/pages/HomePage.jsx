@@ -20,14 +20,14 @@ const HomePage = () => {
     // format data
     data = data.map((x) => ({
       id: x.id,
-      name: x.productVariant.product.name,
+      name: x.variant.product.name,
       price: x.price,
       size: x.productSize,
       updated: x.updated,
-      image: x.productVariant.image,
-      code: x.productVariant.product.code,
-      slugUrl: x.productVariant.product.slugUrl,
-      variantSlug: x.productVariant.id,
+      image: x.variant.image,
+      code: x.variant.product.code,
+      slugUrl: x.variant.product.slugUrl,
+      variantSlug: x.variant.id,
     }));
 
     console.log(data);

@@ -62,7 +62,7 @@ const ProductCard = ({ product }) => {
                 flexGrow: "1",
               }}
             >
-              View detail
+              Detail
             </Button>
           </Box>
         </Box>
