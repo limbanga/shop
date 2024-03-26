@@ -51,7 +51,7 @@ const OrderByPopover = ({
   );
 };
 
-const SortBar = ({ itemFoundCount, openFilterDrawer }) => {
+const SortBar = ({ openFilterDrawer }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [orderByDisplay, setOrderByDisplay] = useState("Lastest");
@@ -89,7 +89,7 @@ const SortBar = ({ itemFoundCount, openFilterDrawer }) => {
               Ao khoac
             </Button>
           </Box>
-          <Button size="small" >Clear</Button>
+          <Button size="small">Clear</Button>
         </Box>
         <Box
           sx={{

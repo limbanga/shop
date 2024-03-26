@@ -66,7 +66,7 @@ const HomePage = () => {
   }, [searchParams]);
 
   return (
-    <Container sx={{mt: '5rem'}}>
+    <Container sx={{ mt: "5rem" }}>
       <Grid container spacing={2}>
         <Grid item md={3} sx={{ display: { xs: "none", md: "block" } }}>
           <Box variant="outlined">
@@ -74,10 +74,7 @@ const HomePage = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={9}>
-          <SortBar
-            itemFoundCount={products.length}
-            openFilterDrawer={() => setOpenDrawer(true)}
-          />
+          <SortBar openFilterDrawer={() => setOpenDrawer(true)} />
           <ProductBoard products={products} />
         </Grid>
       </Grid>
