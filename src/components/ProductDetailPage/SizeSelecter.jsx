@@ -6,7 +6,7 @@ export default function SizeSelecter({ sizes, size, setSize }) {
 
   const defaultStyle = {
     borderRadius: "0",
-    p: ".25rem 2rem",
+    p: { xs: ".25rem 1rem", md: ".25rem 2rem" },
     fontWeight: "bold",
     textAlign: "center",
     transition: `all ${theme.transitions.duration.short}ms  ${theme.transitions.easing.easeIn}`,
@@ -49,7 +49,6 @@ export default function SizeSelecter({ sizes, size, setSize }) {
       }}
     >
       <Typography variant="h5">Size</Typography>
-
       {["S", "M", "L", "XL", "XXL"].map((x) => (
         <Paper
           key={x}
