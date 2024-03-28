@@ -9,20 +9,44 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Facebook, Google, Twitter } from "@mui/icons-material";
 
+const loginFormInitialState = {
+  email: "",
+  password: "",
+};
+
 const LoginPage = () => {
+  const [loginForm, setLoginForm] = useState(loginFormInitialState);
+
+  const handleLogin = () => {
+    // handle login logic here
+    // TODO: get email and password from input fields
+    // TODO: create auth context
+    // TODO: send a request to the server to authenticate the user
+    console.log(loginForm);
+    const { email, password } = loginForm; 
+    // axios.post('/login', { email, password })
+  };
+
   return (
     <>
       <Container maxWidth="sm" sx={{ mt: "5rem" }}>
-        <Paper variant="outlined" sx={{ width: '380px', m: '0 auto',  p: "2rem" }}>
+        <Paper
+          variant="outlined"
+          sx={{ width: "380px", m: "0 auto", p: "2rem" }}
+        >
           <Typography variant="h4" textAlign="center" gutterBottom>
             Welcome back!
           </Typography>
           {/* Email */}
           <TextField
+            value={loginForm.email}
+            onChange={(e) =>
+              setLoginForm({ ...loginForm, email: e.target.value })
+            }
             fullWidth
             label="Email"
             type="email"
@@ -33,6 +57,10 @@ const LoginPage = () => {
           />
           {/* Password */}
           <TextField
+            value={loginForm.password}
+            onChange={(e) =>
+              setLoginForm({ ...loginForm, password: e.target.value })
+            }
             fullWidth
             label="Password"
             type="password"
@@ -64,6 +92,7 @@ const LoginPage = () => {
           </Box>
           {/* Button */}
           <Button
+            onClick={handleLogin}
             fullWidth
             variant="contained"
             disableElevation
@@ -73,7 +102,7 @@ const LoginPage = () => {
           </Button>
 
           <Typography variant="body1" textAlign="center" my={"1rem"}>
-            Or sign up with
+            Or continue with
           </Typography>
 
           <Grid container spacing={1} my={"1rem"}>
@@ -95,7 +124,7 @@ const LoginPage = () => {
                 fullWidth
                 startIcon={<Facebook />}
               >
-                Google
+                Facebook
               </Button>
             </Grid>
 
@@ -121,7 +150,7 @@ const LoginPage = () => {
                 "&:hover": { color: "primary.main" },
               }}
             >
-              Already member? Login now
+              Don't have an account? Register now
             </Typography>
           </Box>
         </Paper>
