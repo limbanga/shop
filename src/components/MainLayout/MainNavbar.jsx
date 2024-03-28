@@ -53,7 +53,10 @@ const MainNavbar = () => {
               </Box>
 
               <Box sx={{ display: { xs: "none", md: "block" } }}>
-                <Button>Register</Button>|<Button>Login</Button>
+                <Button>Register</Button>|
+                <Button LinkComponent={RouterLink} to="/login">
+                  Login
+                </Button>
               </Box>
             </Box>
           </Toolbar>
