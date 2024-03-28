@@ -18,7 +18,6 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Close } from "@mui/icons-material";
-import { SelectColorBox } from "../../components/SelectColorBox";
 import { UploadProductImage } from "../../components/UploadProductImage";
 import { grey } from "@mui/material/colors";
 import { CategorySelectBox } from "../../components/CategorySelectBox";

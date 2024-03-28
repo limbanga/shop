@@ -1,12 +1,10 @@
 import React from "react";
 import RootList from "./RootList";
 import {
-  Button,
   ListItem,
   ListItemButton,
   ListItemText,
   Radio,
-  RadioGroup,
 } from "@mui/material";
 
 import CategoryIcon from "@mui/icons-material/Category";
@@ -15,7 +13,6 @@ import { useSearchParams } from "react-router-dom";
 const CategoryItemList = ({ category }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { name } = category;
-  const htmlFor = `category-id_${name}`;
 
   const handleOnCheck = (e) => {
     const isChecked = e.target.checked;

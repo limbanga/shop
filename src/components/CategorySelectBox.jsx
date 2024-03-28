@@ -18,7 +18,6 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import { axiosInstance } from "../api/AxiosInstance";
 
@@ -64,7 +63,7 @@ export const CategorySelectBox = ({ setCategoryId }) => {
 
   useEffect(() => {
     const fetch = () => {
-      AxiosInstance.get("/categories/").then((x) => {
+      axiosInstance.get("/categories/").then((x) => {
         console.log(x);
         setCategories(x.data);
       });

@@ -3,7 +3,7 @@ import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { Link as RouterLink } from "react-router-dom";
-import { axiosInstance } from "../api/AxiosInstance";
+import { axiosInstance } from "../../api/AxiosInstance";
 
 const ProductCard = ({ product }) => {
   const { id, name, slugUrl } = product;

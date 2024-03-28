@@ -1,11 +1,11 @@
-import { Box, Container, Drawer, Grid, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import ProductBoard from "../components/ProductBoard";
-import ProductFilterList from "../components/ProductFilterList";
-import SortBar from "../components/SortBar";
-import { useSearchParams } from "react-router-dom";
+import { Box, Container, Grid } from "@mui/material";
+
+import SortBar from "../components/HomePage/SortBar";
 import { axiosInstance } from "../api/AxiosInstance";
 import { FilterDrawer } from "../components/HomePage/FilterDrawer";
+import ProductFilterList from "../components/HomePage/ProductFilterList";
+import ProductBoard from "../components/HomePage/ProductBoard";
 
 const HomePage = () => {
   const [openDrawer, setOpenDrawer] = useState(false);

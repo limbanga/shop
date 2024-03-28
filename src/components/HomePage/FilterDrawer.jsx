@@ -1,6 +1,6 @@
 import { Box, Drawer, Typography } from "@mui/material";
 import React from "react";
-import ProductFilterList from "../ProductFilterList";
+import ProductFilterList from "./ProductFilterList";
 import { Close } from "@mui/icons-material";
 
 export const FilterDrawer = ({ open, setOpen }) => {
