@@ -9,10 +9,46 @@ import { FilterDrawer } from "../components/HomePage/FilterDrawer";
 
 const HomePage = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
 
-  const getProducts = async (category, orderBy) => {
+  const fetchProducts = async () => {
+    const response = await axiosInstance.get(`/products/`);
+    const { data } = response;
+
+    console.log(data);
+    setProducts(data);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  return (
+    <>
+      <Container sx={{ mt: "5rem" }}>
+        <Grid container spacing={2}>
+          {/* Filter */}
+          <Grid item md={3} sx={{ display: { xs: "none", md: "block" } }}>
+            <Box variant="outlined">
+              <ProductFilterList />
+            </Box>
+          </Grid>
+          {/* Product board */}
+          <Grid item xs={12} md={9}>
+            <SortBar openFilterDrawer={() => setOpenDrawer(true)} />
+            <ProductBoard products={products} />
+          </Grid>
+        </Grid>
+      </Container>
+      <FilterDrawer open={openDrawer} setOpen={setOpenDrawer} />
+    </>
+  );
+};
+
+export default HomePage;
+
+/*
+ const getProducts = async (category, orderBy) => {
     const response = await axiosInstance.get("/sizes/unique");
     let data = response.data;
     console.log(data);
@@ -60,30 +96,9 @@ const HomePage = () => {
     setProducts(data);
   };
 
-  useEffect(() => {
+    useEffect(() => {
     const category = searchParams.get("cate");
     const orderBy = searchParams.get("orderBy");
     getProducts(category, orderBy);
   }, [searchParams]);
-
-  return (
-    <>
-      <Container sx={{ mt: "5rem" }}>
-        <Grid container spacing={2}>
-          <Grid item md={3} sx={{ display: { xs: "none", md: "block" } }}>
-            <Box variant="outlined">
-              <ProductFilterList />
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={9}>
-            <SortBar openFilterDrawer={() => setOpenDrawer(true)} />
-            <ProductBoard products={products} />
-          </Grid>
-        </Grid>
-      </Container>
-      <FilterDrawer open={openDrawer} setOpen={setOpenDrawer} />
-    </>
-  );
-};
-
-export default HomePage;
+*/
