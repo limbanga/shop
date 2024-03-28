@@ -15,7 +15,6 @@ const HomePage = () => {
     const response = await axiosInstance.get(`/products/`);
     const { data } = response;
 
-    console.log(data);
     setProducts(data);
   };
 

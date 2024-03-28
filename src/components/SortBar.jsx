@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Button, Pagination, Popover, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Pagination,
+  Paper,
+  Popover,
+  Typography,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import DoneIcon from "@mui/icons-material/Done";
@@ -26,27 +33,30 @@ const OrderByPopover = ({
         vertical: "top",
         horizontal: "right",
       }}
-      elevation={1}
+      elevation={0}
+      sx={{ mt: ".25rem" }}
     >
-      {orderByOptions.map((x) => (
-        <Box
-          onClick={() => handleSelectOrderByOptions(x)}
-          key={x.name}
-          sx={{
-            width: "5rem",
-            mx: "1rem",
-            my: ".5rem",
-            display: "flex",
-            justifyContent: "start",
-            gap: 2,
-          }}
-        >
-          <Typography>{x.name}</Typography>
-          {searchParams.get("orderBy") == x.value && (
-            <DoneIcon fontSize="small" />
-          )}
-        </Box>
-      ))}
+      <Paper variant="outlined">
+        {orderByOptions.map((x) => (
+          <Box
+            onClick={() => handleSelectOrderByOptions(x)}
+            key={x.name}
+            sx={{
+              width: "5rem",
+              mx: "1rem",
+              my: ".5rem",
+              display: "flex",
+              justifyContent: "start",
+              gap: 2,
+            }}
+          >
+            <Typography>{x.name}</Typography>
+            {searchParams.get("orderBy") == x.value && (
+              <DoneIcon fontSize="small" />
+            )}
+          </Box>
+        ))}
+      </Paper>
     </Popover>
   );
 };
@@ -101,7 +111,7 @@ const SortBar = ({ openFilterDrawer }) => {
         >
           <Button
             onClick={(e) => setAnchorEl(e.currentTarget)}
-            variant="text"
+            variant="outlined"
             disableElevation
             endIcon={<ExpandMoreIcon />}
           >
