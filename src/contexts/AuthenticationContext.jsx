@@ -5,8 +5,13 @@ import { axiosInstance } from "../api/AxiosInstance";
 
 const AuthenticationContext = createContext();
 
+const getUserFromLocalStorage = () => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+};
+
 const AuthenticationProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(getUserFromLocalStorage());
 
   const loginAsync = async (email, password) => {
     const response = await axiosInstance.post("/authenticate", {
@@ -21,6 +26,7 @@ const AuthenticationProvider = ({ children }) => {
     const tempUser = jwtDecode(accessToken);
     tempUser.accessToken = accessToken;
     setCurrentUser(tempUser);
+    localStorage.setItem("user", JSON.stringify(tempUser));
   };
 
   const logout = () => {
