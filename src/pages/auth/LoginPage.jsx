@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Box,
   Button,
@@ -12,13 +12,20 @@ import {
 } from "@mui/material";
 import { Facebook, Google, Twitter } from "@mui/icons-material";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const LoginPage = () => {
   const { currentUser, loginAsync } = useContext(AuthenticationContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, []);
 
   const {
     register,
@@ -39,8 +46,6 @@ const LoginPage = () => {
     await loginAsync(email, password);
     console.log(currentUser);
   };
-
-  console.log("render" + currentUser);
 
   return (
     <>

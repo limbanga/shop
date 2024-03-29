@@ -33,10 +33,11 @@ const AuthenticationProvider = ({ children }) => {
     // TODO: remove refreshToken from localStorage
     // localStorage.removeItem("accessToken");
     setCurrentUser(null);
+    localStorage.removeItem("user");
   };
 
   return (
-    <AuthenticationContext.Provider value={{ currentUser, loginAsync }}>
+    <AuthenticationContext.Provider value={{ currentUser, loginAsync, logout }}>
       {children}
     </AuthenticationContext.Provider>
   );
