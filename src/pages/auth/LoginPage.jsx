@@ -27,7 +27,7 @@ const LoginPage = () => {
     // TODO: create auth context
     // TODO: send a request to the server to authenticate the user
     console.log(loginForm);
-    const { email, password } = loginForm; 
+    const { email, password } = loginForm;
     // axios.post('/login', { email, password })
   };
 
