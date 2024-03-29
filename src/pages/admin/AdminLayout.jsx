@@ -8,9 +8,7 @@ export default function AdminLayout() {
   return (
     <>
       <MainNavbar />
-      <Container sx={{ bgcolor: red, mt: "110px" }}>
-        <Outlet />
-      </Container>
+      <Outlet />
     </>
   );
 }

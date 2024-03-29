@@ -37,7 +37,7 @@ export const ProductChangePage = () => {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container sx={{ mt: "6rem" }}>
       <Grid container spacing={2} sx={{ display: "flex", bgcolor: "" }}>
         <Grid item xs={12} md={4}>
           <Box sx={{ bgcolor: "", height: "100%" }}>
