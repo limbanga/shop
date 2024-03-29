@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import {
   Box,
   Button,
@@ -9,32 +10,44 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import { Facebook, Google, Twitter } from "@mui/icons-material";
 
-const loginFormInitialState = {
-  email: "",
-  password: "",
-};
+import { Link as RouterLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const LoginPage = () => {
-  const [loginForm, setLoginForm] = useState(loginFormInitialState);
+  const { currentUser, loginAsync } = useContext(AuthenticationContext);
 
-  const handleLogin = () => {
-    // handle login logic here
-    // TODO: get email and password from input fields
-    // TODO: create auth context
-    // TODO: send a request to the server to authenticate the user
-    console.log(loginForm);
-    const { email, password } = loginForm;
-    // axios.post('/login', { email, password })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onLogin = async (data) => {
+    const { email, password } = data;
+    if (email === undefined) {
+      return;
+    }
+    await loginAsync(email, password);
+    console.log(currentUser);
   };
 
   return (
     <>
       <Container maxWidth="sm" sx={{ mt: "5rem" }}>
         <Paper
+          component={"form"}
+          method="post"
+          onSubmit={handleSubmit(onLogin)}
+          noValidate
           variant="outlined"
           sx={{ width: "380px", m: "0 auto", p: "2rem" }}
         >
@@ -43,10 +56,9 @@ const LoginPage = () => {
           </Typography>
           {/* Email */}
           <TextField
-            value={loginForm.email}
-            onChange={(e) =>
-              setLoginForm({ ...loginForm, email: e.target.value })
-            }
+            {...register("email", { required: "required" })}
+            error={!!errors.email}
+            helperText={errors.email?.message}
             fullWidth
             label="Email"
             type="email"
@@ -57,10 +69,9 @@ const LoginPage = () => {
           />
           {/* Password */}
           <TextField
-            value={loginForm.password}
-            onChange={(e) =>
-              setLoginForm({ ...loginForm, password: e.target.value })
-            }
+            {...register("password", { required: "required" })}
+            error={!!errors.password}
+            helperText={errors.password?.message}
             fullWidth
             label="Password"
             type="password"
@@ -92,7 +103,8 @@ const LoginPage = () => {
           </Box>
           {/* Button */}
           <Button
-            onClick={handleLogin}
+            onClick={onLogin}
+            type="submit"
             fullWidth
             variant="contained"
             disableElevation
