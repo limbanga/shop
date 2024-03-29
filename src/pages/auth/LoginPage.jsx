@@ -18,8 +18,8 @@ import { useForm } from "react-hook-form";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const LoginPage = () => {
-  const { currentUser, loginAsync } = useContext(AuthenticationContext);
   const navigate = useNavigate();
+  const { currentUser, loginAsync } = useContext(AuthenticationContext);
 
   useEffect(() => {
     if (currentUser) {
@@ -44,7 +44,7 @@ const LoginPage = () => {
       return;
     }
     await loginAsync(email, password);
-    console.log(currentUser);
+    navigate("/");
   };
 
   return (

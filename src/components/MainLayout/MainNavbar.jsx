@@ -1,14 +1,25 @@
-import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Toolbar,
+  ButtonGroup,
+} from "@mui/material";
 import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAltOutlined";
-import { Link as RouterLink } from "react-router-dom";
 import { FavoriteBorder, ShoppingBag } from "@mui/icons-material";
+
 import { MainDrawer } from "./MainDrawer";
 import { BrandLogo } from "./BrandLogo";
+import { Link as RouterLink } from "react-router-dom";
 import { routes } from "../../appconst/routes";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 const MainNavbar = () => {
   const [openMainDrawer, setOpenMainDrawer] = React.useState(false);
+  const { currentUser, logout } = useContext(AuthenticationContext);
 
   return (
     <>
@@ -52,12 +63,30 @@ const MainNavbar = () => {
                 />
               </Box>
 
-              <Box sx={{ display: { xs: "none", md: "block" } }}>
-                <Button>Register</Button>|
-                <Button LinkComponent={RouterLink} to="/login">
-                  Login
-                </Button>
-              </Box>
+              {currentUser ? (
+                <ButtonGroup sx={{ display: { xs: "none", md: "block" } }}>
+                  <Button color="dark" variant="outlined">
+                    Profile
+                  </Button>
+                  <Button onClick={logout} color="dark" variant="outlined">
+                    Logout
+                  </Button>
+                </ButtonGroup>
+              ) : (
+                <ButtonGroup sx={{ display: { xs: "none", md: "block" } }}>
+                  <Button color="dark" variant="outlined">
+                    Register
+                  </Button>
+                  <Button
+                    LinkComponent={RouterLink}
+                    to="/login"
+                    color="dark"
+                    variant="outlined"
+                  >
+                    Login
+                  </Button>
+                </ButtonGroup>
+              )}
             </Box>
           </Toolbar>
         </Container>
