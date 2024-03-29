@@ -1,9 +1,15 @@
-import { Box, Button, Drawer } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { Box, Button, ButtonGroup, Drawer } from "@mui/material";
+
+import { Link as RouterLink } from "react-router-dom";
+
 import { BrandLogo } from "./BrandLogo";
 import { routes } from "../../appconst/routes";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
 export const MainDrawer = ({ open, setOpen }) => {
+  const { currentUser, logout } = useContext(AuthenticationContext);
+
   return (
     <Drawer
       open={open}
@@ -17,13 +23,38 @@ export const MainDrawer = ({ open, setOpen }) => {
       </Box>
 
       <Box>
+        {currentUser ? (
+          <Button color="primary" fullWidth>
+            Profile
+          </Button>
+        ) : (
+          <Box>
+            <Button
+              LinkComponent={RouterLink}
+              to="/login"
+              color="primary"
+              fullWidth
+            >
+              Login
+            </Button>
+            <Button color="error" fullWidth>
+              Register
+            </Button>
+          </Box>
+        )}
+        {/* rest link */}
         {routes.map((x) => (
-          <Button key={x} color="primary" fullWidth>
+          <Button key={x} color="inherit" fullWidth>
             {x}
           </Button>
         ))}
+        {/* logout button */}
+        {currentUser && (
+          <Button onClick={logout} color="error" fullWidth>
+            Logout
+          </Button>
+        )}
       </Box>
-      
     </Drawer>
   );
 };
