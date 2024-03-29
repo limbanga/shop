@@ -40,6 +40,8 @@ const LoginPage = () => {
     console.log(currentUser);
   };
 
+  console.log("render" + currentUser);
+
   return (
     <>
       <Container maxWidth="sm" sx={{ mt: "5rem" }}>
@@ -49,7 +51,7 @@ const LoginPage = () => {
           onSubmit={handleSubmit(onLogin)}
           noValidate
           variant="outlined"
-          sx={{ width: "380px", m: "0 auto", p: "2rem" }}
+          sx={{ width: "380px", m: "0 auto", p: "2rem", borderRadius: 0 }}
         >
           <Typography variant="h4" textAlign="center" gutterBottom>
             Welcome back!
@@ -66,6 +68,7 @@ const LoginPage = () => {
             variant="outlined"
             margin="normal"
             size="small"
+            InputProps={{ sx: { borderRadius: 0 } }}
           />
           {/* Password */}
           <TextField
@@ -79,6 +82,7 @@ const LoginPage = () => {
             variant="outlined"
             margin="normal"
             size="small"
+            InputProps={{ sx: { borderRadius: 0 } }}
           />
           {/* ... */}
           <Box
@@ -107,6 +111,7 @@ const LoginPage = () => {
             type="submit"
             fullWidth
             variant="contained"
+            color="dark"
             disableElevation
             sx={{ mt: "1rem" }}
           >

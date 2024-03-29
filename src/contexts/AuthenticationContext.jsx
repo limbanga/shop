@@ -26,8 +26,9 @@ const AuthenticationProvider = ({ children }) => {
   const logout = () => {
     // TODO: remove refreshToken from localStorage
     // localStorage.removeItem("accessToken");
-  }
-  
+    setCurrentUser(null);
+  };
+
   return (
     <AuthenticationContext.Provider value={{ currentUser, loginAsync }}>
       {children}

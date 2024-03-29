@@ -21,6 +21,7 @@ export const AppThemeProvider = ({ children }) => {
     styleOverrides: {
       root: {
         textTransform: "none",
+        borderRadius: 0,
       },
     },
     variants: [
