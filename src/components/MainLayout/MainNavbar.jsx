@@ -7,9 +7,12 @@ import {
   Container,
   Toolbar,
   ButtonGroup,
+  Typography,
+  Popover,
+  Paper,
 } from "@mui/material";
 import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAltOutlined";
-import { FavoriteBorder, ShoppingBag } from "@mui/icons-material";
+import { ExpandMore, FavoriteBorder, ShoppingBag } from "@mui/icons-material";
 
 import { MainDrawer } from "./MainDrawer";
 import { BrandLogo } from "./BrandLogo";
@@ -17,9 +20,58 @@ import { Link as RouterLink } from "react-router-dom";
 import { routes } from "../../appconst/routes";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 
-const MainNavbar = () => {
-  const [openMainDrawer, setOpenMainDrawer] = React.useState(false);
+const UserDropDown = ({ anchorEl, setAnchorEl }) => {
   const { currentUser, logout } = useContext(AuthenticationContext);
+
+  const handleLogout = () => {
+    logout();
+    setAnchorEl(null);
+  };
+  return (
+    <Popover
+      onClose={() => setAnchorEl(null)}
+      open={!!anchorEl}
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      elevation={0}
+      sx={{ mt: ".25rem", display: { xs: "none", md: "block" } }}
+    >
+      <Paper variant="outlined" sx={{ width: "300px" }} square>
+        <Button fullWidth size="large">
+          Profile
+        </Button>
+        <Button
+          LinkComponent={RouterLink}
+          to="/admin/"
+          fullWidth
+          size="large"
+          color="inherit"
+        >
+          Dashboard
+        </Button>
+        <Button fullWidth size="large" color="inherit">
+          History
+        </Button>
+        <Button onClick={handleLogout} fullWidth size="large" color="error">
+          Logout
+        </Button>
+      </Paper>
+    </Popover>
+  );
+};
+
+const MainNavbar = () => {
+  const { currentUser, logout } = useContext(AuthenticationContext);
+
+  const [openMainDrawer, setOpenMainDrawer] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   return (
     <>
@@ -64,14 +116,19 @@ const MainNavbar = () => {
               </Box>
 
               {currentUser ? (
-                <ButtonGroup sx={{ display: { xs: "none", md: "block" } }}>
-                  <Button color="dark" variant="outlined">
-                    Profile
+                <Box sx={{ display: { xs: "none", md: "block" } }}>
+                  <Button
+                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                    color="inherit"
+                    endIcon={<ExpandMore />}
+                  >
+                    Hello {currentUser.username}
                   </Button>
-                  <Button onClick={logout} color="dark" variant="outlined">
+                  {/* TODO: add drop down button here */}
+                  {/* <Button onClick={logout} color="dark" variant="outlined">
                     Logout
-                  </Button>
-                </ButtonGroup>
+                  </Button> */}
+                </Box>
               ) : (
                 <ButtonGroup sx={{ display: { xs: "none", md: "block" } }}>
                   <Button color="dark" variant="outlined">
@@ -92,6 +149,7 @@ const MainNavbar = () => {
         </Container>
       </AppBar>
       <MainDrawer open={openMainDrawer} setOpen={setOpenMainDrawer} />
+      <UserDropDown anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
     </>
   );
 };
