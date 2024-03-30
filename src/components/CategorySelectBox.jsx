@@ -22,11 +22,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import { axiosInstance } from "../api/AxiosInstance";
 
 const CategoryPaper = ({ category, displayCategory }) => {
+  const theme = useTheme();
   if (!category) {
     category = { name: "Un selected", image: "/404.png" };
   }
   const { name, image } = category;
-  const theme = useTheme();
+
   const getActiveStyle = () => {
     const isActive = displayCategory == category;
     return isActive
@@ -36,9 +37,11 @@ const CategoryPaper = ({ category, displayCategory }) => {
         }
       : {};
   };
+
   return (
     <Paper
       variant="outlined"
+      square
       sx={{
         my: ".5rem",
         px: "1rem",
@@ -50,7 +53,7 @@ const CategoryPaper = ({ category, displayCategory }) => {
         ...getActiveStyle(),
       }}
     >
-      <img src={image} width="24" height="24"/>
+      <img src={image} width="24" height="24" alt="Category image" />
       <Typography>{name}</Typography>
     </Paper>
   );
@@ -85,7 +88,7 @@ export const CategorySelectBox = ({ setCategoryId }) => {
 
   return (
     <>
-      <Typography variant="h5">Category:</Typography>
+      <Typography variant="h6">Category:</Typography>
       <Box
         sx={{
           display: "flex",
@@ -95,7 +98,7 @@ export const CategorySelectBox = ({ setCategoryId }) => {
       >
         <CategoryPaper category={displayCategory} />
         <Tooltip title="Choose other">
-          <EditIcon onClick={handleClickOpen} />
+          <EditIcon onClick={handleClickOpen} color="action" />
         </Tooltip>
       </Box>
 
@@ -118,7 +121,7 @@ export const CategorySelectBox = ({ setCategoryId }) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="error">
+          <Button onClick={handleClose} color="error" variant="outlined">
             Close
           </Button>
         </DialogActions>

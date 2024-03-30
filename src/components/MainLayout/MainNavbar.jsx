@@ -131,7 +131,7 @@ const MainNavbar = () => {
                 </Box>
               ) : (
                 <ButtonGroup sx={{ display: { xs: "none", md: "block" } }}>
-                  <Button color="dark" variant="outlined">
+                  <Button color="dark" variant="outlined" disableElevation>
                     Register
                   </Button>
                   <Button
@@ -139,6 +139,7 @@ const MainNavbar = () => {
                     to="/login"
                     color="dark"
                     variant="outlined"
+                    disableElevation
                   >
                     Login
                   </Button>
