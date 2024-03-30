@@ -10,6 +10,7 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import { DashBoardPage } from "./pages/admin/DashBoardPage";
 import { ProductChangePage } from "./pages/admin/ProductChangePage";
 import LoginPage from "./pages/auth/LoginPage";
+import { AdminProductDetailPage } from "./pages/admin/AdminProductDetailPage";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/admin/" element={<AdminLayout />}>
             <Route index element={<DashBoardPage />} />
             <Route path="product/create" element={<ProductChangePage />} />
+            <Route path="product/:id" element={<AdminProductDetailPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

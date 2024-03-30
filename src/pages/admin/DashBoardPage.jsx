@@ -1,8 +1,10 @@
-import { Box, Button, Container, Typography } from "@mui/material";
 import React from "react";
+import { Box, Button, Container, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
+
 import { Link as RouterLink } from "react-router-dom";
+
 import ProductTable from "../../components/ProductTable";
-import { Add, PlusOne } from "@mui/icons-material";
 
 export const DashBoardPage = () => {
   return (
@@ -27,7 +29,7 @@ export const DashBoardPage = () => {
         </Button>
       </Box>
 
-      <Box sx={{ mt: "1rem", bgcolor: "grey.200" }}>
+      <Box sx={{ mt: "1rem" }}>
         <ProductTable />
       </Box>
     </Container>

@@ -1,12 +1,45 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+
+import EastIcon from "@mui/icons-material/East";
 import Paper from "@mui/material/Paper";
+import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
+
+import { Link as RouterLink } from "react-router-dom";
+
 import { axiosInstance } from "../api/AxiosInstance";
+
+const AdminProductCard = ({ product }) => {
+  const { name, code, category } = product;
+  return (
+    <Paper variant="outlined" square sx={{ p: ".5rem" }}>
+      <Box sx={{ height: "48px" }}>
+        <Typography variant="body2">{name}</Typography>
+      </Box>
+
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
+        <Typography variant="caption" color="grey.600">
+          {code}
+        </Typography>
+        <Typography variant="caption" color="grey.600">
+          {category.name}
+        </Typography>
+        <Tooltip title="View details">
+          <Button
+            LinkComponent={RouterLink}
+            to={`/admin/product/${product.id}`}
+            color="dark"
+          >
+            <EastIcon />
+          </Button>
+        </Tooltip>
+      </Box>
+    </Paper>
+  );
+};
 
 export default function ProductTable() {
   const [products, setProducts] = React.useState([]);
@@ -25,34 +58,12 @@ export default function ProductTable() {
   }, []);
 
   return (
-    <TableContainer component={Paper} variant="outlined" square>
-      <Table sx={{ minWidth: 650 }} aria-label="product table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="right">Id</TableCell>
-            <TableCell>Product name</TableCell>
-            <TableCell align="right">Code</TableCell>
-            <TableCell align="right">slugUrl</TableCell>
-            <TableCell align="right">Category name</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {products.map((row) => (
-            <TableRow
-              key={row.code}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" align="center">
-                {row.id}
-              </TableCell>
-              <TableCell align="left">{row.name}</TableCell>
-              <TableCell align="right">{row.code}</TableCell>
-              <TableCell align="right">{row.slugUrl}</TableCell>
-              <TableCell align="right">{row.category.name}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Grid container columnSpacing={2}>
+      {products.map((x) => (
+        <Grid key={x.id} item xs={3}>
+          <AdminProductCard product={x} />
+        </Grid>
+      ))}
+    </Grid>
   );
 }

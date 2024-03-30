@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 
 import { CategorySelectBox } from "../../components/CategorySelectBox";
 import { axiosInstance } from "../../api/AxiosInstance";
+import { ArrowBack } from "@mui/icons-material";
+import { Link as RouterLink } from "react-router-dom";
 
 export const ProductChangePage = () => {
   const {
@@ -28,7 +30,8 @@ export const ProductChangePage = () => {
     console.log(postData);
     try {
       const response = await axiosInstance.post("/products/", postData);
-      console.log(response);
+      // console.log(response);
+      alert("Product created");
     } catch (error) {
       console.error(error);
     }
@@ -36,6 +39,14 @@ export const ProductChangePage = () => {
 
   return (
     <Container sx={{ mt: "5rem" }}>
+      <Button
+        LinkComponent={RouterLink}
+        to="/admin/"
+        color="dark"
+        startIcon={<ArrowBack />}
+      >
+        Back
+      </Button>
       <Paper
         component={"form"}
         noValidate
