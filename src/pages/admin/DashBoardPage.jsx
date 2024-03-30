@@ -1,6 +1,8 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
+import ProductTable from "../../components/ProductTable";
+import { Add, PlusOne } from "@mui/icons-material";
 
 export const DashBoardPage = () => {
   return (
@@ -15,18 +17,18 @@ export const DashBoardPage = () => {
         <Typography variant="h3">Dashboard</Typography>
 
         <Button
-          variant="contained"
-          disableElevation
           LinkComponent={RouterLink}
           to={"/admin/product/create"}
+          variant="contained"
+          disableElevation
+          startIcon={<Add />}
         >
           New Product
         </Button>
       </Box>
 
-      <Box sx={{ bgcolor: "grey.200" }} >
-        <Typography variant="h4">Recent Orders</Typography>
-        {/* TODO: create product */}
+      <Box sx={{ mt: "1rem", bgcolor: "grey.200" }}>
+        <ProductTable />
       </Box>
     </Container>
   );
