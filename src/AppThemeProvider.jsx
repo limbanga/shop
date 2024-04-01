@@ -12,6 +12,9 @@ export const AppThemeProvider = ({ children }) => {
       light: {
         main: "#fdfdfd",
       },
+      lightGray: {
+        main: "#f3f3f3",
+      },
     },
   });
 

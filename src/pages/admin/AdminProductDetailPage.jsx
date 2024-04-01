@@ -4,7 +4,9 @@ import {
   Container,
   Divider,
   Grid,
+  IconButton,
   Paper,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
@@ -91,11 +93,11 @@ export const AdminProductDetailPage = () => {
             <Typography variant="h5" gutterBottom>
               {product?.name}
             </Typography>
-            <Typography variant="h6" gutterBottom>
-              {product?.code}
+            <Typography variant="h6" gutterBottom color={"grey.700"}>
+              Code: {product?.code}
             </Typography>
-            <Typography variant="h6" gutterBottom>
-              {product?.category?.name}
+            <Typography variant="h6" gutterBottom color={"grey.700"}>
+              Category: {product?.category?.name}
             </Typography>
           </Box>
         </Grid>
@@ -108,7 +110,7 @@ export const AdminProductDetailPage = () => {
               Product Variants
             </Typography>
             <Button
-              color="info"
+              color="lightGray"
               variant="contained"
               disableElevation
               endIcon={<Add />}
@@ -148,9 +150,24 @@ export const AdminProductDetailPage = () => {
       <Divider />
       {/* sizes */}
       <Box>
-        <Typography variant="h5" my={".5rem"}>
-          Sizes
-        </Typography>
+        <Box
+          mt={".5rem"}
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Typography variant="h5" my={".5rem"}>
+            Sizes
+          </Typography>
+          <Button
+            color="lightGray"
+            variant="contained"
+            disableElevation
+            endIcon={<Add />}
+          >
+            New size
+          </Button>
+        </Box>
 
         <Grid container columnSpacing={3} my={".5rem"}>
           {sizes?.map((x) => (
@@ -165,12 +182,19 @@ export const AdminProductDetailPage = () => {
               >
                 <Box display={"flex"} justifyContent={"space-between"}>
                   <Typography variant="h6">Size {x.productSize}</Typography>
-                  <Button size="small">
-                    <Edit />
-                  </Button>
+                  <Tooltip title="Edit size">
+                    <IconButton size="small">
+                      <Edit />
+                    </IconButton>
+                  </Tooltip>
                 </Box>
                 <Typography variant="body1">{x.stock} in Stock</Typography>
-                <Typography variant="body1">{x.price} d</Typography>
+                <Typography variant="body1">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(x.price)}
+                </Typography>
               </Paper>
             </Grid>
           ))}
@@ -178,7 +202,6 @@ export const AdminProductDetailPage = () => {
       </Box>
 
       {/* Add footer later */}
-      <Box mb={"15rem"} />
     </Container>
   );
 };
