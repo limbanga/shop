@@ -56,7 +56,13 @@ const LoginPage = () => {
           onSubmit={handleSubmit(onLogin)}
           noValidate
           variant="outlined"
-          sx={{ width: "380px", m: "0 auto", p: "2rem", borderRadius: 0 }}
+          sx={{
+            width: "100%",
+            maxWidth: "400px",
+            m: "0 auto",
+            p: "2rem",
+            borderRadius: 0,
+          }}
         >
           <Typography variant="h4" textAlign="center" gutterBottom>
             Welcome back!

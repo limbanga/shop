@@ -133,15 +133,6 @@ export const ProductDetailPage = () => {
                   }).format(size.price)
                 : "Choose size to view"}
             </Typography>
-            {/* <Typography
-              variant="h6"
-              sx={{ textDecorationLine: "line-through", color: "grey" }}
-            >
-              {new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(product?.price)}
-            </Typography> */}
           </Box>
           {/* rating */}
           <Box sx={{ display: "flex", gap: ".5rem", alignItems: "center" }}>

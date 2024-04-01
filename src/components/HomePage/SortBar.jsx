@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Paper,
-  Popover,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Chip, Paper, Popover, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import DoneIcon from "@mui/icons-material/Done";
@@ -88,16 +82,17 @@ const SortBar = ({ openFilterDrawer }) => {
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <FilterAltIcon onClick={openFilterDrawer} color="action" />
-          <Box sx={{ color: "gray" }}>
-            <Button
-              color="inherit"
-              variant="outlined"
-              size="small"
-              endIcon={<HighlightOff />}
-            >
-              Ao khoac
-            </Button>
-          </Box>
+          {/* chip when filter */}
+          <Chip
+            label="T-Shirt"
+            size="small"
+            color="primary"
+            variant="outlined"
+            onDelete={() => {
+              console.log("delete");
+            }}
+            sx={{ px: 0.5 }}
+          />
           <Button size="small">Clear</Button>
         </Box>
         <Box
@@ -118,6 +113,7 @@ const SortBar = ({ openFilterDrawer }) => {
           </Button>
         </Box>
       </Box>
+      {/* order_by dropdown */}
       <OrderByPopover
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}

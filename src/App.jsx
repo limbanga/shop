@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MainLayout from "./pages/MainLayout";
-import NoPage from "./pages/NoPage";
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
@@ -11,6 +10,7 @@ import { DashBoardPage } from "./pages/admin/DashBoardPage";
 import { ProductChangePage } from "./pages/admin/ProductChangePage";
 import LoginPage from "./pages/auth/LoginPage";
 import { AdminProductDetailPage } from "./pages/admin/AdminProductDetailPage";
+import NoPage from "./pages/errors/NoPage";
 
 const App = () => {
   return (

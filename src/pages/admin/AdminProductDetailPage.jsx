@@ -85,9 +85,20 @@ export const AdminProductDetailPage = () => {
       <Grid container columnSpacing={3} my={".5rem"}>
         {/* product */}
         <Grid item xs={12} sm={6}>
-          <Typography variant="h3" gutterBottom>
-            Product detail
-          </Typography>
+          <Box
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"start"}
+          >
+            <Typography variant="h3" gutterBottom>
+              Product detail
+            </Typography>
+            <Tooltip title="Edit product">
+              <IconButton>
+                <Edit />
+              </IconButton>
+            </Tooltip>
+          </Box>
 
           <Box>
             <Typography variant="h5" gutterBottom>
