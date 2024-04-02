@@ -62,8 +62,6 @@ export const AdminProductDetailPage = () => {
           `/sizes/filter-by?variantId=${id}`
         );
         const { data } = response;
-        console.log("sizes");
-        console.log(data);
         setSizes(data);
       } catch (error) {
         console.error(error);
@@ -98,7 +96,7 @@ export const AdminProductDetailPage = () => {
                 Product detail
               </Typography>
               <Tooltip title="Edit product">
-                <IconButton onClick={()=>setProductDialogOpen(true)}>
+                <IconButton onClick={() => setProductDialogOpen(true)}>
                   <Edit />
                 </IconButton>
               </Tooltip>
@@ -217,7 +215,11 @@ export const AdminProductDetailPage = () => {
         </Box>
       </Container>
       {/* Hiden components */}
-      <ProductDialog open={productDialogOpen} setOpen={setProductDialogOpen} />
+      <ProductDialog
+        open={productDialogOpen}
+        setOpen={setProductDialogOpen}
+        product={product}
+      />
     </>
   );
 };

@@ -7,11 +7,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useId } from "react";
-import { CategorySelectBox } from "../CategorySelectBox";
+import React, { useEffect, useId, useState } from "react";
 import { CategoryAccordion } from "./CategoryAccordion";
 
-const InputField = ({ label, type = "text" }) => {
+const InputField = ({ label, value, type = "text" }) => {
   const uuid = useId();
   const input_id = `product__name_${uuid}`;
   return (
@@ -20,7 +19,7 @@ const InputField = ({ label, type = "text" }) => {
         {label}
       </Typography>
       <TextField
-        autoFocus
+        value={value}
         size="small"
         margin="dense"
         id={input_id}
@@ -32,7 +31,18 @@ const InputField = ({ label, type = "text" }) => {
   );
 };
 
-export const ProductDialog = ({ open, setOpen }) => {
+// TODO: send product to dialog
+export const ProductDialog = ({ open, setOpen, product }) => {
+  // console.log("test");
+  // console.log(product);
+  const { name, code, category } = product ?? {};
+
+  const [selectedCategory, setSelectedCategory] = useState(category);
+
+  useEffect(() => {
+    setSelectedCategory(product?.category);
+  }, [product]);
+
   return (
     <>
       <Dialog
@@ -47,9 +57,12 @@ export const ProductDialog = ({ open, setOpen }) => {
       >
         <DialogTitle>Edit product</DialogTitle>
         <DialogContent>
-          <InputField label={"Product name"} />
-          <InputField label={"Code"} />
-          <CategoryAccordion />
+          <InputField label={"Product name"} value={name} />
+          <InputField label={"Code"} value={code} />
+          <CategoryAccordion
+            category={selectedCategory}
+            setCategory={setSelectedCategory}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="error">

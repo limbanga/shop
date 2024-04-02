@@ -9,39 +9,64 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { axiosInstance } from "../../api/AxiosInstance";
 
-const CategoryItem = ({ item }) => {
+const CategoryItem = ({ item, isActive }) => {
   return (
     <>
       <Box py={".75rem"}>
-        <Typography>{item}</Typography>
+        <Typography color={isActive && "primary.main"}>{item.name}</Typography>
       </Box>
       <Divider />
     </>
   );
 };
 
-export const CategoryAccordion = () => {
+export const CategoryAccordion = ({ category, setCategory }) => {
+  const [categories, setCategories] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axiosInstance.get(`/categories/`);
+        const { data } = response;
+        setCategories(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCategories();
+  }, []);
+  
   return (
-    <>
+    <Box>
+      <Typography variant="h6" gutterBottom>
+        Category
+      </Typography>
       <Accordion variant="outlined">
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography>Category: T-Shirt</Typography>
+          <Typography>{category?.name || "Unselected"}</Typography>
         </AccordionSummary>
-        <AccordionDetails sx={{ maxHeight: 200, overflow: "auto" }}>
+        {/* TODO: style for scroll bar */}
+        <AccordionDetails
+          sx={{
+            maxHeight: 200,
+            overflow: "auto",
+          }}
+        >
           <Divider />
 
-          {["Jacket", "Dress", "Glasses", "Crop-Top", "A", "B"].map(
-            (item, index) => (
-              <CategoryItem key={index} item={item} />
-            )
-          )}
+          {categories.map((x) => (
+            <Box key={x.id} onClick={() => setCategory(x)}>
+              <CategoryItem item={x} isActive={category.id === x.id} />
+            </Box>
+          ))}
         </AccordionDetails>
       </Accordion>
-    </>
+    </Box>
   );
 };
