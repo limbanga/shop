@@ -33,7 +33,7 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
+      email: "abc",
       password: "",
     },
   });

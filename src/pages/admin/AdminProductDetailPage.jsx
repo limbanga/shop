@@ -219,6 +219,7 @@ export const AdminProductDetailPage = () => {
         open={productDialogOpen}
         setOpen={setProductDialogOpen}
         product={product}
+        abc="abc"
       />
     </>
   );

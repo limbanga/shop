@@ -7,41 +7,43 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CategoryAccordion } from "./CategoryAccordion";
+import { useForm } from "react-hook-form";
 
-const InputField = ({ label, value, type = "text" }) => {
-  const uuid = useId();
-  const input_id = `product__name_${uuid}`;
-  return (
-    <>
-      <Typography htmlFor={input_id} component={"label"} variant="h6">
-        {label}
-      </Typography>
-      <TextField
-        value={value}
-        size="small"
-        margin="dense"
-        id={input_id}
-        fullWidth
-        type={type}
-        InputProps={{ sx: { borderRadius: 0 } }}
-      />
-    </>
-  );
-};
-
-// TODO: send product to dialog
-export const ProductDialog = ({ open, setOpen, product }) => {
-  // console.log("test");
-  // console.log(product);
+export const ProductDialog = ({ open, setOpen, product, abc }) => {
   const { name, code, category } = product ?? {};
+
+  const delay = () =>
+    new Promise((resolve) => setTimeout(() => resolve(product), 2000));
 
   const [selectedCategory, setSelectedCategory] = useState(category);
 
   useEffect(() => {
     setSelectedCategory(product?.category);
   }, [product]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: product,
+    shouldUnregister: true,
+  });
+
+  const onReset = async () => {
+    const result = await delay();
+
+    reset({ ...getValues(), ...result });
+  };
+
+  useEffect(() => {
+    onReset();
+  }, []);
 
   return (
     <>
@@ -57,8 +59,30 @@ export const ProductDialog = ({ open, setOpen, product }) => {
       >
         <DialogTitle>Edit product</DialogTitle>
         <DialogContent>
-          <InputField label={"Product name"} value={name} />
-          <InputField label={"Code"} value={code} />
+          <TextField
+            {...register("name", { required: "required" })}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            fullWidth
+            label="Product name"
+            required
+            variant="outlined"
+            margin="normal"
+            size="small"
+            InputProps={{ sx: { borderRadius: 0 } }}
+          />
+          <TextField
+            {...register("code", { required: "required" })}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            fullWidth
+            label="Code"
+            required
+            variant="outlined"
+            margin="normal"
+            size="small"
+            InputProps={{ sx: { borderRadius: 0 } }}
+          />
           <CategoryAccordion
             category={selectedCategory}
             setCategory={setSelectedCategory}
