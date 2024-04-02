@@ -8,6 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useId } from "react";
+import { CategorySelectBox } from "../CategorySelectBox";
+import { CategoryAccordion } from "./CategoryAccordion";
 
 const InputField = ({ label, type = "text" }) => {
   const uuid = useId();
@@ -24,6 +26,7 @@ const InputField = ({ label, type = "text" }) => {
         id={input_id}
         fullWidth
         type={type}
+        InputProps={{ sx: { borderRadius: 0 } }}
       />
     </>
   );
@@ -39,22 +42,14 @@ export const ProductDialog = ({ open, setOpen }) => {
         maxWidth="sm"
         PaperProps={{
           component: "form",
-
-          onSubmit: (event) => {
-            // event.preventDefault();
-            // const formData = new FormData(event.currentTarget);
-            // const formJson = Object.fromEntries(formData.entries());
-            // const email = formJson.email;
-            // console.log(email);
-            // handleClose();
-          },
+          onSubmit: (event) => {},
         }}
       >
-        <DialogTitle>Edit this product</DialogTitle>
+        <DialogTitle>Edit product</DialogTitle>
         <DialogContent>
           <InputField label={"Product name"} />
           <InputField label={"Code"} />
-
+          <CategoryAccordion />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="error">

@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  Checkbox,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -58,7 +56,7 @@ const CategoryPaper = ({ category, displayCategory }) => {
     </Paper>
   );
 };
-
+// TODO: remove this comment after implementation CategoryAccordion
 export const CategorySelectBox = ({ setCategoryId }) => {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState([]);
