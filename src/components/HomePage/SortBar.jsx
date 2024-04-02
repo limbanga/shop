@@ -105,8 +105,6 @@ const SortBar = ({ openFilterDrawer }) => {
         >
           <Button
             onClick={(e) => setAnchorEl(e.currentTarget)}
-            variant="outlined"
-            disableElevation
             endIcon={<ExpandMoreIcon />}
           >
             {orderByDisplay}
