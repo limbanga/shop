@@ -11,39 +11,19 @@ import React, { useEffect, useState } from "react";
 import { CategoryAccordion } from "./CategoryAccordion";
 import { useForm } from "react-hook-form";
 
-export const ProductDialog = ({ open, setOpen, product, abc }) => {
-  const { name, code, category } = product ?? {};
-
-  const delay = () =>
-    new Promise((resolve) => setTimeout(() => resolve(product), 2000));
-
-  const [selectedCategory, setSelectedCategory] = useState(category);
-
-  useEffect(() => {
-    setSelectedCategory(product?.category);
-  }, [product]);
-
+export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
   const {
     register,
     handleSubmit,
-    reset,
-    getValues,
-    control,
     formState: { errors },
   } = useForm({
     defaultValues: product,
-    shouldUnregister: true,
   });
 
-  const onReset = async () => {
-    const result = await delay();
-
-    reset({ ...getValues(), ...result });
+  const onSubmit = async (data) => {
+    // TODO: implement update product here
+    console.log(data);
   };
-
-  useEffect(() => {
-    onReset();
-  }, []);
 
   return (
     <>
@@ -54,10 +34,10 @@ export const ProductDialog = ({ open, setOpen, product, abc }) => {
         maxWidth="sm"
         PaperProps={{
           component: "form",
-          onSubmit: (event) => {},
+          onSubmit: handleSubmit(onSubmit),
         }}
       >
-        <DialogTitle>Edit product</DialogTitle>
+        <DialogTitle>Edit product {product?.name}</DialogTitle>
         <DialogContent>
           <TextField
             {...register("name", { required: "required" })}
@@ -71,6 +51,7 @@ export const ProductDialog = ({ open, setOpen, product, abc }) => {
             size="small"
             InputProps={{ sx: { borderRadius: 0 } }}
           />
+
           <TextField
             {...register("code", { required: "required" })}
             error={!!errors.name}
@@ -83,9 +64,13 @@ export const ProductDialog = ({ open, setOpen, product, abc }) => {
             size="small"
             InputProps={{ sx: { borderRadius: 0 } }}
           />
+
           <CategoryAccordion
-            category={selectedCategory}
-            setCategory={setSelectedCategory}
+            category={product?.category}
+            setCategory={(newValue) => {
+              product.category = newValue;
+              setProduct({ ...product });
+            }}
           />
         </DialogContent>
         <DialogActions>

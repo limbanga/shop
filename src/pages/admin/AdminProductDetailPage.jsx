@@ -215,12 +215,14 @@ export const AdminProductDetailPage = () => {
         </Box>
       </Container>
       {/* Hiden components */}
-      <ProductDialog
-        open={productDialogOpen}
-        setOpen={setProductDialogOpen}
-        product={product}
-        abc="abc"
-      />
+      {product && (
+        <ProductDialog
+          open={productDialogOpen}
+          setOpen={setProductDialogOpen}
+          product={product}
+          setProduct={setProduct}
+        />
+      )}
     </>
   );
 };
