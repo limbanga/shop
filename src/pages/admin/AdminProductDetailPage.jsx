@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+
 import {
   Box,
   Button,
@@ -9,12 +11,47 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Add, ArrowBack, Edit } from "@mui/icons-material";
+
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
-import { Add, ArrowBack, Edit } from "@mui/icons-material";
 import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
-import { set } from "react-hook-form";
+import { VariantDialog } from "../../components/AdminProductDetailPage/VariantDialog";
+
+const VariantCard = ({ variant, setVariantToUpdate }) => {
+  return (
+    <Paper
+      variant="outlined"
+      square
+      sx={{
+        position: "relative",
+        height: "150px",
+      }}
+    >
+      <IconButton
+        onClick={() => {
+          setVariantToUpdate(variant);
+        }}
+        sx={{ position: "absolute", right: 0 }}
+      >
+        <Tooltip title="Edit variant">
+          <Edit fontSize="small" />
+        </Tooltip>
+      </IconButton>
+      <Box
+        component={"img"}
+        src={variant.image}
+        alt="variant"
+        sx={{
+          height: "100%",
+          width: "100%",
+          objectFit: "contain",
+          objectPosition: "center",
+        }}
+      />
+    </Paper>
+  );
+};
 
 export const AdminProductDetailPage = () => {
   const { id } = useParams();
@@ -23,7 +60,8 @@ export const AdminProductDetailPage = () => {
 
   const [product, setProduct] = React.useState(null);
   const [variants, setVariants] = React.useState([]);
-  const [variant, setVariant] = React.useState(null);
+  const [variantToUpdate, setVariantToUpdate] = React.useState(null);
+  const [variantToView, setVariantToView] = React.useState(null);
   const [sizes, setSizes] = React.useState([]);
 
   const handleUpdateProduct = async (inputData) => {
@@ -70,7 +108,7 @@ export const AdminProductDetailPage = () => {
         );
         const { data } = response;
         setVariants(data);
-        setVariant(data[0]);
+        setVariantToView(data[0]);
       } catch (error) {
         console.error(error);
       }
@@ -90,8 +128,8 @@ export const AdminProductDetailPage = () => {
         console.error(error);
       }
     };
-    variant && fetchSizes(variant.id);
-  }, [variant]);
+    variantToView && fetchSizes(variantToView.id);
+  }, [variantToView]);
 
   return (
     <>
@@ -158,25 +196,7 @@ export const AdminProductDetailPage = () => {
             <Grid container columnSpacing={3} my={".5rem"}>
               {variants.map((x) => (
                 <Grid key={x.id} item xs={3}>
-                  <Paper
-                    variant="outlined"
-                    square
-                    sx={{
-                      height: "150px",
-                    }}
-                  >
-                    <Box
-                      component={"img"}
-                      src={x.image}
-                      alt="variant"
-                      sx={{
-                        height: "100%",
-                        width: "100%",
-                        objectFit: "contain",
-                        objectPosition: "center",
-                      }}
-                    />
-                  </Paper>
+                  <VariantCard variant={x} setVariantToUpdate={setVariantToUpdate} />
                 </Grid>
               ))}
             </Grid>
@@ -238,6 +258,7 @@ export const AdminProductDetailPage = () => {
         </Box>
       </Container>
       {/* Hiden components */}
+      {/* product dialog */}
       {product && (
         <ProductDialog
           open={productDialogOpen}
@@ -245,6 +266,15 @@ export const AdminProductDetailPage = () => {
           product={product}
           setProduct={setProduct}
           onSubmit={handleUpdateProduct}
+        />
+      )}
+      {/* variant dialog */}
+      {variantToUpdate && (
+        <VariantDialog
+          open={!!variantToUpdate}
+          variant={variantToUpdate}
+          setVariant={setVariantToUpdate}
+          onSubmit={() => {}}
         />
       )}
     </>
