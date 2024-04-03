@@ -51,6 +51,7 @@ export default function ProductTable() {
         const { data } = response;
         setProducts(data);
       } catch (error) {
+        alert("Error fetching products");
         console.error(error);
       }
     };

@@ -37,7 +37,7 @@ export const CategoryAccordion = ({ category, setCategory }) => {
     };
     fetchCategories();
   }, []);
-  
+
   return (
     <Box>
       <Typography variant="h6" gutterBottom>

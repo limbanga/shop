@@ -5,14 +5,18 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-  Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CategoryAccordion } from "./CategoryAccordion";
 import { useForm } from "react-hook-form";
-import { axiosInstance } from "../../api/AxiosInstance";
 
-export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
+export const ProductDialog = ({
+  open,
+  setOpen,
+  product,
+  setProduct,
+  onSubmit,
+}) => {
   const {
     register,
     handleSubmit,
@@ -20,17 +24,6 @@ export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
   } = useForm({
     defaultValues: product,
   });
-
-  const onSubmit = async (data) => {
-    // console.log(data);
-
-    const respones = await axiosInstance.put(`/products/${data.id}`, data);
-    // TODO: Them hieu ung thong bao, reload trang
-    if (respones.status === 200) {
-      console.log("Product updated successfully");
-    }
-    console.log(respones);
-  };
 
   return (
     <>
@@ -41,6 +34,7 @@ export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
         maxWidth="sm"
         PaperProps={{
           component: "form",
+          noValidate: true,
           onSubmit: handleSubmit(onSubmit),
         }}
       >
@@ -61,8 +55,8 @@ export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
 
           <TextField
             {...register("code", { required: "required" })}
-            error={!!errors.name}
-            helperText={errors.name?.message}
+            error={!!errors.code}
+            helperText={errors.code?.message}
             fullWidth
             label="Code"
             required
@@ -74,9 +68,8 @@ export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
 
           <CategoryAccordion
             category={product?.category}
-            setCategory={(newValue) => {
-              product.category = newValue;
-              setProduct({ ...product });
+            setCategory={(newCate) => {
+              setProduct((prev) => ({ ...prev, category: newCate }));
             }}
           />
         </DialogContent>

@@ -14,6 +14,7 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { Add, ArrowBack, Edit } from "@mui/icons-material";
 import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
+import { set } from "react-hook-form";
 
 export const AdminProductDetailPage = () => {
   const { id } = useParams();
@@ -24,6 +25,28 @@ export const AdminProductDetailPage = () => {
   const [variants, setVariants] = React.useState([]);
   const [variant, setVariant] = React.useState(null);
   const [sizes, setSizes] = React.useState([]);
+
+  const handleUpdateProduct = async (inputData) => {
+    // set forgein key
+    inputData.category = product.category;
+    try {
+      const respones = await axiosInstance.put(
+        `/products/${inputData.id}`,
+        inputData
+      );
+      if (respones.status !== 200) {
+        alert("Something went wrong!, HTTP status: " + respones.status);
+        return;
+      }
+      const { data } = respones;
+      setProduct(data);
+      setProductDialogOpen(false);
+      alert("Update product successfully!");
+    } catch (error) {
+      alert("Error!");
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -221,6 +244,7 @@ export const AdminProductDetailPage = () => {
           setOpen={setProductDialogOpen}
           product={product}
           setProduct={setProduct}
+          onSubmit={handleUpdateProduct}
         />
       )}
     </>
