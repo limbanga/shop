@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { CategoryAccordion } from "./CategoryAccordion";
 import { useForm } from "react-hook-form";
+import { axiosInstance } from "../../api/AxiosInstance";
 
 export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
   const {
@@ -21,8 +22,14 @@ export const ProductDialog = ({ open, setOpen, product, setProduct }) => {
   });
 
   const onSubmit = async (data) => {
-    // TODO: implement update product here
-    console.log(data);
+    // console.log(data);
+
+    const respones = await axiosInstance.put(`/products/${data.id}`, data);
+    // TODO: Them hieu ung thong bao, reload trang
+    if (respones.status === 200) {
+      console.log("Product updated successfully");
+    }
+    console.log(respones);
   };
 
   return (

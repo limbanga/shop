@@ -42,13 +42,13 @@ const AdminProductCard = ({ product }) => {
 };
 
 export default function ProductTable() {
-  const [products, setProducts] = React.useState([]);
+  const [products, setProducts] = React.useState(null);
+
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axiosInstance.get("/products/");
         const { data } = response;
-        console.log(data);
         setProducts(data);
       } catch (error) {
         console.error(error);
@@ -59,11 +59,19 @@ export default function ProductTable() {
 
   return (
     <Grid container columnSpacing={2}>
-      {products.map((x) => (
-        <Grid key={x.id} item xs={3}>
-          <AdminProductCard product={x} />
+      {products ? (
+        products.map((x) => (
+          <Grid key={x.id} item xs={3}>
+            <AdminProductCard product={x} />
+          </Grid>
+        ))
+      ) : (
+        <Grid item xs={12}>
+          <Typography variant="h1" mt={20}>
+            Loading...
+          </Typography>
         </Grid>
-      ))}
+      )}
     </Grid>
   );
 }
