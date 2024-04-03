@@ -11,6 +11,15 @@ import {
 import { Upload, UploadFile } from "@mui/icons-material";
 
 export const VariantDialog = ({ open, variant, setVariant, onSubmit }) => {
+  const [file, setFile] = React.useState(null);
+  const [blob, setBlob] = React.useState(null);
+
+  const handleFileChange = (file) => {
+    setFile(file);
+    const blobURL = URL.createObjectURL(file);
+    setBlob(blobURL);
+  };
+
   return (
     <>
       <Dialog
@@ -28,12 +37,19 @@ export const VariantDialog = ({ open, variant, setVariant, onSubmit }) => {
         <DialogContent>
           <Box
             component="img"
-            src={variant.image}
+            src={blob ? blob : variant.image}
             alt="Image of variant"
             sx={{ width: "100%", height: 400, objectFit: "contain" }}
           />
           <Box textAlign={"center"}>
-            <Button endIcon={<Upload />}>Upload other image</Button>
+            <Button component={"label"} endIcon={<Upload />}>
+              Upload other image
+              <input
+                onChange={(e) => handleFileChange(e.target.files[0])}
+                type="file"
+                hidden
+              />
+            </Button>
           </Box>
         </DialogContent>
         <DialogActions>
