@@ -30,7 +30,6 @@ export const VariantDialog = ({ open, variant, setVariant, onSubmit }) => {
         PaperProps={{
           component: "form",
           noValidate: true,
-          onSubmit: onSubmit,
         }}
       >
         <DialogTitle>Edit variant</DialogTitle>
@@ -56,7 +55,7 @@ export const VariantDialog = ({ open, variant, setVariant, onSubmit }) => {
           <Button onClick={() => setVariant(null)} color="error">
             Cancel
           </Button>
-          <Button type="submit" color="primary">
+          <Button onClick={() => onSubmit(file)} color="primary">
             Save
           </Button>
         </DialogActions>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import {
   Box,
@@ -17,56 +17,14 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
 import { VariantDialog } from "../../components/AdminProductDetailPage/VariantDialog";
+import { set } from "react-hook-form";
 
-const VariantCard = ({ variant, setVariantToUpdate }) => {
-  return (
-    <Paper
-      variant="outlined"
-      square
-      sx={{
-        position: "relative",
-        height: "150px",
-      }}
-    >
-      <IconButton
-        onClick={() => {
-          setVariantToUpdate(variant);
-        }}
-        sx={{ position: "absolute", right: 0 }}
-      >
-        <Tooltip title="Edit variant">
-          <Edit fontSize="small" />
-        </Tooltip>
-      </IconButton>
-      <Box
-        component={"img"}
-        src={variant.image}
-        alt="variant"
-        sx={{
-          height: "100%",
-          width: "100%",
-          objectFit: "contain",
-          objectPosition: "center",
-        }}
-      />
-    </Paper>
-  );
-};
-
-export const AdminProductDetailPage = () => {
-  const { id } = useParams();
-
-  const [productDialogOpen, setProductDialogOpen] = useState(false);
-
-  const [product, setProduct] = React.useState(null);
-  const [variants, setVariants] = React.useState([]);
-  const [variantToUpdate, setVariantToUpdate] = React.useState(null);
-  const [variantToView, setVariantToView] = React.useState(null);
-  const [sizes, setSizes] = React.useState([]);
+const ProductCard = ({ product, setProduct }) => {
+  const [productToUpdate, setProductToUpdate] = React.useState(null);
 
   const handleUpdateProduct = async (inputData) => {
     // set forgein key
-    inputData.category = product.category;
+    inputData.category = productToUpdate.category;
     try {
       const respones = await axiosInstance.put(
         `/products/${inputData.id}`,
@@ -78,13 +36,154 @@ export const AdminProductDetailPage = () => {
       }
       const { data } = respones;
       setProduct(data);
-      setProductDialogOpen(false);
+      setProductToUpdate(null);
       alert("Update product successfully!");
     } catch (error) {
       alert("Error!");
       console.log(error);
     }
   };
+  return (
+    <>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"start"}
+      >
+        <Typography variant="h3" gutterBottom>
+          Product detail
+        </Typography>
+        <Tooltip title="Edit product">
+          <IconButton onClick={() => setProductToUpdate(product)}>
+            <Edit />
+          </IconButton>
+        </Tooltip>
+      </Box>
+
+      <Box>
+        <Typography variant="h5" gutterBottom>
+          Name: {product?.name}
+        </Typography>
+        <Typography variant="h6" gutterBottom color={"grey.700"}>
+          Code: {product?.code}
+        </Typography>
+        <Typography variant="h6" gutterBottom color={"grey.700"}>
+          Category: {product?.category?.name}
+        </Typography>
+      </Box>
+      {/* product dialog */}
+      {productToUpdate && (
+        <ProductDialog
+          open={!!productToUpdate}
+          product={productToUpdate}
+          setProduct={setProductToUpdate}
+          onSubmit={handleUpdateProduct}
+        />
+      )}
+    </>
+  );
+};
+
+const VariantCard = ({ variant }) => {
+  const [variantToUpdate, setVariantToUpdate] = React.useState(null);
+
+  const handleUpdateVariant = async (file) => {
+    const _uploadFile = async (file) => {
+      // repare file and upload...
+      let formData = new FormData();
+      formData.append("file", file);
+      try {
+        const response = await axiosInstance.post(`/upload/`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        const { data } = response;
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (!file) {
+      return;
+    }
+
+    // upload file
+    const imageUrl = await _uploadFile(file);
+    if (!imageUrl) {
+      alert("Upload file failed!");
+      return;
+    }
+    // set image url for variant
+    setVariantToUpdate((prev) => ({ ...prev, image: imageUrl }));
+    try {
+      // update variant
+      const response = await axiosInstance.put(
+        `/variants/${variantToUpdate.id}`,
+        variantToUpdate
+      );
+      console.log(response);
+      alert("Update variant successfully!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <>
+      <Paper
+        variant="outlined"
+        square
+        sx={{
+          position: "relative",
+          height: "150px",
+        }}
+      >
+        <IconButton
+          onClick={() => {
+            setVariantToUpdate(variant);
+          }}
+          sx={{ position: "absolute", right: 0 }}
+        >
+          <Tooltip title="Edit variant">
+            <Edit fontSize="small" />
+          </Tooltip>
+        </IconButton>
+        <Box
+          component={"img"}
+          src={variant.image}
+          alt="variant"
+          sx={{
+            height: "100%",
+            width: "100%",
+            objectFit: "contain",
+            objectPosition: "center",
+          }}
+        />
+      </Paper>
+
+      {/* variant dialog */}
+      {variantToUpdate && (
+        <VariantDialog
+          open={!!variantToUpdate}
+          variant={variantToUpdate}
+          setVariant={setVariantToUpdate}
+          onSubmit={handleUpdateVariant}
+        />
+      )}
+    </>
+  );
+};
+
+export const AdminProductDetailPage = () => {
+  const { id } = useParams();
+
+  const [product, setProduct] = React.useState(null);
+  const [variants, setVariants] = React.useState([]);
+  const [variantToView, setVariantToView] = React.useState(null);
+  const [sizes, setSizes] = React.useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -134,6 +233,7 @@ export const AdminProductDetailPage = () => {
   return (
     <>
       <Container sx={{ mt: "5rem" }}>
+        {/* back button */}
         <Box>
           <Button
             LinkComponent={RouterLink}
@@ -148,32 +248,7 @@ export const AdminProductDetailPage = () => {
         <Grid container columnSpacing={3} my={".5rem"}>
           {/* product */}
           <Grid item xs={12} sm={6}>
-            <Box
-              display={"flex"}
-              justifyContent={"space-between"}
-              alignItems={"start"}
-            >
-              <Typography variant="h3" gutterBottom>
-                Product detail
-              </Typography>
-              <Tooltip title="Edit product">
-                <IconButton onClick={() => setProductDialogOpen(true)}>
-                  <Edit />
-                </IconButton>
-              </Tooltip>
-            </Box>
-
-            <Box>
-              <Typography variant="h5" gutterBottom>
-                {product?.name}
-              </Typography>
-              <Typography variant="h6" gutterBottom color={"grey.700"}>
-                Code: {product?.code}
-              </Typography>
-              <Typography variant="h6" gutterBottom color={"grey.700"}>
-                Category: {product?.category?.name}
-              </Typography>
-            </Box>
+            <ProductCard product={product} setProduct={setProduct} />
           </Grid>
           {/* variants */}
           <Grid item xs={12} sm={6}>
@@ -196,7 +271,7 @@ export const AdminProductDetailPage = () => {
             <Grid container columnSpacing={3} my={".5rem"}>
               {variants.map((x) => (
                 <Grid key={x.id} item xs={3}>
-                  <VariantCard variant={x} setVariantToUpdate={setVariantToUpdate} />
+                  <VariantCard variant={x} />
                 </Grid>
               ))}
             </Grid>
@@ -204,6 +279,7 @@ export const AdminProductDetailPage = () => {
         </Grid>
 
         <Divider />
+
         {/* sizes */}
         <Box>
           <Box
@@ -257,26 +333,6 @@ export const AdminProductDetailPage = () => {
           </Grid>
         </Box>
       </Container>
-      {/* Hiden components */}
-      {/* product dialog */}
-      {product && (
-        <ProductDialog
-          open={productDialogOpen}
-          setOpen={setProductDialogOpen}
-          product={product}
-          setProduct={setProduct}
-          onSubmit={handleUpdateProduct}
-        />
-      )}
-      {/* variant dialog */}
-      {variantToUpdate && (
-        <VariantDialog
-          open={!!variantToUpdate}
-          variant={variantToUpdate}
-          setVariant={setVariantToUpdate}
-          onSubmit={() => {}}
-        />
-      )}
     </>
   );
 };

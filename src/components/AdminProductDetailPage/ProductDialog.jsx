@@ -10,13 +10,7 @@ import React from "react";
 import { CategoryAccordion } from "./CategoryAccordion";
 import { useForm } from "react-hook-form";
 
-export const ProductDialog = ({
-  open,
-  setOpen,
-  product,
-  setProduct,
-  onSubmit,
-}) => {
+export const ProductDialog = ({ product, setProduct, onSubmit }) => {
   const {
     register,
     handleSubmit,
@@ -28,8 +22,8 @@ export const ProductDialog = ({
   return (
     <>
       <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
+        open={!!product}
+        onClose={() => setProduct(null)}
         fullWidth
         maxWidth="sm"
         PaperProps={{
@@ -38,7 +32,7 @@ export const ProductDialog = ({
           onSubmit: handleSubmit(onSubmit),
         }}
       >
-        <DialogTitle>Edit product {product?.name}</DialogTitle>
+        <DialogTitle>Edit product</DialogTitle>
         <DialogContent>
           <TextField
             {...register("name", { required: "required" })}
@@ -74,7 +68,7 @@ export const ProductDialog = ({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} color="error">
+          <Button onClick={() => setProduct(null)} color="error">
             Cancel
           </Button>
           <Button type="submit" color="primary">
