@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Box,
@@ -18,6 +18,7 @@ import { axiosInstance } from "../../api/AxiosInstance";
 import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
 import { VariantDialog } from "../../components/AdminProductDetailPage/VariantDialog";
 import { useTheme } from "@emotion/react";
+import { SizeDialog } from "../../components/AdminProductDetailPage/SizeDialog";
 
 const ProductCard = ({ product, setProduct }) => {
   const [productToUpdate, setProductToUpdate] = React.useState(null);
@@ -189,6 +190,12 @@ const VariantCard = ({ variant, variantToView }) => {
 };
 
 const SizeCard = ({ size }) => {
+  const [sizeToUpdate, setSizeToUpdate] = useState();
+
+  const handleSaveSize = async (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Paper
@@ -201,10 +208,13 @@ const SizeCard = ({ size }) => {
       >
         <Box display={"flex"} justifyContent={"space-between"}>
           <Typography variant="h6">Size {size.productSize}</Typography>
-          <Tooltip title="Edit size">
-            <IconButton size="small">
-              <Edit />
-            </IconButton>
+          <Tooltip
+            onClick={() => {
+              setSizeToUpdate(size);
+            }}
+            title="Edit size"
+          >
+            <Edit fontSize="small" color="action" />
           </Tooltip>
         </Box>
         <Typography variant="body1">{size.stock} in Stock</Typography>
@@ -215,6 +225,14 @@ const SizeCard = ({ size }) => {
           }).format(size.price)}
         </Typography>
       </Paper>
+      {/* size dialog */}
+      {sizeToUpdate && (
+        <SizeDialog
+          size={sizeToUpdate}
+          setSize={setSizeToUpdate}
+          onSubmit={handleSaveSize}
+        />
+      )}
     </>
   );
 };
