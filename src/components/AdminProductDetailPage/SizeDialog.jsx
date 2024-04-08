@@ -7,8 +7,18 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { useForm } from "react-hook-form";
+
 
 export const SizeDialog = ({ size, setSize, onSubmit }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: size,
+  });
+
   return (
     <>
       <Dialog
@@ -19,15 +29,15 @@ export const SizeDialog = ({ size, setSize, onSubmit }) => {
         PaperProps={{
           component: "form",
           noValidate: true,
-          onSubmit: onSubmit,
+          onSubmit: handleSubmit(onSubmit),
         }}
       >
         <DialogTitle>Edit size</DialogTitle>
         <DialogContent>
           <TextField
-            // {...register("name", { required: "required" })}
-            // error={!!errors.name}
-            // helperText={errors.name?.message}
+            {...register("price", { required: "required" })}
+            error={!!errors.price}
+            helperText={errors.price?.message}
             fullWidth
             label="Price"
             required
@@ -38,9 +48,9 @@ export const SizeDialog = ({ size, setSize, onSubmit }) => {
           />
 
           <TextField
-            // {...register("code", { required: "required" })}
-            // error={!!errors.code}
-            // helperText={errors.code?.message}
+            {...register("stock", { required: "required" })}
+            error={!!errors.stock}
+            helperText={errors.stock?.message}
             fullWidth
             label="Stock"
             required

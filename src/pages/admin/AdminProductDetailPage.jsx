@@ -137,6 +137,7 @@ const VariantCard = ({ variant, variantToView }) => {
       );
       console.log(response);
       alert("Update variant successfully!");
+      // TODO: reload variant
     } catch (error) {
       console.error(error);
     }
@@ -189,11 +190,23 @@ const VariantCard = ({ variant, variantToView }) => {
   );
 };
 
-const SizeCard = ({ size }) => {
-  const [sizeToUpdate, setSizeToUpdate] = useState();
+const SizeCard = ({ size, setSize }) => {
+  const [sizeToUpdate, setSizeToUpdate] = useState(null);
 
-  const handleSaveSize = async (data) => {
-    console.log(data);
+  const handleSaveSize = async (formData) => {
+    console.log(formData);
+    try {
+      const response = await axiosInstance.put(
+        `/sizes/${formData.id}`,
+        formData
+      );
+      const { data } = response;
+      console.log("data");
+      console.log(data);
+      setSize(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -236,6 +249,7 @@ const SizeCard = ({ size }) => {
     </>
   );
 };
+
 export const AdminProductDetailPage = () => {
   const { id } = useParams();
 
@@ -286,6 +300,7 @@ export const AdminProductDetailPage = () => {
         console.error(error);
       }
     };
+
     variantToView && fetchSizes(variantToView.id);
   }, [variantToView]);
 
@@ -361,9 +376,19 @@ export const AdminProductDetailPage = () => {
           </Box>
           {/* list size */}
           <Grid container columnSpacing={3} my={".5rem"}>
-            {sizes?.map((x) => (
+            {sizes?.map((x, index) => (
               <Grid key={x.id} item xs={6} sm={4} md={3} lg={2}>
-                <SizeCard size={x} />
+                <SizeCard
+                  size={x}
+                  setSize={(newSize) =>
+                    setSizes((prev) => {
+                      const newSizes = prev.map((p) =>
+                        p.id !== newSize.id ? p : newSize
+                      );
+                      return newSizes;
+                    })
+                  }
+                />
               </Grid>
             ))}
           </Grid>
