@@ -17,6 +17,7 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
 import { VariantDialog } from "../../components/AdminProductDetailPage/VariantDialog";
+import { useTheme } from "@emotion/react";
 
 const ProductCard = ({ product, setProduct }) => {
   const [productToUpdate, setProductToUpdate] = React.useState(null);
@@ -83,7 +84,17 @@ const ProductCard = ({ product, setProduct }) => {
   );
 };
 
-const VariantCard = ({ variant }) => {
+const VariantCard = ({ variant, variantToView }) => {
+  const theme = useTheme();
+  const getActiveStyle = () => {
+    const isActive = variant.id === variantToView.id;
+    return isActive
+      ? {
+          border: `1px solid ${theme.palette.primary.light}`,
+        }
+      : {};
+  };
+
   const [variantToUpdate, setVariantToUpdate] = React.useState(null);
 
   const handleUpdateVariant = async (file) => {
@@ -138,6 +149,7 @@ const VariantCard = ({ variant }) => {
         sx={{
           position: "relative",
           height: "150px",
+          ...getActiveStyle(),
         }}
       >
         <IconButton
@@ -300,7 +312,7 @@ export const AdminProductDetailPage = () => {
             <Grid container columnSpacing={3} my={".5rem"}>
               {variants.map((x) => (
                 <Grid key={x.id} item xs={3}>
-                  <VariantCard variant={x} />
+                  <VariantCard variant={x} variantToView={variantToView} />
                 </Grid>
               ))}
             </Grid>
