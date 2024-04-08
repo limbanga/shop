@@ -1,5 +1,4 @@
 import { ThemeProvider, createTheme, useTheme } from "@mui/material";
-import { blue } from "@mui/material/colors";
 
 export const AppThemeProvider = ({ children }) => {
   const defaultTheme = useTheme();
