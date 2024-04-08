@@ -17,7 +17,6 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
 import { VariantDialog } from "../../components/AdminProductDetailPage/VariantDialog";
-import { set } from "react-hook-form";
 
 const ProductCard = ({ product, setProduct }) => {
   const [productToUpdate, setProductToUpdate] = React.useState(null);
@@ -177,6 +176,36 @@ const VariantCard = ({ variant }) => {
   );
 };
 
+const SizeCard = ({ size }) => {
+  return (
+    <>
+      <Paper
+        variant="outlined"
+        square
+        sx={{
+          height: "90px",
+          p: ".5rem",
+        }}
+      >
+        <Box display={"flex"} justifyContent={"space-between"}>
+          <Typography variant="h6">Size {size.productSize}</Typography>
+          <Tooltip title="Edit size">
+            <IconButton size="small">
+              <Edit />
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Typography variant="body1">{size.stock} in Stock</Typography>
+        <Typography variant="body1">
+          {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(size.price)}
+        </Typography>
+      </Paper>
+    </>
+  );
+};
 export const AdminProductDetailPage = () => {
   const { id } = useParams();
 
@@ -300,34 +329,11 @@ export const AdminProductDetailPage = () => {
               New size
             </Button>
           </Box>
-
+          {/* list size */}
           <Grid container columnSpacing={3} my={".5rem"}>
             {sizes?.map((x) => (
               <Grid key={x.id} item xs={6} sm={4} md={3} lg={2}>
-                <Paper
-                  variant="outlined"
-                  square
-                  sx={{
-                    height: "90px",
-                    p: ".5rem",
-                  }}
-                >
-                  <Box display={"flex"} justifyContent={"space-between"}>
-                    <Typography variant="h6">Size {x.productSize}</Typography>
-                    <Tooltip title="Edit size">
-                      <IconButton size="small">
-                        <Edit />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                  <Typography variant="body1">{x.stock} in Stock</Typography>
-                  <Typography variant="body1">
-                    {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(x.price)}
-                  </Typography>
-                </Paper>
+                <SizeCard size={x} />
               </Grid>
             ))}
           </Grid>
