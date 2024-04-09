@@ -85,7 +85,7 @@ const ProductCard = ({ product, setProduct }) => {
   );
 };
 
-const VariantCard = ({ variant, variantToView }) => {
+const VariantCard = ({ variant, variantToView, setVariantToView }) => {
   const theme = useTheme();
   const getActiveStyle = () => {
     const isActive = variant.id === variantToView.id;
@@ -151,6 +151,9 @@ const VariantCard = ({ variant, variantToView }) => {
         sx={{
           position: "relative",
           height: "150px",
+          display: "flex",
+          flexDirection: "column",
+          p: ".5rem",
           ...getActiveStyle(),
         }}
       >
@@ -158,7 +161,7 @@ const VariantCard = ({ variant, variantToView }) => {
           onClick={() => {
             setVariantToUpdate(variant);
           }}
-          sx={{ position: "absolute", right: 0 }}
+          sx={{ position: "absolute", right: 0, top: 0 }}
         >
           <Tooltip title="Edit variant">
             <Edit fontSize="small" />
@@ -175,6 +178,26 @@ const VariantCard = ({ variant, variantToView }) => {
             objectPosition: "center",
           }}
         />
+        <Button
+          onClick={() => setVariantToView(variant)}
+          color="inherit"
+          size="small"
+          fullWidth
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            borderRadius: 0,
+            opacity: 0,
+            "&:hover": {
+              opacity: 1,
+              transition: "opacity .3s ease-in-out",
+            },
+          }}
+        >
+          View
+        </Button>
       </Paper>
 
       {/* variant dialog */}
@@ -345,7 +368,11 @@ export const AdminProductDetailPage = () => {
             <Grid container columnSpacing={3} my={".5rem"}>
               {variants.map((x) => (
                 <Grid key={x.id} item xs={3}>
-                  <VariantCard variant={x} variantToView={variantToView} />
+                  <VariantCard
+                    variant={x}
+                    variantToView={variantToView}
+                    setVariantToView={setVariantToView}
+                  />
                 </Grid>
               ))}
             </Grid>
