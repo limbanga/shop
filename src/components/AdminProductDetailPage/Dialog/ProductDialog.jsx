@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
-import { CategoryAccordion } from "./CategoryAccordion";
+import { CategoryAccordion } from "../CategoryAccordion";
 import { useForm } from "react-hook-form";
 
 export const ProductDialog = ({ product, setProduct, onSubmit }) => {

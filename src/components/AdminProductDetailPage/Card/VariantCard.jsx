@@ -12,7 +12,7 @@ import { Edit } from "@mui/icons-material";
 
 import { enqueueSnackbar } from "notistack";
 import { useTheme } from "@emotion/react";
-import { VariantDialog } from "../VariantDialog";
+import { VariantDialog } from "../Dialog/VariantDialog";
 import { axiosInstance } from "../../../api/AxiosInstance";
 
 export const VariantCard = ({
