@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import {
   Box,
@@ -6,81 +6,15 @@ import {
   Container,
   Divider,
   Grid,
-  IconButton,
-  Paper,
-  Tooltip,
   Typography,
 } from "@mui/material";
-import { Add, ArrowBack, Edit } from "@mui/icons-material";
+import { Add, ArrowBack } from "@mui/icons-material";
 
-import { enqueueSnackbar } from "notistack";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
-import { VariantDialog } from "../../components/AdminProductDetailPage/VariantDialog";
-import { useTheme } from "@emotion/react";
-import { SizeDialog } from "../../components/AdminProductDetailPage/SizeDialog";
 import { ProductCard } from "../../components/AdminProductDetailPage/Card/ProductCard";
 import { VariantCard } from "../../components/AdminProductDetailPage/Card/VariantCard";
-
-const SizeCard = ({ size, setSize }) => {
-  const [sizeToUpdate, setSizeToUpdate] = useState(null);
-
-  const handleSaveSize = async (formData) => {
-    console.log(formData);
-    try {
-      const response = await axiosInstance.put(
-        `/sizes/${formData.id}`,
-        formData
-      );
-      const { data } = response;
-      console.log("data");
-      console.log(data);
-      setSize(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  return (
-    <>
-      <Paper
-        variant="outlined"
-        square
-        sx={{
-          height: "90px",
-          p: ".5rem",
-        }}
-      >
-        <Box display={"flex"} justifyContent={"space-between"}>
-          <Typography variant="h6">Size {size.productSize}</Typography>
-          <Tooltip
-            onClick={() => {
-              setSizeToUpdate(size);
-            }}
-            title="Edit size"
-          >
-            <Edit fontSize="small" color="action" />
-          </Tooltip>
-        </Box>
-        <Typography variant="body1">{size.stock} in Stock</Typography>
-        <Typography variant="body1">
-          {new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-          }).format(size.price)}
-        </Typography>
-      </Paper>
-      {/* size dialog */}
-      {sizeToUpdate && (
-        <SizeDialog
-          size={sizeToUpdate}
-          setSize={setSizeToUpdate}
-          onSubmit={handleSaveSize}
-        />
-      )}
-    </>
-  );
-};
+import { SizeCard } from "../../components/AdminProductDetailPage/Card/SizeCard";
 
 export const AdminProductDetailPage = () => {
   const { id } = useParams();

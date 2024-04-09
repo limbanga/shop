@@ -23,7 +23,6 @@ export const ProductCard = ({ product, setProduct }) => {
       enqueueSnackbar(<Typography>Update product successfully</Typography>, {
         variant: "success",
       });
-      
     } catch (error) {
       alert("Error!");
       console.log(error);
