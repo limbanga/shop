@@ -8,9 +8,9 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { Upload, UploadFile } from "@mui/icons-material";
+import { Upload } from "@mui/icons-material";
 
-export const VariantDialog = ({ open, variant, setVariant, onSubmit }) => {
+export const VariantDialog = ({ variant, setVariant, onSubmit }) => {
   const [file, setFile] = React.useState(null);
   const [blob, setBlob] = React.useState(null);
 
@@ -23,7 +23,7 @@ export const VariantDialog = ({ open, variant, setVariant, onSubmit }) => {
   return (
     <>
       <Dialog
-        open={open}
+        open={!!variant}
         onClose={() => setVariant(null)}
         fullWidth
         maxWidth="sm"

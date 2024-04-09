@@ -17,10 +17,6 @@ export const ProductCard = ({ product, setProduct }) => {
         `/products/${inputData.id}`,
         inputData
       );
-      if (respones.status !== 200) {
-        alert("Something went wrong!, HTTP status: " + respones.status);
-        return;
-      }
       const { data } = respones;
       setProduct(data);
       setProductToUpdate(null);
@@ -33,6 +29,7 @@ export const ProductCard = ({ product, setProduct }) => {
       console.log(error);
     }
   };
+
   return (
     <>
       <Box
@@ -64,7 +61,6 @@ export const ProductCard = ({ product, setProduct }) => {
       {/* product dialog */}
       {productToUpdate && (
         <ProductDialog
-          open={!!productToUpdate}
           product={productToUpdate}
           setProduct={setProductToUpdate}
           onSubmit={handleUpdateProduct}
