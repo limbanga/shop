@@ -7,6 +7,7 @@ import {
   Divider,
   Grid,
   Typography,
+  IconButton,
 } from "@mui/material";
 import { Add, ArrowBack } from "@mui/icons-material";
 
@@ -87,30 +88,25 @@ export const AdminProductDetailPage = () => {
 
         <Grid container columnSpacing={3} my={".5rem"}>
           {/* product */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <ProductCard product={product} setProduct={setProduct} />
           </Grid>
           {/* variants */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} md={6}>
             <Divider sx={{ display: { xs: "block", sm: "none" } }} />
             {/* information bar */}
             <Box mt={".5rem"} display={"flex"} justifyContent={"space-between"}>
               <Typography variant="h5" gutterBottom>
                 Product Variants
               </Typography>
-              <Button
-                color="lightGray"
-                variant="contained"
-                disableElevation
-                endIcon={<Add />}
-              >
-                New variant
-              </Button>
+              <IconButton>
+                <Add />
+              </IconButton>
             </Box>
             {/* list variants */}
-            <Grid container columnSpacing={3} my={".5rem"}>
+            <Grid container spacing={1} my={".5rem"}>
               {variants.map((x) => (
-                <Grid key={x.id} item xs={3}>
+                <Grid key={x.id} item xs={6} md={3}>
                   <VariantCard
                     variant={x}
                     setVariant={(newVariant) =>
@@ -143,18 +139,13 @@ export const AdminProductDetailPage = () => {
             <Typography variant="h5" my={".5rem"}>
               Sizes
             </Typography>
-            <Button
-              color="lightGray"
-              variant="contained"
-              disableElevation
-              endIcon={<Add />}
-            >
-              New size
-            </Button>
+            <IconButton>
+              <Add />
+            </IconButton>
           </Box>
           {/* list size */}
           <Grid container columnSpacing={3} my={".5rem"}>
-            {sizes?.map((x, index) => (
+            {sizes?.map((x) => (
               <Grid key={x.id} item xs={6} sm={4} md={3} lg={2}>
                 <SizeCard
                   size={x}

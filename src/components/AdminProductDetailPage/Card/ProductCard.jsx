@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
-import { ProductDialog } from "../ProductDialog";
+import { ProductDialog } from "../Dialog/ProductDialog";
 import { axiosInstance } from "../../../api/AxiosInstance";
 import { enqueueSnackbar } from "notistack";
 

@@ -4,7 +4,7 @@ import { Box, Paper, Tooltip, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 
 import { enqueueSnackbar } from "notistack";
-import { SizeDialog } from "../SizeDialog";
+import { SizeDialog } from "../Dialog/SizeDialog";
 import { axiosInstance } from "../../../api/AxiosInstance";
 
 export const SizeCard = ({ size, setSize }) => {

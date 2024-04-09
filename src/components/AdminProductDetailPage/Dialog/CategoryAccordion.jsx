@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { axiosInstance } from "../../api/AxiosInstance";
+import { axiosInstance } from "../../../api/AxiosInstance";
 
 const CategoryItem = ({ item, isActive }) => {
   return (

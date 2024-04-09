@@ -33,6 +33,10 @@ export const VariantCard = ({
   const [variantToUpdate, setVariantToUpdate] = React.useState(null);
 
   const handleUpdateVariant = async (file) => {
+    if (!file) {
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -109,6 +113,8 @@ export const VariantCard = ({
             borderRadius: 0,
             opacity: 0,
             "&:hover": {
+              bgcolor: theme.palette.primary.light,
+              color: theme.palette.common.white,
               opacity: 1,
               transition: "opacity .3s ease-in-out",
             },
