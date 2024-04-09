@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Add, ArrowBack, Edit } from "@mui/icons-material";
 
+import { enqueueSnackbar } from "notistack";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
@@ -85,7 +86,7 @@ const ProductCard = ({ product, setProduct }) => {
   );
 };
 
-const VariantCard = ({ variant, variantToView, setVariantToView }) => {
+const VariantCard = ({ variant, variantToView, setVariant }) => {
   const theme = useTheme();
   const getActiveStyle = () => {
     const isActive = variant.id === variantToView.id;
@@ -95,53 +96,36 @@ const VariantCard = ({ variant, variantToView, setVariantToView }) => {
         }
       : {};
   };
-
   const [variantToUpdate, setVariantToUpdate] = React.useState(null);
 
   const handleUpdateVariant = async (file) => {
-    const _uploadFile = async (file) => {
-      // repare file and upload...
-      let formData = new FormData();
-      formData.append("file", file);
-      try {
-        const response = await axiosInstance.post(`/upload/`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+    try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const { data: imgUrl } = await axiosInstance.post(`/upload/`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
         });
 
-        const { data } = response;
-        return data;
-      } catch (error) {
-        console.error(error);
-      }
-    };
+        variantToUpdate.image = imgUrl;
 
-    if (!file) {
-      return;
-    }
+        const { data } = await axiosInstance.put(`/variants/${variantToUpdate.id}`, variantToUpdate);
 
-    // upload file
-    const imageUrl = await _uploadFile(file);
-    if (!imageUrl) {
-      alert("Upload file failed!");
-      return;
-    }
-    // set image url for variant
-    setVariantToUpdate((prev) => ({ ...prev, image: imageUrl }));
-    try {
-      // update variant
-      const response = await axiosInstance.put(
-        `/variants/${variantToUpdate.id}`,
-        variantToUpdate
-      );
-      console.log(response);
-      alert("Update variant successfully!");
-      // TODO: reload variant
+        enqueueSnackbar(
+            <Typography>Update variant successfully!</Typography>,
+            {
+                variant: "success",
+            }
+        );
+        
+        setVariant(data);
+        setVariantToUpdate(null);
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-  };
+};
 
   return (
     <>
@@ -371,7 +355,14 @@ export const AdminProductDetailPage = () => {
                   <VariantCard
                     variant={x}
                     variantToView={variantToView}
-                    setVariantToView={setVariantToView}
+                    setVariant={(newVariant) =>
+                      setVariants((prev) => {
+                        const newVariants = prev.map((v) =>
+                          v.id !== x.id ? v : newVariant
+                        );
+                        return newVariants;
+                      })
+                    }
                   />
                 </Grid>
               ))}
