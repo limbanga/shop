@@ -31,6 +31,7 @@ export const VariantCard = ({
       : {};
   };
   const [variantToUpdate, setVariantToUpdate] = React.useState(null);
+  const [progress, setProgress] = React.useState(0);
 
   const handleUpdateVariant = async (file) => {
     if (!file) {
@@ -41,11 +42,23 @@ export const VariantCard = ({
       const formData = new FormData();
       formData.append("file", file);
 
-      const { data: imgUrl } = await axiosInstance.post(`/upload/`, formData, {
+      const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      });
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setProgress(progress);
+        },
+      };
+
+      const { data: imgUrl } = await axiosInstance.post(
+        `/upload/`,
+        formData,
+        config
+      );
 
       variantToUpdate.image = imgUrl;
 
@@ -58,6 +71,7 @@ export const VariantCard = ({
         variant: "success",
       });
 
+      setProgress(0);
       setVariant(data);
       setVariantToUpdate(null);
     } catch (error) {
@@ -65,6 +79,7 @@ export const VariantCard = ({
     }
   };
 
+  console.log(progress);
   return (
     <>
       <Paper
@@ -130,6 +145,7 @@ export const VariantCard = ({
           variant={variantToUpdate}
           setVariant={setVariantToUpdate}
           onSubmit={handleUpdateVariant}
+          progress={progress}
         />
       )}
     </>

@@ -1,16 +1,37 @@
 import React from "react";
 import {
+  Typography,
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
+  LinearProgress,
 } from "@mui/material";
 import { Upload } from "@mui/icons-material";
 
-export const VariantDialog = ({ variant, setVariant, onSubmit }) => {
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export const VariantDialog = ({
+  variant,
+  setVariant,
+  onSubmit,
+  progress = 0,
+}) => {
   const [file, setFile] = React.useState(null);
   const [blob, setBlob] = React.useState(null);
 
@@ -50,6 +71,7 @@ export const VariantDialog = ({ variant, setVariant, onSubmit }) => {
               />
             </Button>
           </Box>
+          {progress > 0 && <LinearProgressWithLabel value={progress} />}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setVariant(null)} color="error">
