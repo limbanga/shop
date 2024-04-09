@@ -16,75 +16,11 @@ import { Add, ArrowBack, Edit } from "@mui/icons-material";
 import { enqueueSnackbar } from "notistack";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
-import { ProductDialog } from "../../components/AdminProductDetailPage/ProductDialog";
 import { VariantDialog } from "../../components/AdminProductDetailPage/VariantDialog";
 import { useTheme } from "@emotion/react";
 import { SizeDialog } from "../../components/AdminProductDetailPage/SizeDialog";
+import { ProductCard } from "../../components/AdminProductDetailPage/Card/ProductCard";
 
-const ProductCard = ({ product, setProduct }) => {
-  const [productToUpdate, setProductToUpdate] = React.useState(null);
-
-  const handleUpdateProduct = async (inputData) => {
-    // set forgein key
-    inputData.category = productToUpdate.category;
-    try {
-      const respones = await axiosInstance.put(
-        `/products/${inputData.id}`,
-        inputData
-      );
-      if (respones.status !== 200) {
-        alert("Something went wrong!, HTTP status: " + respones.status);
-        return;
-      }
-      const { data } = respones;
-      setProduct(data);
-      setProductToUpdate(null);
-      alert("Update product successfully!");
-    } catch (error) {
-      alert("Error!");
-      console.log(error);
-    }
-  };
-  return (
-    <>
-      <Box
-        display={"flex"}
-        justifyContent={"space-between"}
-        alignItems={"start"}
-      >
-        <Typography variant="h3" gutterBottom>
-          Product detail
-        </Typography>
-        <Tooltip title="Edit product">
-          <IconButton onClick={() => setProductToUpdate(product)}>
-            <Edit />
-          </IconButton>
-        </Tooltip>
-      </Box>
-
-      <Box>
-        <Typography variant="h5" gutterBottom>
-          Name: {product?.name}
-        </Typography>
-        <Typography variant="h6" gutterBottom color={"grey.700"}>
-          Code: {product?.code}
-        </Typography>
-        <Typography variant="h6" gutterBottom color={"grey.700"}>
-          Category: {product?.category?.name}
-        </Typography>
-      </Box>
-      {/* product dialog */}
-      {productToUpdate && (
-        <ProductDialog
-          open={!!productToUpdate}
-          product={productToUpdate}
-          setProduct={setProductToUpdate}
-          onSubmit={handleUpdateProduct}
-        />
-      )}
-    </>
-  );
-};
 
 const VariantCard = ({ variant, variantToView, setVariant }) => {
   const theme = useTheme();
