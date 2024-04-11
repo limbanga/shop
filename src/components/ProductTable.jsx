@@ -59,7 +59,7 @@ export default function ProductTable() {
   }, []);
 
   return (
-    <Grid container columnSpacing={2}>
+    <Grid container spacing={1}>
       {products ? (
         products.map((x) => (
           <Grid key={x.id} item xs={3}>

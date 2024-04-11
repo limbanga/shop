@@ -6,6 +6,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import ProductTable from "../../components/ProductTable";
 import { axiosInstance } from "../../api/AxiosInstance";
+import { enqueueSnackbar } from "notistack";
 
 export const DashBoardPage = () => {
   const navigate = useNavigate();
@@ -23,6 +24,9 @@ export const DashBoardPage = () => {
     console.log(data);
     const { id } = data;
     navigate(`/admin/product/${id}`);
+    enqueueSnackbar(<Typography>Product created successfully</Typography>, {
+      variant: "success",
+    });
   };
 
   return (
