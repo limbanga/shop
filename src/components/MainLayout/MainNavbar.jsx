@@ -27,6 +27,7 @@ const UserDropDown = ({ anchorEl, setAnchorEl }) => {
     logout();
     setAnchorEl(null);
   };
+
   return (
     <Popover
       onClose={() => setAnchorEl(null)}
@@ -40,7 +41,7 @@ const UserDropDown = ({ anchorEl, setAnchorEl }) => {
         vertical: "top",
         horizontal: "right",
       }}
-      elevation={0}
+      elevation={1}
       sx={{ mt: ".25rem", display: { xs: "none", md: "block" } }}
     >
       <Paper variant="outlined" sx={{ width: "300px" }} square>

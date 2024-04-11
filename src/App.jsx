@@ -3,12 +3,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MainLayout from "./pages/MainLayout";
 import HomePage from "./pages/HomePage";
-import RegisterPage from "./pages/RegisterPage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import { DashBoardPage } from "./pages/admin/DashBoardPage";
-import { ProductChangePage } from "./pages/admin/ProductChangePage";
 import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
 import { AdminProductDetailPage } from "./pages/admin/AdminProductDetailPage";
 import NoPage from "./pages/errors/NoPage";
 
@@ -31,7 +30,6 @@ const App = () => {
           </Route>
           <Route path="/admin/" element={<AdminLayout />}>
             <Route index element={<DashBoardPage />} />
-            <Route path="product/create" element={<ProductChangePage />} />
             <Route path="product/:id" element={<AdminProductDetailPage />} />
           </Route>
         </Routes>
