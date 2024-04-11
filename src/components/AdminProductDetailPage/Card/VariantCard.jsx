@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Edit } from "@mui/icons-material";
+import { Edit, UploadFile } from "@mui/icons-material";
 
 import { enqueueSnackbar } from "notistack";
 import { useTheme } from "@emotion/react";
@@ -79,7 +79,6 @@ export const VariantCard = ({
     }
   };
 
-  console.log(progress);
   return (
     <>
       <Paper
@@ -90,53 +89,73 @@ export const VariantCard = ({
           height: "150px",
           display: "flex",
           flexDirection: "column",
-          p: ".5rem",
           ...getActiveStyle(),
         }}
       >
-        <IconButton
-          onClick={() => {
-            setVariantToUpdate(variant);
-          }}
-          sx={{ position: "absolute", right: 0, top: 0 }}
-        >
-          <Tooltip title="Edit variant">
-            <Edit fontSize="small" />
-          </Tooltip>
-        </IconButton>
+        {/* img */}
+        {variant?.image ? (
+          <Box
+            component={"img"}
+            src={variant.image}
+            alt="variant"
+            sx={{
+              height: "100%",
+              width: "100%",
+              objectFit: "contain",
+              objectPosition: "center",
+            }}
+          />
+        ) : (
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            height={"100%"}
+          >
+            <UploadFile color="action" fontSize="large" />
+            <Typography variant="caption" textAlign={"center"}>
+              No image for this variant.
+              <br />
+              Upload now
+            </Typography>
+          </Box>
+        )}
+
         <Box
-          component={"img"}
-          src={variant.image}
-          alt="variant"
-          sx={{
-            height: "100%",
-            width: "100%",
-            objectFit: "contain",
-            objectPosition: "center",
-          }}
-        />
-        <Button
-          onClick={() => setVariantToView(variant)}
-          color="inherit"
-          size="small"
-          fullWidth
           sx={{
             position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            borderRadius: 0,
+            width: "100%",
+            height: "100%",
             opacity: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
             "&:hover": {
-              bgcolor: theme.palette.primary.light,
-              color: theme.palette.common.white,
+              bgcolor: "white",
               opacity: 1,
               transition: "opacity .3s ease-in-out",
             },
           }}
         >
-          View
-        </Button>
+          <Button
+            onClick={() => setVariantToView(variant)}
+            color="dark"
+            fullWidth
+          >
+            View sizes
+          </Button>
+          <Button
+            onClick={() => {
+              setVariantToUpdate(variant);
+            }}
+            color="primary"
+            fullWidth
+          >
+            Change image
+          </Button>
+        </Box>
       </Paper>
 
       {/* variant dialog */}

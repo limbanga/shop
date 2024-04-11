@@ -41,23 +41,7 @@ const AdminProductCard = ({ product }) => {
   );
 };
 
-export default function ProductTable() {
-  const [products, setProducts] = React.useState(null);
-
-  React.useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axiosInstance.get("/products/");
-        const { data } = response;
-        setProducts(data);
-      } catch (error) {
-        alert("Error fetching products");
-        console.error(error);
-      }
-    };
-    fetchProducts();
-  }, []);
-
+export default function ProductTable({products}) {
   return (
     <Grid container spacing={1}>
       {products ? (

@@ -10,6 +10,18 @@ import { enqueueSnackbar } from "notistack";
 
 export const DashBoardPage = () => {
   const navigate = useNavigate();
+  const [products, setProducts] = React.useState(null);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axiosInstance.get("/products/");
+      const { data } = response;
+      setProducts(data);
+    } catch (error) {
+      alert("Error fetching products");
+      console.error(error);
+    }
+  };
 
   const createNewProduct = async () => {
     const product = {
@@ -29,6 +41,10 @@ export const DashBoardPage = () => {
     });
   };
 
+  React.useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <Container sx={{ mt: "5rem" }}>
       <Box
@@ -46,7 +62,7 @@ export const DashBoardPage = () => {
       </Box>
 
       <Box sx={{ mt: "1rem" }}>
-        <ProductTable />
+        <ProductTable products={products} />
       </Box>
     </Container>
   );

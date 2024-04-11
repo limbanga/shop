@@ -16,6 +16,7 @@ import { axiosInstance } from "../../api/AxiosInstance";
 import { ProductCard } from "../../components/AdminProductDetailPage/Card/ProductCard";
 import { VariantCard } from "../../components/AdminProductDetailPage/Card/VariantCard";
 import { SizeCard } from "../../components/AdminProductDetailPage/Card/SizeCard";
+import { enqueueSnackbar } from "notistack";
 
 export const AdminProductDetailPage = () => {
   const { id } = useParams();
@@ -25,6 +26,18 @@ export const AdminProductDetailPage = () => {
   const [variantToView, setVariantToView] = React.useState(null);
   const [sizes, setSizes] = React.useState([]);
 
+  const createVariant = async () => {
+    const variant = {
+      product: {
+        id: id,
+      },
+    };
+    const response = await axiosInstance.post("/variants/", variant);
+    const { data } = response;
+    setVariants((prev) => [...prev, data]);
+    setVariantToView(data);
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -32,6 +45,9 @@ export const AdminProductDetailPage = () => {
         const { data } = response;
         setProduct(data);
       } catch (error) {
+        enqueueSnackbar(<Typography>Error when loading product</Typography>, {
+          variant: "error",
+        });
         console.error(error);
       }
     };
@@ -99,12 +115,15 @@ export const AdminProductDetailPage = () => {
               <Typography variant="h5" gutterBottom>
                 Product Variants
               </Typography>
-              <IconButton>
+              <IconButton onClick={createVariant}>
                 <Add />
               </IconButton>
             </Box>
             {/* list variants */}
             <Grid container spacing={1} my={".5rem"}>
+              {variants.length === 0 && (
+                <Typography>Let's create variants for this product</Typography>
+              )}
               {variants.map((x) => (
                 <Grid key={x.id} item xs={6} md={3}>
                   <VariantCard
