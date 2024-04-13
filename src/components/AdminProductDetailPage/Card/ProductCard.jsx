@@ -159,9 +159,6 @@ export const ProductCard = ({ product, setProduct }) => {
         <Dialog
           open={!!productToDelete}
           onClose={() => setProductToUpdate(null)}
-          onSubmit={() => {
-            console.log("deleted");
-          }}
         >
           <DialogTitle>Do you want to delete this product?</DialogTitle>
           <DialogContent>

@@ -3,6 +3,11 @@ import React from "react";
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   Paper,
   Popover,
@@ -17,7 +22,7 @@ import { useTheme } from "@emotion/react";
 import { VariantDialog } from "../Dialog/VariantDialog";
 import { axiosInstance } from "../../../api/AxiosInstance";
 
-const VariantActionPopover = ({
+const ActionPopover = ({
   anchorEl,
   setAnchorEl,
   openVariantDialog,
@@ -66,6 +71,7 @@ export const VariantCard = ({
   setVariant,
   variantToView,
   setVariantToView,
+  reloadVariants,
 }) => {
   const theme = useTheme();
 
@@ -78,65 +84,87 @@ export const VariantCard = ({
       : {};
   };
   const [variantToUpdate, setVariantToUpdate] = React.useState(null);
+  const [variantToDelete, setVariantToDelete] = React.useState(null);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
 
-const handleUpdateVariant = async (file) => {
-  if (!file) {
-    return;
-  }
+  const handleUpdate = async (file) => {
+    if (!file) {
+      return;
+    }
 
-  try {
-    const formData = new FormData();
-    formData.append("file", file);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      onUploadProgress: (progressEvent) => {
-        const progress = Math.round(
-          (progressEvent.loaded * 50) / progressEvent.total
-        );
-        setProgress(progress);
-      },
-    };
-
-    const { data: imgUrl } = await axiosInstance.post(
-      `/upload/`,
-      formData,
-      config
-    );
-
-    variantToUpdate.image = imgUrl;
-
-    const { data } = await axiosInstance.put(
-      `/variants/${variantToUpdate.id}`,
-      variantToUpdate,
-      {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         onUploadProgress: (progressEvent) => {
-          const progress = 50 + Math.round(
+          const progress = Math.round(
             (progressEvent.loaded * 50) / progressEvent.total
           );
           setProgress(progress);
         },
-      }
-    );
+      };
 
-    enqueueSnackbar(<Typography>Update variant successfully!</Typography>, {
-      variant: "success",
-    });
+      const { data: imgUrl } = await axiosInstance.post(
+        `/upload/`,
+        formData,
+        config
+      );
 
-    setProgress(0);
-    setVariant(data);
-    setVariantToUpdate(null);
-  } catch (error) {
-    console.error(error);
-  }
-};
+      variantToUpdate.image = imgUrl;
+
+      const { data } = await axiosInstance.put(
+        `/variants/${variantToUpdate.id}`,
+        variantToUpdate,
+        {
+          onUploadProgress: (progressEvent) => {
+            const progress =
+              50 +
+              Math.round((progressEvent.loaded * 50) / progressEvent.total);
+            setProgress(progress);
+          },
+        }
+      );
+
+      enqueueSnackbar(<Typography>Update variant successfully!</Typography>, {
+        variant: "success",
+      });
+
+      setProgress(0);
+      setVariant(data);
+      setVariantToUpdate(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axiosInstance.delete(`/variants/${variant.id}`);
+      enqueueSnackbar(<Typography>Delete variant successfully</Typography>, {
+        variant: "success",
+      });
+      reloadVariants();
+    } catch (error) {
+      enqueueSnackbar(<Typography>Something went wrong!</Typography>, {
+        variant: "error",
+      });
+      console.error(error);
+    }
+  };
 
   const openUpdateDialog = () => {
     setVariantToUpdate(variant);
+    setAnchorEl(null);
+  };
+
+  const openDeleteDialog = () => {
+    setVariantToDelete(variant);
     setAnchorEl(null);
   };
 
@@ -199,15 +227,39 @@ const handleUpdateVariant = async (file) => {
         <VariantDialog
           variant={variantToUpdate}
           setVariant={setVariantToUpdate}
-          onSubmit={handleUpdateVariant}
+          onSubmit={handleUpdate}
           progress={progress}
         />
       )}
+      {/* delete dialog */}
+      {variantToDelete && (
+        <Dialog
+          open={!!variantToDelete}
+          onClose={() => setVariantToDelete(null)}
+        >
+          <DialogTitle>Do you want to delete this variant?</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              This variant and all of its data will be permanently removed. Are
+              you sure to delete this variant?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setVariantToDelete(null)} color="inherit">
+              Cancel
+            </Button>
+            <Button onClick={handleDelete} color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
       {/* variant action */}
-      <VariantActionPopover
+      <ActionPopover
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
         openVariantDialog={openUpdateDialog}
+        openDeleteDialog={openDeleteDialog}
       />
     </>
   );

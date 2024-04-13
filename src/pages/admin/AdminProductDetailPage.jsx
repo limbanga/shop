@@ -26,6 +26,19 @@ export const AdminProductDetailPage = () => {
   const [variantToView, setVariantToView] = React.useState(null);
   const [sizes, setSizes] = React.useState([]);
 
+  const fetchVariants = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/variants/filter-by?productId=${id}`
+      );
+      const { data } = response;
+      setVariants(data);
+      setVariantToView(data[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const createVariant = async () => {
     const variant = {
       product: {
@@ -59,18 +72,6 @@ export const AdminProductDetailPage = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchVariants = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/variants/filter-by?productId=${id}`
-        );
-        const { data } = response;
-        setVariants(data);
-        setVariantToView(data[0]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchVariants();
   }, [product]);
 
@@ -87,7 +88,7 @@ export const AdminProductDetailPage = () => {
       }
     };
 
-    variantToView && fetchSizes(variantToView.id);
+    variantToView ? fetchSizes(variantToView.id) : setSizes([]);
   }, [variantToView]);
 
   return (
@@ -141,6 +142,7 @@ export const AdminProductDetailPage = () => {
                     }
                     variantToView={variantToView}
                     setVariantToView={setVariantToView}
+                    reloadVariants={fetchVariants}
                   />
                 </Grid>
               ))}
