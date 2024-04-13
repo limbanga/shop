@@ -19,11 +19,11 @@ import { axiosInstance } from "../../../api/AxiosInstance";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 
-const ProductActionPopover = ({
+const ActionPopover = ({
   anchorEl,
   setAnchorEl,
-  openProductDialog,
-  handleDeleteProduct,
+  openUpdateDialog,
+  openDeleteDialog,
 }) => {
   return (
     <Popover
@@ -42,7 +42,7 @@ const ProductActionPopover = ({
       slotProps={{ paper: { variant: "outlined" } }}
     >
       <Button
-        onClick={openProductDialog}
+        onClick={openUpdateDialog}
         color="inherit"
         size="small"
         fullWidth
@@ -51,7 +51,7 @@ const ProductActionPopover = ({
         Edit
       </Button>
       <Button
-        onClick={handleDeleteProduct}
+        onClick={openDeleteDialog}
         color="error"
         size="small"
         fullWidth
@@ -67,11 +67,10 @@ export const ProductCard = ({ product, setProduct }) => {
   const navigate = useNavigate();
 
   const [productToUpdate, setProductToUpdate] = React.useState(null);
-  const [productToDelete, setProductToDelete] = React.useState(1);
-
+  const [productToDelete, setProductToDelete] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleUpdateProduct = async (inputData) => {
+  const handleUpdate = async (inputData) => {
     // set forgein key
     inputData.category = productToUpdate.category;
     try {
@@ -152,7 +151,7 @@ export const ProductCard = ({ product, setProduct }) => {
         <ProductDialog
           product={productToUpdate}
           setProduct={setProductToUpdate}
-          onSubmit={handleUpdateProduct}
+          onSubmit={handleUpdate}
         />
       )}
       {/* delete dialog */}
@@ -182,11 +181,11 @@ export const ProductCard = ({ product, setProduct }) => {
         </Dialog>
       )}
       {/* product action */}
-      <ProductActionPopover
+      <ActionPopover
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
-        openProductDialog={openProductDialog}
-        handleDeleteProduct={openDeleteDialog}
+        openUpdateDialog={openProductDialog}
+        openDeleteDialog={openDeleteDialog}
       />
     </>
   );

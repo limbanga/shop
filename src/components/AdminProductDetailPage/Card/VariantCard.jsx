@@ -81,53 +81,61 @@ export const VariantCard = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
 
-  const handleUpdateVariant = async (file) => {
-    if (!file) {
-      return;
-    }
+const handleUpdateVariant = async (file) => {
+  if (!file) {
+    return;
+  }
 
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
 
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress: (progressEvent) => {
+        const progress = Math.round(
+          (progressEvent.loaded * 50) / progressEvent.total
+        );
+        setProgress(progress);
+      },
+    };
+
+    const { data: imgUrl } = await axiosInstance.post(
+      `/upload/`,
+      formData,
+      config
+    );
+
+    variantToUpdate.image = imgUrl;
+
+    const { data } = await axiosInstance.put(
+      `/variants/${variantToUpdate.id}`,
+      variantToUpdate,
+      {
         onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
+          const progress = 50 + Math.round(
+            (progressEvent.loaded * 50) / progressEvent.total
           );
           setProgress(progress);
         },
-      };
+      }
+    );
 
-      const { data: imgUrl } = await axiosInstance.post(
-        `/upload/`,
-        formData,
-        config
-      );
+    enqueueSnackbar(<Typography>Update variant successfully!</Typography>, {
+      variant: "success",
+    });
 
-      variantToUpdate.image = imgUrl;
+    setProgress(0);
+    setVariant(data);
+    setVariantToUpdate(null);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-      const { data } = await axiosInstance.put(
-        `/variants/${variantToUpdate.id}`,
-        variantToUpdate
-      );
-
-      enqueueSnackbar(<Typography>Update variant successfully!</Typography>, {
-        variant: "success",
-      });
-
-      setProgress(0);
-      setVariant(data);
-      setVariantToUpdate(null);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleOpenVariantDialog = () => {
+  const openUpdateDialog = () => {
     setVariantToUpdate(variant);
     setAnchorEl(null);
   };
@@ -199,7 +207,7 @@ export const VariantCard = ({
       <VariantActionPopover
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
-        openVariantDialog={handleOpenVariantDialog}
+        openVariantDialog={openUpdateDialog}
       />
     </>
   );
