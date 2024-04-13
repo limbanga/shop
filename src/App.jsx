@@ -6,10 +6,11 @@ import { ProductDetailPage } from "./pages/ProductDetailPage";
 import AdminLayout from "./layouts/AdminLayout";
 import { DashBoardPage } from "./pages/admin/DashBoardPage";
 import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
 import { AdminProductDetailPage } from "./pages/admin/AdminProductDetailPage";
 import NoPage from "./pages/errors/NoPage";
 import MainLayout from "./layouts/MainLayout";
+import { CartDetailPage } from "./pages/CartDetailPage";
+import { RegisterPage } from "./pages/auth/RegisterPage";
 
 const App = () => {
   return (
@@ -26,6 +27,9 @@ const App = () => {
               path="/product/:productSlug"
               element={<ProductDetailPage />}
             />
+            {/* cart */}
+            <Route path="/cart" element={<CartDetailPage />} />
+
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="/admin/" element={<AdminLayout />}>
