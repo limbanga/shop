@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import MainLayout from "./pages/MainLayout";
 import HomePage from "./pages/HomePage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
-import AdminLayout from "./pages/admin/AdminLayout";
+import AdminLayout from "./layouts/AdminLayout";
 import { DashBoardPage } from "./pages/admin/DashBoardPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import { AdminProductDetailPage } from "./pages/admin/AdminProductDetailPage";
 import NoPage from "./pages/errors/NoPage";
+import MainLayout from "./layouts/MainLayout";
 
 const App = () => {
   return (
