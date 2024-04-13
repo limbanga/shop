@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 
-import { Box, Paper, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Chip,
+  FormControlLabel,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Edit } from "@mui/icons-material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { enqueueSnackbar } from "notistack";
 import { SizeDialog } from "../Dialog/SizeDialog";
@@ -33,12 +43,19 @@ export const SizeCard = ({ size, setSize }) => {
         variant="outlined"
         square
         sx={{
-          height: "90px",
           p: ".5rem",
         }}
       >
         <Box display={"flex"} justifyContent={"space-between"}>
-          <Typography variant="h6">Size {size.productSize}</Typography>
+          <Stack direction={'row'} alignItems={'center'} spacing={'.5rem'}>
+            <Typography variant="body1">Size {size.productSize}</Typography>
+            <Chip
+              label={size?.isActive ? "Active" : "Deactive"}
+              color={size?.isActive ? "success" : "default"}
+              size="small"
+              variant="outlined"
+            />
+          </Stack>
           <Tooltip
             onClick={() => {
               setSizeToUpdate(size);

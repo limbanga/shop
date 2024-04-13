@@ -149,21 +149,11 @@ export const AdminProductDetailPage = () => {
 
         {/* sizes */}
         <Box>
-          <Box
-            mt={".5rem"}
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Typography variant="h5" my={".5rem"}>
-              Sizes
-            </Typography>
-            <IconButton>
-              <Add />
-            </IconButton>
-          </Box>
+          <Typography variant="h5" my={".5rem"}>
+            Sizes
+          </Typography>
           {/* list size */}
-          <Grid container columnSpacing={3} my={".5rem"}>
+          <Grid container spacing={1} my={".5rem"}>
             {sizes?.map((x) => (
               <Grid key={x.id} item xs={6} sm={4} md={3} lg={2}>
                 <SizeCard

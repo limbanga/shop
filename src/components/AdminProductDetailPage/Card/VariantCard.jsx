@@ -5,15 +5,61 @@ import {
   Button,
   IconButton,
   Paper,
+  Popover,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Edit, UploadFile } from "@mui/icons-material";
+import { Delete, Edit, UploadFile } from "@mui/icons-material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { enqueueSnackbar } from "notistack";
 import { useTheme } from "@emotion/react";
 import { VariantDialog } from "../Dialog/VariantDialog";
 import { axiosInstance } from "../../../api/AxiosInstance";
+
+const VariantActionPopover = ({
+  anchorEl,
+  setAnchorEl,
+  openVariantDialog,
+  openDeleteDialog,
+}) => {
+  return (
+    <Popover
+      open={!!anchorEl}
+      anchorEl={anchorEl}
+      onClose={() => setAnchorEl(null)}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      elevation={1}
+      slotProps={{ paper: { variant: "outlined" } }}
+    >
+      <Button
+        onClick={openVariantDialog}
+        color="inherit"
+        size="small"
+        fullWidth
+        startIcon={<Edit />}
+      >
+        Edit
+      </Button>
+      <Button
+        onClick={openDeleteDialog}
+        color="error"
+        size="small"
+        fullWidth
+        startIcon={<Delete />}
+      >
+        Delete
+      </Button>
+    </Popover>
+  );
+};
 
 export const VariantCard = ({
   variant,
@@ -22,6 +68,7 @@ export const VariantCard = ({
   setVariantToView,
 }) => {
   const theme = useTheme();
+
   const getActiveStyle = () => {
     const isActive = variant.id === variantToView.id;
     return isActive
@@ -31,6 +78,7 @@ export const VariantCard = ({
       : {};
   };
   const [variantToUpdate, setVariantToUpdate] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
 
   const handleUpdateVariant = async (file) => {
@@ -79,6 +127,11 @@ export const VariantCard = ({
     }
   };
 
+  const handleOpenVariantDialog = () => {
+    setVariantToUpdate(variant);
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <Paper
@@ -91,6 +144,7 @@ export const VariantCard = ({
           flexDirection: "column",
           ...getActiveStyle(),
         }}
+        onClick={() => setVariantToView(variant)}
       >
         {/* img */}
         {variant?.image ? (
@@ -122,40 +176,14 @@ export const VariantCard = ({
           </Box>
         )}
 
-        <Box
-          sx={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            opacity: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            "&:hover": {
-              bgcolor: "white",
-              opacity: 1,
-              transition: "opacity .3s ease-in-out",
-            },
+        <IconButton
+          onClick={(e) => {
+            setAnchorEl(e.currentTarget);
           }}
+          sx={{ position: "absolute", top: 0, right: 0 }}
         >
-          <Button
-            onClick={() => setVariantToView(variant)}
-            color="dark"
-            fullWidth
-          >
-            View sizes
-          </Button>
-          <Button
-            onClick={() => {
-              setVariantToUpdate(variant);
-            }}
-            color="primary"
-            fullWidth
-          >
-            Change image
-          </Button>
-        </Box>
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
       </Paper>
 
       {/* variant dialog */}
@@ -167,6 +195,12 @@ export const VariantCard = ({
           progress={progress}
         />
       )}
+      {/* variant action */}
+      <VariantActionPopover
+        anchorEl={anchorEl}
+        setAnchorEl={setAnchorEl}
+        openVariantDialog={handleOpenVariantDialog}
+      />
     </>
   );
 };
