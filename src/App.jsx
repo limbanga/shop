@@ -11,6 +11,7 @@ import NoPage from "./pages/errors/NoPage";
 import MainLayout from "./layouts/MainLayout";
 import { CartDetailPage } from "./pages/CartDetailPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
+import { CheckoutPage } from "./pages/CheckoutPage";
 
 const App = () => {
   return (
@@ -29,7 +30,7 @@ const App = () => {
             />
             {/* cart */}
             <Route path="/cart" element={<CartDetailPage />} />
-
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="/admin/" element={<AdminLayout />}>
