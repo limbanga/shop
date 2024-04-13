@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { Box, IconButton, Popover, Typography, Button } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Popover,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Delete, Edit } from "@mui/icons-material";
 import { ProductDialog } from "../Dialog/ProductDialog";
@@ -56,6 +67,8 @@ export const ProductCard = ({ product, setProduct }) => {
   const navigate = useNavigate();
 
   const [productToUpdate, setProductToUpdate] = React.useState(null);
+  const [productToDelete, setProductToDelete] = React.useState(1);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleUpdateProduct = async (inputData) => {
@@ -78,7 +91,7 @@ export const ProductCard = ({ product, setProduct }) => {
     }
   };
 
-  const handleDeleteProduct = async () => {
+  const handleDelete = async () => {
     try {
       await axiosInstance.delete(`/products/${product.id}`);
       setProduct(null);
@@ -87,10 +100,18 @@ export const ProductCard = ({ product, setProduct }) => {
       });
       navigate("/admin/");
     } catch (error) {
-      alert("Error!");
-      console.log(error);
+      enqueueSnackbar(<Typography>Something went wrong!</Typography>, {
+        variant: "error",
+      });
+      console.error(error);
     }
   };
+
+  const openDeleteDialog = () => {
+    setProductToDelete(product);
+    setAnchorEl(null);
+  };
+
   const openProductDialog = () => {
     setProductToUpdate(product);
     setAnchorEl(null);
@@ -134,12 +155,38 @@ export const ProductCard = ({ product, setProduct }) => {
           onSubmit={handleUpdateProduct}
         />
       )}
+      {/* delete dialog */}
+      {productToDelete && (
+        <Dialog
+          open={!!productToDelete}
+          onClose={() => setProductToUpdate(null)}
+          onSubmit={() => {
+            console.log("deleted");
+          }}
+        >
+          <DialogTitle>Do you want to delete this product?</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              This product and all of its data will be permanently removed. Are
+              you sure to delete this product?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setProductToDelete(null)} color="inherit">
+              Cancel
+            </Button>
+            <Button onClick={handleDelete} color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
       {/* product action */}
       <ProductActionPopover
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
         openProductDialog={openProductDialog}
-        handleDeleteProduct={handleDeleteProduct}
+        handleDeleteProduct={openDeleteDialog}
       />
     </>
   );

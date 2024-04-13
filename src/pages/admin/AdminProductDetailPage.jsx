@@ -36,6 +36,9 @@ export const AdminProductDetailPage = () => {
     const { data } = response;
     setVariants((prev) => [...prev, data]);
     setVariantToView(data);
+    enqueueSnackbar(<Typography>Variant created successfully</Typography>, {
+      variant: "success",
+    });
   };
 
   useEffect(() => {
