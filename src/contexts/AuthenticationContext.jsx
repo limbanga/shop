@@ -37,8 +37,17 @@ const AuthenticationProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  const registerAsync = async (registerForm) => {
+    const response = await axiosInstance.post("/register", registerForm);
+    if (response.status !== 200) {
+      throw new Error("Register failed");
+    }
+  };
+
   return (
-    <AuthenticationContext.Provider value={{ currentUser, loginAsync, logout }}>
+    <AuthenticationContext.Provider
+      value={{ currentUser, loginAsync, registerAsync, logout }}
+    >
       {children}
     </AuthenticationContext.Provider>
   );

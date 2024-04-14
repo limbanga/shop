@@ -10,6 +10,8 @@ import {
   Typography,
   Popover,
   Paper,
+  Icon,
+  IconButton,
 } from "@mui/material";
 import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAltOutlined";
 import { ExpandMore, FavoriteBorder, ShoppingBag } from "@mui/icons-material";
@@ -102,11 +104,14 @@ const MainNavbar = () => {
                   ml: "auto",
                   display: "flex",
                   alignItems: "center",
-                  gap: ".5rem",
                 }}
               >
-                <ShoppingBag color="action" fontSize="small" />
-                <FavoriteBorder color="error" fontSize="small" />
+                <IconButton LinkComponent={RouterLink} to="/cart">
+                  <ShoppingBag color="action" fontSize="small" />
+                </IconButton>
+                <IconButton>
+                  <FavoriteBorder color="error" fontSize="small" />
+                </IconButton>
                 <SignalCellularAltOutlinedIcon
                   onClick={() => setOpenMainDrawer(true)}
                   sx={{
@@ -125,14 +130,16 @@ const MainNavbar = () => {
                   >
                     Hello {currentUser.username}
                   </Button>
-                  {/* TODO: add drop down button here */}
-                  {/* <Button onClick={logout} color="dark" variant="outlined">
-                    Logout
-                  </Button> */}
                 </Box>
               ) : (
                 <ButtonGroup sx={{ display: { xs: "none", md: "block" } }}>
-                  <Button color="dark" variant="outlined" disableElevation>
+                  <Button
+                    LinkComponent={RouterLink}
+                    to={"/register"}
+                    color="dark"
+                    variant="outlined"
+                    disableElevation
+                  >
                     Register
                   </Button>
                   <Button

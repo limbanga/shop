@@ -168,7 +168,8 @@ const LoginPage = () => {
             </Grid>
           </Grid>
 
-          <Box textAlign="center" mt={"1rem"}>
+          <Typography textAlign="center" mt={"1rem"}>
+            Don't have an account?
             <Typography
               component={RouterLink}
               to="/register"
@@ -178,9 +179,10 @@ const LoginPage = () => {
                 "&:hover": { color: "primary.main" },
               }}
             >
-              Don't have an account? Register now
+              {" "}
+              Register now
             </Typography>
-          </Box>
+          </Typography>
         </Paper>
       </Container>
     </>

@@ -16,10 +16,11 @@ import React, { useContext, useEffect } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { useForm } from "react-hook-form";
+import { enqueueSnackbar } from "notistack";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
-  const { currentUser, loginAsync } = useContext(AuthenticationContext);
+  const { currentUser, registerAsync } = useContext(AuthenticationContext);
 
   useEffect(() => {
     if (currentUser) {
@@ -33,18 +34,34 @@ export const RegisterPage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      username: "",
       password: "",
     },
   });
 
-  const onLogin = async (data) => {
-    const { email, password } = data;
-    if (email === undefined) {
-      return;
+  const onRegister = async (data) => {
+    const { firstName, lastName, phoneNumber, username, password } = data;
+    try {
+      await registerAsync({
+        firstName,
+        lastName,
+        phoneNumber,
+        username,
+        password,
+      });
+      enqueueSnackbar(<Typography>Register successfully</Typography>, {
+        variant: "success",
+      });
+      navigate("/login");
+    } catch (error) {
+      enqueueSnackbar(<Typography>Register failed</Typography>, {
+        variant: "error",
+      });
+      console.error(error);
     }
-    await loginAsync(email, password);
-    navigate("/");
   };
 
   return (
@@ -53,7 +70,7 @@ export const RegisterPage = () => {
         <Paper
           component={"form"}
           method="post"
-          onSubmit={handleSubmit(onLogin)}
+          onSubmit={handleSubmit(onRegister)}
           noValidate
           variant="outlined"
           sx={{
@@ -73,9 +90,9 @@ export const RegisterPage = () => {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
-                // {...register("email", { required: "required" })}
-                // error={!!errors.email}
-                // helperText={errors.email?.message}
+                {...register("firstName", { required: "required" })}
+                error={!!errors.firstName}
+                helperText={errors.firstName?.message}
                 fullWidth
                 label="First Name"
                 required
@@ -87,9 +104,9 @@ export const RegisterPage = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                // {...register("email", { required: "required" })}
-                // error={!!errors.email}
-                // helperText={errors.email?.message}
+                {...register("lastName", { required: "required" })}
+                error={!!errors.lastName}
+                helperText={errors.lastName?.message}
                 fullWidth
                 label="Last Name"
                 required
@@ -102,12 +119,19 @@ export const RegisterPage = () => {
           </Grid>
           {/* Phone number */}
           <TextField
-            // {...register("email", { required: "required" })}
-            // error={!!errors.email}
-            // helperText={errors.email?.message}
+            {...register("phoneNumber", {
+              required: "required",
+              pattern: {
+                value:
+                  /^((\+|00)84|0)(3[2-9]|5[2689]|7[06-9]|8[1-689]|9[0-46-9])([0-9]{7,8})$/,
+                message: "invalid phone number",
+              },
+            })}
+            error={!!errors.phoneNumber}
+            helperText={errors.phoneNumber?.message}
             fullWidth
             label="Phone number"
-            type="tel"
+            type="number"
             required
             variant="outlined"
             margin="normal"
@@ -116,9 +140,15 @@ export const RegisterPage = () => {
           />
           {/* Email */}
           <TextField
-            {...register("email", { required: "required" })}
-            error={!!errors.email}
-            helperText={errors.email?.message}
+            {...register("username", {
+              required: "required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "invalid email",
+              },
+            })}
+            error={!!errors.username}
+            helperText={errors.username?.message}
             fullWidth
             label="Email"
             type="email"
@@ -130,7 +160,17 @@ export const RegisterPage = () => {
           />
           {/* Password */}
           <TextField
-            {...register("password", { required: "required" })}
+            {...register("password", {
+              required: "required",
+              minLength: {
+                value: 6,
+                message: "password must be at least 6 characters",
+              },
+              maxLength: {
+                value: 20,
+                message: "password must be at most 20 characters",
+              },
+            })}
             error={!!errors.password}
             helperText={errors.password?.message}
             fullWidth
@@ -158,7 +198,7 @@ export const RegisterPage = () => {
           </Box>
           {/* Button */}
           <Button
-            onClick={onLogin}
+            onClick={onRegister}
             type="submit"
             fullWidth
             variant="contained"
@@ -210,22 +250,21 @@ export const RegisterPage = () => {
             </Grid>
           </Grid>
 
-          <Box textAlign="center" mt={"1rem"}>
-            <Typography>
-              Already member?
-              <Typography
-                component={RouterLink}
-                to="/register"
-                sx={{
-                  color: "inherit",
-                  textDecoration: "none",
-                  "&:hover": { color: "primary.main" },
-                }}
-              >
-                Login now
-              </Typography>
+          <Typography textAlign="center" mt={"1rem"}>
+            Already member?
+            <Typography
+              component={RouterLink}
+              to="/login"
+              sx={{
+                color: "inherit",
+                textDecoration: "none",
+                "&:hover": { color: "primary.main" },
+              }}
+            >
+              {" "}
+              Login now
             </Typography>
-          </Box>
+          </Typography>
         </Paper>
       </Container>
     </>
