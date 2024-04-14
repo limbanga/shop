@@ -12,15 +12,23 @@ import {
   Paper,
   Icon,
   IconButton,
+  Badge,
+  Divider,
 } from "@mui/material";
 import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAltOutlined";
-import { ExpandMore, FavoriteBorder, ShoppingBag } from "@mui/icons-material";
+import {
+  ArrowRightAlt,
+  ExpandMore,
+  FavoriteBorder,
+  ShoppingBag,
+} from "@mui/icons-material";
 
 import { MainDrawer } from "./MainDrawer";
 import { BrandLogo } from "./BrandLogo";
 import { Link as RouterLink } from "react-router-dom";
 import { routes } from "../../appconst/routes";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { CartContext } from "../../contexts/CartContext";
 
 const UserDropDown = ({ anchorEl, setAnchorEl }) => {
   const { currentUser, logout } = useContext(AuthenticationContext);
@@ -70,12 +78,79 @@ const UserDropDown = ({ anchorEl, setAnchorEl }) => {
   );
 };
 
+const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
+  const { cartItems } = useContext(CartContext);
+
+  return (
+    <Popover
+      onClose={() => setAnchorEl(null)}
+      open={!!anchorEl}
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      elevation={1}
+      sx={{ mt: ".25rem", display: { xs: "none", md: "block" } }}
+      slotProps={{
+        paper: {
+          variant: "outlined",
+          sx: {
+            width: "300px",
+            padding: ".5rem",
+          },
+        },
+      }}
+    >
+      <Typography variant="h6" gutterBottom>
+        Cart Preview
+      </Typography>
+      <Typography variant="caption" gutterBottom>
+        Cart items will be displayed here
+      </Typography>
+      <Box sx={{ height: "200px" }}>
+        {cartItems &&
+          cartItems.map((item) => (
+            <Box>
+              <Typography>Item name</Typography>
+              <Typography variant="caption">Item price</Typography>
+              <br />
+              <Typography variant="caption">Item quantity</Typography>
+              <Divider />
+            </Box>
+          ))}
+        {!cartItems && <Typography>No items in the cart</Typography>}
+      </Box>
+      <Button
+        onClick={() => setAnchorEl(null)}
+        LinkComponent={RouterLink}
+        to="/cart"
+        fullWidth
+        size="small"
+        variant="contained"
+        color="dark"
+        disableElevation
+        endIcon={<ArrowRightAlt />}
+      >
+        View cart detail
+      </Button>
+    </Popover>
+  );
+};
+
 const MainNavbar = () => {
+  const { cartItems } = useContext(CartContext);
   const { currentUser, logout } = useContext(AuthenticationContext);
 
   const [openMainDrawer, setOpenMainDrawer] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [cartAnchorEl, setCartAnchorEl] = React.useState(null);
 
+  console.log(cartAnchorEl);
   return (
     <>
       <AppBar color="default" variant="outlined" elevation={0}>
@@ -106,8 +181,10 @@ const MainNavbar = () => {
                   alignItems: "center",
                 }}
               >
-                <IconButton LinkComponent={RouterLink} to="/cart">
-                  <ShoppingBag color="action" fontSize="small" />
+                <IconButton onClick={(e) => setCartAnchorEl(e.currentTarget)}>
+                  <Badge badgeContent={cartItems.length} color="error">
+                    <ShoppingBag color="action" fontSize="small" />
+                  </Badge>
                 </IconButton>
                 <IconButton>
                   <FavoriteBorder color="error" fontSize="small" />
@@ -157,8 +234,13 @@ const MainNavbar = () => {
           </Toolbar>
         </Container>
       </AppBar>
+      {/* hidden */}
       <MainDrawer open={openMainDrawer} setOpen={setOpenMainDrawer} />
       <UserDropDown anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+      <CartPreviewPopover
+        anchorEl={cartAnchorEl}
+        setAnchorEl={setCartAnchorEl}
+      />
     </>
   );
 };
