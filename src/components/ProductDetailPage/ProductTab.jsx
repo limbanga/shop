@@ -70,19 +70,28 @@ export default function ProductTabs() {
         <Typography variant="h5">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor
         </Typography>
-        voluptatem illo optio cupiditate veniam autem nam necessitatibus, sit
-        voluptatibus delectus? Dolores, assumenda et? Consequuntur, quae
-        temporibus, suscipit velit deleniti quis repudiandae esse aliquam
-        quibusdam eos odit tempora ipsum repellendus ea veniam cum sequi
-        quisquam et? Nam numquam nihil quaerat voluptatibus?
+        <Typography variant="body1">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor
+          voluptatem illo optio cupiditate veniam autem nam necessitatibus, sit
+          voluptatibus delectus? Dolores, assumenda et? Consequuntur, quae
+          temporibus, suscipit velit deleniti quis repudiandae esse aliquam
+          quibusdam eos odit tempora ipsum repellendus ea veniam cum sequi
+          quisquam et? Nam numquam nihil quaerat voluptatibus?
+        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil fugit
-        amet quisquam animi tempora error.
+        <Typography variant="h5">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor Lorem
+          ipsum dolor sit amet consectetur, adipisicing elit. Nihil fugit amet
+          quisquam animi tempora error.
+        </Typography>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim et sunt
-        non iure vel officia at sed fugiat maxime velit.
+        <Typography variant="h5">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor Lorem
+          ipsum dolor sit amet consectetur adipisicing elit. Enim et sunt non
+          iure vel officia at sed fugiat maxime velit.
+        </Typography>
       </CustomTabPanel>
     </Box>
   );

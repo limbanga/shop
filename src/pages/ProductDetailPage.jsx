@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
 import { ShoppingBag, Star } from "@mui/icons-material";
@@ -10,9 +10,11 @@ import { VariantSelect } from "../components/ProductDetailPage/VariantSelect";
 import { axiosInstance } from "../api/AxiosInstance";
 import { SizeRecommend } from "../components/ProductDetailPage/SizeRecommend";
 import ProductTabs from "../components/ProductDetailPage/ProductTab";
+import { CartContext } from "../contexts/CartContext";
 
 export const ProductDetailPage = () => {
   let { productSlug } = useParams();
+  const { addItemToCart } = useContext(CartContext);
 
   const [product, setProduct] = useState(null);
   const [variant, setVariant] = useState(null);
@@ -78,18 +80,24 @@ export const ProductDetailPage = () => {
     variant.sizes = data;
   };
 
+  const hanldeAddTocart = async () => {
+    console.log("add to cart");
+    console.log(size);
+
+    size && addItemToCart(size);
+  };
   useEffect(() => {
-    console.log("enter page -> load product");
+    // console.log("enter page -> load product");
     fetchProduct();
   }, []);
 
   useEffect(() => {
-    console.log("product loaded -> load variants");
+    // console.log("product loaded -> load variants");
     product && fetchVariants(product.id);
   }, [product]);
 
   useEffect(() => {
-    console.log("variant changed -> load sizes");
+    // console.log("variant changed -> load sizes");
     const isSizesInCache = variant && variant.sizes;
     if (isSizesInCache) {
       console.log("sizes is already fetch, do not fetch again");
@@ -102,7 +110,7 @@ export const ProductDetailPage = () => {
   }, [variant]);
 
   return (
-    <Container sx={{mt: '5rem'}}>
+    <Container sx={{ mt: "5rem" }}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Box>
@@ -210,6 +218,7 @@ export const ProductDetailPage = () => {
             }}
           >
             <Button
+              onClick={hanldeAddTocart}
               variant="outlined"
               color="dark"
               size="large"
@@ -232,7 +241,9 @@ export const ProductDetailPage = () => {
           {/* Tabs */}
         </Grid>
         <Grid item xs={12}>
-          <ProductTabs />
+          <Box sx={{ my: "2rem", minHeight: 200 }}>
+            <ProductTabs />
+          </Box>
         </Grid>
       </Grid>
     </Container>

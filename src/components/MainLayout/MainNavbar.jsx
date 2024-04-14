@@ -14,6 +14,7 @@ import {
   IconButton,
   Badge,
   Divider,
+  Stack,
 } from "@mui/material";
 import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAltOutlined";
 import {
@@ -101,29 +102,42 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
           variant: "outlined",
           sx: {
             width: "300px",
-            padding: ".5rem",
+            px: "1rem",
+            py: ".5rem",
           },
         },
       }}
     >
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Cart Preview
       </Typography>
-      <Typography variant="caption" gutterBottom>
-        Cart items will be displayed here
-      </Typography>
-      <Box sx={{ height: "200px" }}>
+      <Divider />
+      <Box>
         {cartItems &&
           cartItems.map((item) => (
-            <Box>
-              <Typography>Item name</Typography>
-              <Typography variant="caption">Item price</Typography>
-              <br />
-              <Typography variant="caption">Item quantity</Typography>
+            <Box key={item.id}>
+              <Typography>{item.variant.product.name}</Typography>
+              <Typography variant="caption">
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(item.price)}{" "}
+                x {item.quantity}
+              </Typography>
               <Divider />
             </Box>
           ))}
-        {!cartItems && <Typography>No items in the cart</Typography>}
+        {!cartItems?.length && (
+          <Stack
+            minHeight={200}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Typography variant="h5">No items in the cart</Typography>
+            <Typography variant="body1">Let's shopping</Typography>
+          </Stack>
+        )}
       </Box>
       <Button
         onClick={() => setAnchorEl(null)}
