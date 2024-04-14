@@ -16,6 +16,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { enqueueSnackbar } from "notistack";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const LoginPage = () => {
     if (currentUser) {
       navigate("/");
     }
-  }, []);
+  }, [currentUser]);
 
   const {
     register,
@@ -33,18 +34,25 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "abc",
+      email: "",
       password: "",
     },
   });
 
   const onLogin = async (data) => {
     const { email, password } = data;
-    if (email === undefined) {
-      return;
+    try {
+      await loginAsync(email, password);
+      enqueueSnackbar(<Typography>Login successfully</Typography>, {
+        variant: "success",
+      });
+      navigate("/");
+    } catch (error) {
+      enqueueSnackbar(<Typography>Login failed</Typography>, {
+        variant: "error",
+      });
+      console.error(error);
     }
-    await loginAsync(email, password);
-    navigate("/");
   };
 
   return (
@@ -69,7 +77,10 @@ const LoginPage = () => {
           </Typography>
           {/* Email */}
           <TextField
-            {...register("email", { required: "required" })}
+            {...register("email", {
+              required: "required",
+              pattern: { value: /\S+@\S+\.\S+/, message: "invalid email" },
+            })}
             error={!!errors.email}
             helperText={errors.email?.message}
             fullWidth
@@ -83,7 +94,11 @@ const LoginPage = () => {
           />
           {/* Password */}
           <TextField
-            {...register("password", { required: "required" })}
+            {...register("password", {
+              required: "required",
+              minLength: { value: 6, message: "min length is 6" },
+              maxLength: { value: 20, message: "max length is 20" },
+            })}
             error={!!errors.password}
             helperText={errors.password?.message}
             fullWidth

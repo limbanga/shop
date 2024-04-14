@@ -26,7 +26,7 @@ export const RegisterPage = () => {
     if (currentUser) {
       navigate("/");
     }
-  }, []);
+  }, [currentUser]);
 
   const {
     register,
@@ -198,7 +198,6 @@ export const RegisterPage = () => {
           </Box>
           {/* Button */}
           <Button
-            onClick={onRegister}
             type="submit"
             fullWidth
             variant="contained"
