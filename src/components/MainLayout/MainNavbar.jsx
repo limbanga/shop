@@ -96,7 +96,6 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
         horizontal: "right",
       }}
       elevation={1}
-      sx={{ mt: ".25rem", display: { xs: "none", md: "block" } }}
       slotProps={{
         paper: {
           variant: "outlined",

@@ -6,7 +6,7 @@ import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
 
 import { Link as RouterLink } from "react-router-dom";
 
-import { axiosInstance } from "../api/AxiosInstance";
+import { axiosInstance } from "../../api/AxiosInstance";
 
 const AdminProductCard = ({ product }) => {
   const { name, code, category } = product;

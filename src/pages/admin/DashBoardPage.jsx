@@ -4,9 +4,9 @@ import { Add } from "@mui/icons-material";
 
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
-import ProductTable from "../../components/ProductTable";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { enqueueSnackbar } from "notistack";
+import ProductTable from "../../components/DashBoardPage/ProductTable";
 
 export const DashBoardPage = () => {
   const navigate = useNavigate();

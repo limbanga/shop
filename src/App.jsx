@@ -1,17 +1,17 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import HomePage from "./pages/HomePage";
-import { ProductDetailPage } from "./pages/ProductDetailPage";
+import HomePage from "./pages/main/HomePage";
+import { ProductDetailPage } from "./pages/main/ProductDetailPage";
 import AdminLayout from "./layouts/AdminLayout";
 import { DashBoardPage } from "./pages/admin/DashBoardPage";
 import LoginPage from "./pages/auth/LoginPage";
 import { AdminProductDetailPage } from "./pages/admin/AdminProductDetailPage";
 import NoPage from "./pages/errors/NoPage";
 import MainLayout from "./layouts/MainLayout";
-import { CartDetailPage } from "./pages/CartDetailPage";
+import { CartDetailPage } from "./pages/main/CartDetailPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
-import { CheckoutPage } from "./pages/CheckoutPage";
+import { CheckoutPage } from "./pages/main/CheckoutPage";
 
 const App = () => {
   return (

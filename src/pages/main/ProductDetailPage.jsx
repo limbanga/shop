@@ -5,12 +5,12 @@ import { ShoppingBag, Star } from "@mui/icons-material";
 
 import { useParams } from "react-router-dom";
 
-import SizeSelecter from "../components/ProductDetailPage/SizeSelecter";
-import { VariantSelect } from "../components/ProductDetailPage/VariantSelect";
-import { axiosInstance } from "../api/AxiosInstance";
-import { SizeRecommend } from "../components/ProductDetailPage/SizeRecommend";
-import ProductTabs from "../components/ProductDetailPage/ProductTab";
-import { CartContext } from "../contexts/CartContext";
+import SizeSelecter from "../../components/ProductDetailPage/SizeSelecter";
+import { VariantSelect } from "../../components/ProductDetailPage/VariantSelect";
+import { axiosInstance } from "../../api/AxiosInstance";
+import { SizeRecommend } from "../../components/ProductDetailPage/SizeRecommend";
+import ProductTabs from "../../components/ProductDetailPage/ProductTab";
+import { CartContext } from "../../contexts/CartContext";
 
 export const ProductDetailPage = () => {
   let { productSlug } = useParams();

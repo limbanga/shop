@@ -1,7 +1,8 @@
-import { Delete } from "@mui/icons-material";
+import { Delete, DeleteOutline } from "@mui/icons-material";
 import {
   Box,
   Button,
+  ButtonGroup,
   Container,
   Divider,
   Grid,
@@ -9,11 +10,16 @@ import {
   Paper,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../../contexts/CartContext";
 
 export const CartDetailPage = () => {
+  const { cartItems } = useContext(CartContext);
+
+  console.log(cartItems);
   return (
     <>
       <Container sx={{ mt: "5rem" }}>
@@ -23,45 +29,65 @@ export const CartDetailPage = () => {
               Shopping cart
             </Typography>
             <Stack spacing={2}>
-              {[{ id: 1 }, { id: 2 }, { id: 3 }].map((item) => (
+              {cartItems.map((item) => (
                 <>
                   <Box key={item.id}>
                     <Box display={"flex"}>
                       {/* img */}
                       <Box
                         component={"img"}
-                        src="https://yt3.ggpht.com/m3aEIKqYP-rYVvKgjqJObR6-UDgEcBj52re__8VZn38DfiFSu4U1-XyB9F3Lcj_FcT5xZYnaMA=s88-c-k-c0x00ffffff-no-rj"
+                        src={item.variant.image}
                         alt="image of product"
                         sx={{ width: "100px", height: "100px" }}
                       />
                       {/* Info*/}
                       <Box flexGrow={1}>
-                        <Typography variant="h6">
-                          Quần Khaki Nam Dài Slim DOCKERS
+                        <Typography variant="body1">
+                          {item.variant.product.name}
                         </Typography>
-                        <Typography variant="body1">Size M</Typography>
+                        <Typography variant="body2">
+                          Size {item.productSize}
+                        </Typography>
+                        <Typography variant="body1">
+                          {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(item.price)}{" "}
+                          x {item.quantity}
+                        </Typography>
                         {/* action button */}
-                        <Box display={"flex"} justifyContent={"end"}>
-                          <Box display={"flex"} alignItems={"center"}>
-                            <Button color="error">-</Button>
-                            <Button>1</Button>
-                            <Button color="success">+</Button>
-                          </Box>
-                          {/*  */}
+                        <Box display={"flex"} justifyContent={"flex-end"}>
+                          <Button color="error" size="small">
+                            -
+                          </Button>
+                          <Button color="inherit" size="small">
+                            1
+                          </Button>
+                          <Button color="success" size="small">
+                            +
+                          </Button>
+                          {/* total price */}
                           <Box display={"flex"} alignItems={"center"}>
                             <Typography variant="body2">
                               {new Intl.NumberFormat("vi-VN", {
                                 style: "currency",
                                 currency: "VND",
-                              }).format(9000000)}
+                              }).format(item.price * item.quantity)}
                             </Typography>
                           </Box>
-                          {/*  */}
-                          <Box display={"flex"} alignItems={"center"}>
-                            <IconButton>
-                              <Delete fontSize="small" />
+                          {/* delete button */}
+                          <Tooltip title="Remove from cart">
+                            <IconButton
+                              size="small"
+                              sx={{
+                                "&:hover": {
+                                  color: "error.main",
+                                },
+                              }}
+                            >
+                              <DeleteOutline color="inherit" fontSize="small" />
                             </IconButton>
-                          </Box>
+                          </Tooltip>
                         </Box>
                       </Box>
                     </Box>
