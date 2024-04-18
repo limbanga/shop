@@ -115,15 +115,33 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
       <Box>
         {cartItems &&
           cartItems.map((item) => (
-            <Box key={item.id}>
-              <Typography>{item.variant.product.name}</Typography>
-              <Typography variant="caption">
-                {new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(item.price)}{" "}
-                x {item.quantity}
-              </Typography>
+            <Box key={item.id} display={"flex"} my={".2rem"}>
+              <Box
+                component={"img"}
+                src={item.variant.image}
+                alt="product image"
+                sx={{
+                  width: 70,
+                  objectFit: "contain",
+                  objectPosition: "top",
+                }}
+              />
+              <Box>
+                <Typography variant="body2">
+                  {item.variant.product.name}
+                </Typography>
+                <Typography variant="caption" display={"block"}>
+                  Size {item.productSize}
+                </Typography>
+                <Typography variant="caption">
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(item.price)}{" "}
+                  x {item.quantity}
+                </Typography>
+              </Box>
+
               <Divider />
             </Box>
           ))}

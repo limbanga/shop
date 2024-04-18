@@ -4,7 +4,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import DoneIcon from "@mui/icons-material/Done";
 import { useSearchParams } from "react-router-dom";
-import { HighlightOff } from "@mui/icons-material";
 
 const OrderByPopover = ({
   anchorEl,
@@ -26,30 +25,30 @@ const OrderByPopover = ({
         vertical: "top",
         horizontal: "right",
       }}
-      elevation={0}
-      sx={{ mt: ".25rem" }}
+      elevation={2}
+      slotProps={{
+        paper: { variant: "outlined"},
+      }}
     >
-      <Paper variant="outlined">
-        {orderByOptions.map((x) => (
-          <Box
-            onClick={() => handleSelectOrderByOptions(x)}
-            key={x.name}
-            sx={{
-              width: "5rem",
-              mx: "1rem",
-              my: ".5rem",
-              display: "flex",
-              justifyContent: "start",
-              gap: 2,
-            }}
-          >
-            <Typography>{x.name}</Typography>
-            {searchParams.get("orderBy") == x.value && (
-              <DoneIcon fontSize="small" />
-            )}
-          </Box>
-        ))}
-      </Paper>
+      {orderByOptions.map((x) => (
+        <Box
+          onClick={() => handleSelectOrderByOptions(x)}
+          key={x.name}
+          sx={{
+            width: "5rem",
+            mx: "1rem",
+            my: ".5rem",
+            display: "flex",
+            justifyContent: "start",
+            gap: 2,
+          }}
+        >
+          <Typography>{x.name}</Typography>
+          {searchParams.get("orderBy") == x.value && (
+            <DoneIcon fontSize="small" />
+          )}
+        </Box>
+      ))}
     </Popover>
   );
 };
