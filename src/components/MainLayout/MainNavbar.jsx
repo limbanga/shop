@@ -95,7 +95,7 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
         vertical: "top",
         horizontal: "right",
       }}
-      elevation={1}
+      elevation={0}
       slotProps={{
         paper: {
           variant: "outlined",
@@ -117,7 +117,7 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
             <Box key={item.id} display={"flex"} my={".2rem"}>
               <Box
                 component={"img"}
-                src={item.variant.image}
+                src={item.size.variant.image}
                 alt="product image"
                 sx={{
                   width: 70,
@@ -127,16 +127,16 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
               />
               <Box>
                 <Typography variant="body2">
-                  {item.variant.product.name}
+                  {item.size.variant.product.name}
                 </Typography>
                 <Typography variant="caption" display={"block"}>
-                  Size {item.productSize}
+                  Size {item.size.productSize}
                 </Typography>
                 <Typography variant="caption">
                   {new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(item.price)}{" "}
+                  }).format(item.size.price)}{" "}
                   x {item.quantity}
                 </Typography>
               </Box>

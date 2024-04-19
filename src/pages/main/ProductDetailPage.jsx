@@ -81,9 +81,8 @@ export const ProductDetailPage = () => {
   };
 
   const hanldeAddTocart = async () => {
-    console.log("add to cart");
+    console.log("Add to cart");
     console.log(size);
-
     size && addItemToCart(size);
   };
   useEffect(() => {

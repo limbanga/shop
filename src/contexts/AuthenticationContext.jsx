@@ -21,13 +21,15 @@ const AuthenticationProvider = ({ children }) => {
     });
 
     const { data } = response;
-    const accessToken = data.accessToken;
-    // TODO: save refreshToken to localStorage
-    // localStorage.setItem("accessToken", accessToken);
+    const { accessToken } = data;
+
     const tempUser = jwtDecode(accessToken);
     tempUser.accessToken = accessToken;
     setCurrentUser(tempUser);
     localStorage.setItem("user", JSON.stringify(tempUser));
+
+    // set the accessToken in the axios instance
+    axiosInstance.defaults.headers["Authorization"] = `Bearer ${accessToken}`;
   };
 
   const logout = () => {

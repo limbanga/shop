@@ -13,13 +13,18 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { CartContext } from "../../contexts/CartContext";
 
 export const CartDetailPage = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, fetchCartItems } = useContext(CartContext);
 
-  console.log(cartItems);
+  useEffect(() => {
+    console.log(cartItems);
+    fetchCartItems();
+    console.log(cartItems);
+  }, []);
+
   return (
     <>
       <Container sx={{ mt: "5rem" }}>
@@ -36,23 +41,23 @@ export const CartDetailPage = () => {
                       {/* img */}
                       <Box
                         component={"img"}
-                        src={item.variant.image}
+                        src={item.size.variant.image}
                         alt="image of product"
                         sx={{ width: "100px", height: "100px" }}
                       />
                       {/* Info*/}
                       <Box flexGrow={1}>
                         <Typography variant="body1">
-                          {item.variant.product.name}
+                          {item.size.variant.product.name}
                         </Typography>
                         <Typography variant="body2">
-                          Size {item.productSize}
+                          Size {item.size.productSize}
                         </Typography>
                         <Typography variant="body1">
                           {new Intl.NumberFormat("vi-VN", {
                             style: "currency",
                             currency: "VND",
-                          }).format(item.price)}{" "}
+                          }).format(item.size.price)}{" "}
                           x {item.quantity}
                         </Typography>
                         {/* action button */}
@@ -72,7 +77,7 @@ export const CartDetailPage = () => {
                               {new Intl.NumberFormat("vi-VN", {
                                 style: "currency",
                                 currency: "VND",
-                              }).format(item.price * item.quantity)}
+                              }).format(item.size.price * item.quantity)}
                             </Typography>
                           </Box>
                           {/* delete button */}
@@ -97,9 +102,7 @@ export const CartDetailPage = () => {
               ))}
             </Stack>
             <Box display={"flex"} justifyContent={"flex-end"} mt={2}>
-              <Button color="info" variant="outlined">
-                Update cart
-              </Button>
+              <Button>Update cart</Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={4}>
