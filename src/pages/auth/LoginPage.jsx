@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { enqueueSnackbar } from "notistack";
+import { CartContext } from "../../contexts/CartContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();

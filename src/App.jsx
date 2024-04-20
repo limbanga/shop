@@ -14,6 +14,9 @@ import { RegisterPage } from "./pages/auth/RegisterPage";
 import { CheckoutPage } from "./pages/main/CheckoutPage";
 
 const App = () => {
+  console.log("App");
+  
+
   return (
     <>
       <BrowserRouter>

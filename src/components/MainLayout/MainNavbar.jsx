@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import {
   AppBar,
@@ -81,8 +81,15 @@ const UserDropDown = ({ anchorEl, setAnchorEl }) => {
 };
 
 const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
-  const { cartItems } = useContext(CartContext);
+  const { currentUser } = useContext(AuthenticationContext);
+  const { cartItems, fetchCartItems } = useContext(CartContext);
 
+  useEffect(() => {
+    console.log('currentUser');
+    fetchCartItems();
+  }, [currentUser]);
+
+  console.log(cartItems);
   return (
     <Popover
       onClose={() => setAnchorEl(null)}
@@ -182,7 +189,6 @@ const MainNavbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [cartAnchorEl, setCartAnchorEl] = React.useState(null);
 
-  console.log(cartAnchorEl);
   return (
     <>
       <AppBar color="default" variant="outlined" elevation={0}>

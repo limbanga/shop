@@ -11,10 +11,13 @@ import { axiosInstance } from "../../api/AxiosInstance";
 import { SizeRecommend } from "../../components/ProductDetailPage/SizeRecommend";
 import ProductTabs from "../../components/ProductDetailPage/ProductTab";
 import { CartContext } from "../../contexts/CartContext";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { enqueueSnackbar } from "notistack";
 
 export const ProductDetailPage = () => {
   let { productSlug } = useParams();
-  const { addItemToCart } = useContext(CartContext);
+  const { setCartItem } = useContext(CartContext);
+  const { currentUser } = useContext(AuthenticationContext);
 
   const [product, setProduct] = useState(null);
   const [variant, setVariant] = useState(null);
@@ -81,10 +84,21 @@ export const ProductDetailPage = () => {
   };
 
   const hanldeAddTocart = async () => {
-    console.log("Add to cart");
-    console.log(size);
-    size && addItemToCart(size);
+    if (!currentUser) {
+      enqueueSnackbar(<Typography>Please login to add to cart</Typography>, {
+        variant: "error",
+      });
+      return;
+    }
+    if (size === null) {
+      enqueueSnackbar(<Typography>Please choose size to cart</Typography>, {
+        variant: "error",
+      });
+      return;
+    }
+    setCartItem(size.id, inputQuantity);
   };
+
   useEffect(() => {
     // console.log("enter page -> load product");
     fetchProduct();

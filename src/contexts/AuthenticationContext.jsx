@@ -2,7 +2,6 @@ import React, { createContext, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 import { axiosInstance } from "../api/AxiosInstance";
-import { useNavigate } from "react-router-dom";
 
 const AuthenticationContext = createContext();
 
@@ -37,6 +36,7 @@ const AuthenticationProvider = ({ children }) => {
     // localStorage.removeItem("accessToken");
     setCurrentUser(null);
     localStorage.removeItem("user");
+    axiosInstance.defaults.headers["Authorization"] = null;
   };
 
   const registerAsync = async (registerForm) => {
@@ -48,7 +48,10 @@ const AuthenticationProvider = ({ children }) => {
 
   return (
     <AuthenticationContext.Provider
-      value={{ currentUser, loginAsync, registerAsync, logout }}
+      value={{ currentUser,
+         loginAsync, 
+         registerAsync,
+          logout }}
     >
       {children}
     </AuthenticationContext.Provider>
