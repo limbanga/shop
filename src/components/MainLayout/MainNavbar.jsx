@@ -20,6 +20,7 @@ import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAlt
 import {
   ArrowRightAlt,
   ExpandMore,
+  Favorite,
   FavoriteBorder,
   ShoppingBag,
 } from "@mui/icons-material";
@@ -212,13 +213,15 @@ const MainNavbar = () => {
                   alignItems: "center",
                 }}
               >
+                {/* CartIconButton */}
                 <IconButton onClick={(e) => setCartAnchorEl(e.currentTarget)}>
                   <Badge badgeContent={cartItems.length} color="error">
-                    <ShoppingBag color="action" fontSize="small" />
+                    <ShoppingBag color="dark" fontSize="small" />
                   </Badge>
                 </IconButton>
+                {/* FavoriteIconButton */}
                 <IconButton>
-                  <FavoriteBorder color="error" fontSize="small" />
+                  <Favorite color="error" fontSize="small" />
                 </IconButton>
                 <SignalCellularAltOutlinedIcon
                   onClick={() => setOpenMainDrawer(true)}
