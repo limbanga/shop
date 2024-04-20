@@ -36,7 +36,9 @@ export const CartDetailPage = () => {
   const handleQuantityChange = (item, newQuantity) => {
     console.log(item, newQuantity);
     setCartItem(item.size.id, newQuantity);
-    enqueueSnackbar("Item removed from cart", { variant: "success" });
+    if (newQuantity <= 0) {
+      enqueueSnackbar("Item removed from cart", { variant: "success" });
+    }
   };
 
   return (
@@ -75,13 +77,25 @@ export const CartDetailPage = () => {
                       </Typography>
                       {/* action button */}
                       <Box display={"flex"} justifyContent={"flex-end"}>
-                        <Button color="error" size="small">
+                        <Button
+                          onClick={() =>
+                            handleQuantityChange(item, item.quantity - 1)
+                          }
+                          color="error"
+                          size="small"
+                        >
                           -
                         </Button>
                         <Button color="inherit" size="small">
-                          1
+                          {item.quantity}
                         </Button>
-                        <Button color="success" size="small">
+                        <Button
+                          onClick={() =>
+                            handleQuantityChange(item, item.quantity + 1)
+                          }
+                          color="success"
+                          size="small"
+                        >
                           +
                         </Button>
                         {/* total price */}

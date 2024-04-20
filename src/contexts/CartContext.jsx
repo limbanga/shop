@@ -28,7 +28,7 @@ export const CartProvider = ({ children }) => {
     try {
       const response = await axiosInstance.get(`/orders/cart/${sizeId}/${quantity}`);
       const { data } = response;
-      console.log(data);
+      //console.log(data);
       setCartItems(prev => {
         if (!data ) {
           return prev.filter((item) => item.size.id !== sizeId);
