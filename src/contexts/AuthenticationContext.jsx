@@ -6,8 +6,16 @@ import { axiosInstance } from "../api/AxiosInstance";
 const AuthenticationContext = createContext();
 
 const getUserFromLocalStorage = () => {
-  const user = localStorage.getItem("user");
-  return user ? JSON.parse(user) : null;
+  const userString = localStorage.getItem("user");
+  if (userString === null) {
+    return null;
+  }
+
+  const user = JSON.parse(userString);
+  axiosInstance.defaults.headers[
+    "Authorization"
+  ] = `Bearer ${user.accessToken}`;
+  return user;
 };
 
 const AuthenticationProvider = ({ children }) => {
@@ -48,10 +56,7 @@ const AuthenticationProvider = ({ children }) => {
 
   return (
     <AuthenticationContext.Provider
-      value={{ currentUser,
-         loginAsync, 
-         registerAsync,
-          logout }}
+      value={{ currentUser, loginAsync, registerAsync, logout }}
     >
       {children}
     </AuthenticationContext.Provider>

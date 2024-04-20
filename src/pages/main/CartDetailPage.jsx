@@ -22,12 +22,15 @@ export const CartDetailPage = () => {
 
   useEffect(() => {
     fetchCartItems();
-    const total = cartItems.reduce((a, b,) => { 
+  }, []);
+
+  useEffect(() => {
+    const total = cartItems.reduce((a, b) => {
       return a + b.size.price * b.quantity;
-    }, 0)
+    }, 0);
     setTotalPrice(total);
     console.log(total);
-  }, []);
+  }, [cartItems]);
 
   return (
     <>
@@ -39,75 +42,70 @@ export const CartDetailPage = () => {
             </Typography>
             <Stack spacing={2}>
               {cartItems.map((item) => (
-                <>
-                  <Box key={item.id}>
-                    <Box display={"flex"}>
-                      {/* img */}
-                      <Box
-                        component={"img"}
-                        src={item.size.variant.image}
-                        alt="image of product"
-                        sx={{ width: "100px", height: "100px" }}
-                      />
-                      {/* Info*/}
-                      <Box flexGrow={1}>
-                        <Typography variant="body1">
-                          {item.size.variant.product.name}
-                        </Typography>
-                        <Typography variant="body2">
-                          Size {item.size.productSize}
-                        </Typography>
-                        <Typography variant="body1">
-                          {new Intl.NumberFormat("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          }).format(item.size.price)}{" "}
-                          x {item.quantity}
-                        </Typography>
-                        {/* action button */}
-                        <Box display={"flex"} justifyContent={"flex-end"}>
-                          <Button color="error" size="small">
-                            -
-                          </Button>
-                          <Button color="inherit" size="small">
-                            1
-                          </Button>
-                          <Button color="success" size="small">
-                            +
-                          </Button>
-                          {/* total price */}
-                          <Box display={"flex"} alignItems={"center"}>
-                            <Typography variant="body2">
-                              {new Intl.NumberFormat("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              }).format(item.size.price * item.quantity)}
-                            </Typography>
-                          </Box>
-                          {/* delete button */}
-                          <Tooltip title="Remove from cart">
-                            <IconButton
-                              size="small"
-                              sx={{
-                                "&:hover": {
-                                  color: "error.main",
-                                },
-                              }}
-                            >
-                              <DeleteOutline color="inherit" fontSize="small" />
-                            </IconButton>
-                          </Tooltip>
+                <Box key={item.id}>
+                  <Box display={"flex"}>
+                    {/* img */}
+                    <Box
+                      component={"img"}
+                      src={item.size.variant.image}
+                      alt="image of product"
+                      sx={{ width: "100px", height: "100px" }}
+                    />
+                    {/* Info*/}
+                    <Box flexGrow={1}>
+                      <Typography variant="body1">
+                        {item.size.variant.product.name}
+                      </Typography>
+                      <Typography variant="body2">
+                        Size {item.size.productSize}
+                      </Typography>
+                      <Typography variant="body1">
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(item.size.price)}{" "}
+                        x {item.quantity}
+                      </Typography>
+                      {/* action button */}
+                      <Box display={"flex"} justifyContent={"flex-end"}>
+                        <Button color="error" size="small">
+                          -
+                        </Button>
+                        <Button color="inherit" size="small">
+                          1
+                        </Button>
+                        <Button color="success" size="small">
+                          +
+                        </Button>
+                        {/* total price */}
+                        <Box display={"flex"} alignItems={"center"}>
+                          <Typography variant="body2">
+                            {new Intl.NumberFormat("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(item.size.price * item.quantity)}
+                          </Typography>
                         </Box>
+                        {/* delete button */}
+                        <Tooltip title="Remove from cart">
+                          <IconButton
+                            size="small"
+                            sx={{
+                              "&:hover": {
+                                color: "error.main",
+                              },
+                            }}
+                          >
+                            <DeleteOutline color="inherit" fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
                       </Box>
                     </Box>
-                    <Divider />
                   </Box>
-                </>
+                  <Divider />
+                </Box>
               ))}
             </Stack>
-            <Box display={"flex"} justifyContent={"flex-end"} mt={2}>
-              <Button>Update cart</Button>
-            </Box>
           </Grid>
           <Grid item xs={12} md={4}>
             <Typography variant="h6" gutterBottom>
