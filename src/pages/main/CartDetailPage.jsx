@@ -1,4 +1,4 @@
-import { Delete, DeleteOutline } from "@mui/icons-material";
+import { Delete, DeleteOutline, SettingsCellSharp } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -15,9 +15,10 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import { CartContext } from "../../contexts/CartContext";
+import { enqueueSnackbar } from "notistack";
 
 export const CartDetailPage = () => {
-  const { cartItems, fetchCartItems } = useContext(CartContext);
+  const { cartItems, fetchCartItems, setCartItem } = useContext(CartContext);
   const [totalPrice, setTotalPrice] = React.useState(0);
 
   useEffect(() => {
@@ -31,6 +32,12 @@ export const CartDetailPage = () => {
     setTotalPrice(total);
     console.log(total);
   }, [cartItems]);
+
+  const handleQuantityChange = (item, newQuantity) => {
+    console.log(item, newQuantity);
+    setCartItem(item.size.id, newQuantity);
+    enqueueSnackbar("Item removed from cart", { variant: "success" });
+  };
 
   return (
     <>
@@ -89,6 +96,7 @@ export const CartDetailPage = () => {
                         {/* delete button */}
                         <Tooltip title="Remove from cart">
                           <IconButton
+                            onClick={() => handleQuantityChange(item, 0)}
                             size="small"
                             sx={{
                               "&:hover": {

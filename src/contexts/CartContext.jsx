@@ -30,6 +30,9 @@ export const CartProvider = ({ children }) => {
       const { data } = response;
       console.log(data);
       setCartItems(prev => {
+        if (!data ) {
+          return prev.filter((item) => item.size.id !== sizeId);
+        }
         const index = prev.findIndex((item) => item.id === data.id);
         if (index === -1) {
           return [...prev, data];
