@@ -18,11 +18,15 @@ import { CartContext } from "../../contexts/CartContext";
 
 export const CartDetailPage = () => {
   const { cartItems, fetchCartItems } = useContext(CartContext);
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
   useEffect(() => {
-    console.log(cartItems);
     fetchCartItems();
-    console.log(cartItems);
+    const total = cartItems.reduce((a, b,) => { 
+      return a + b.size.price * b.quantity;
+    }, 0)
+    setTotalPrice(total);
+    console.log(total);
   }, []);
 
   return (
@@ -121,7 +125,7 @@ export const CartDetailPage = () => {
                   {new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(9000000)}
+                  }).format(totalPrice)}
                 </Typography>
               </Box>
               {/*  */}
@@ -135,7 +139,7 @@ export const CartDetailPage = () => {
                   {new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(9000000)}
+                  }).format(0)}
                 </Typography>
               </Box>
               {/*  */}
@@ -150,7 +154,7 @@ export const CartDetailPage = () => {
                   {new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(9000000)}
+                  }).format(totalPrice)}
                 </Typography>
               </Box>
 
