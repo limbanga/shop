@@ -68,8 +68,14 @@ const UserDropDown = ({ anchorEl, setAnchorEl }) => {
         >
           Dashboard
         </Button>
-        <Button fullWidth size="large" color="inherit">
-          History
+        <Button
+          LinkComponent={RouterLink}
+          to="/orders"
+          fullWidth
+          size="large"
+          color="inherit"
+        >
+          My orders
         </Button>
         <Button onClick={handleLogout} fullWidth size="large" color="error">
           Logout
