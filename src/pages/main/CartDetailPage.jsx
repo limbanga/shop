@@ -16,9 +16,12 @@ import {
 import React, { useContext, useEffect } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import { enqueueSnackbar } from "notistack";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { axiosInstance } from "../../api/AxiosInstance";
 
 export const CartDetailPage = () => {
   const { cartItems, fetchCartItems, setCartItem } = useContext(CartContext);
+  const { currentUser } = useContext(AuthenticationContext);
   const [totalPrice, setTotalPrice] = React.useState(0);
 
   useEffect(() => {
@@ -39,6 +42,22 @@ export const CartDetailPage = () => {
     if (newQuantity <= 0) {
       enqueueSnackbar("Item removed from cart", { variant: "success" });
     }
+  };
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) {
+      enqueueSnackbar("No item in cart", { variant: "error" });
+      return;
+    }
+    if (!currentUser) {
+      enqueueSnackbar("Please login to checkout", { variant: "error" });
+      return;
+    }
+    const response = await axiosInstance.get("/orders/checkout");
+    const { data } = response;
+    console.log(data);
+    await fetchCartItems();
+    enqueueSnackbar("Checkout", { variant: "success" });
   };
 
   return (
@@ -243,6 +262,7 @@ export const CartDetailPage = () => {
               <Divider sx={{ my: ".5rem" }} />
 
               <Button
+                onClick={handleCheckout}
                 variant="contained"
                 color="dark"
                 disableElevation
