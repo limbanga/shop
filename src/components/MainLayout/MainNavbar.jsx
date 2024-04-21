@@ -204,11 +204,11 @@ const MainNavbar = () => {
               <BrandLogo />
 
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {routes.map((x) => (
+                {/* {routes.map((x) => (
                   <Button key={x} color="inherit">
                     {x}
                   </Button>
-                ))}
+                ))} */}
               </Box>
 
               <Box

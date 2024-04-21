@@ -12,6 +12,7 @@ import MainLayout from "./layouts/MainLayout";
 import { CartDetailPage } from "./pages/main/CartDetailPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
 import { CheckoutPage } from "./pages/main/CheckoutPage";
+import OrderDetailPage from "./pages/main/OrderDetailPage";
 
 const App = () => {
   console.log("App");
@@ -34,6 +35,8 @@ const App = () => {
             {/* cart */}
             <Route path="/cart" element={<CartDetailPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/order/:id" element={<OrderDetailPage />} />
+
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="/admin/" element={<AdminLayout />}>
