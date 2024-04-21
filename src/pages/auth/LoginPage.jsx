@@ -14,10 +14,8 @@ import { Facebook, Google, Twitter } from "@mui/icons-material";
 
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { enqueueSnackbar } from "notistack";
-import { CartContext } from "../../contexts/CartContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -52,6 +50,7 @@ const LoginPage = () => {
       enqueueSnackbar(<Typography>Login failed</Typography>, {
         variant: "error",
       });
+      debugger;
       console.error(error);
     }
   };
@@ -134,7 +133,6 @@ const LoginPage = () => {
           </Box>
           {/* Button */}
           <Button
-            onClick={onLogin}
             type="submit"
             fullWidth
             variant="contained"

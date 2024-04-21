@@ -40,8 +40,6 @@ const AuthenticationProvider = ({ children }) => {
   };
 
   const logout = () => {
-    // TODO: remove refreshToken from localStorage
-    // localStorage.removeItem("accessToken");
     setCurrentUser(null);
     localStorage.removeItem("user");
     axiosInstance.defaults.headers["Authorization"] = null;

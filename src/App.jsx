@@ -15,9 +15,6 @@ import { CheckoutPage } from "./pages/main/CheckoutPage";
 import OrderDetailPage from "./pages/main/OrderDetailPage";
 
 const App = () => {
-  console.log("App");
-  
-
   return (
     <>
       <BrowserRouter>

@@ -10,7 +10,6 @@ import {
   Typography,
   Popover,
   Paper,
-  Icon,
   IconButton,
   Badge,
   Divider,
@@ -21,23 +20,23 @@ import {
   ArrowRightAlt,
   ExpandMore,
   Favorite,
-  FavoriteBorder,
   ShoppingBag,
 } from "@mui/icons-material";
 
 import { MainDrawer } from "./MainDrawer";
 import { BrandLogo } from "./BrandLogo";
-import { Link as RouterLink } from "react-router-dom";
-import { routes } from "../../appconst/routes";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { CartContext } from "../../contexts/CartContext";
 
 const UserDropDown = ({ anchorEl, setAnchorEl }) => {
-  const { currentUser, logout } = useContext(AuthenticationContext);
+  const { logout } = useContext(AuthenticationContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     setAnchorEl(null);
+    navigate("/login");
   };
 
   return (
@@ -85,11 +84,9 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
   const { cartItems, fetchCartItems } = useContext(CartContext);
 
   useEffect(() => {
-    console.log('currentUser');
     fetchCartItems();
   }, [currentUser]);
 
-  console.log(cartItems);
   return (
     <Popover
       onClose={() => setAnchorEl(null)}
@@ -183,7 +180,7 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
 
 const MainNavbar = () => {
   const { cartItems } = useContext(CartContext);
-  const { currentUser, logout } = useContext(AuthenticationContext);
+  const { currentUser } = useContext(AuthenticationContext);
 
   const [openMainDrawer, setOpenMainDrawer] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
