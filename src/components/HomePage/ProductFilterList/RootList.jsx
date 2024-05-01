@@ -6,7 +6,7 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-const RootList = ({ name, icon, children }) => {
+const RootList = ({ name, children }) => {
   const [open, setOpen] = React.useState(true);
 
   const handleClick = () => {
@@ -15,8 +15,8 @@ const RootList = ({ name, icon, children }) => {
 
   return (
     <>
-      <ListItemButton onClick={handleClick}>
-        <ListItemText primary={name} sx={{color: 'primary.main'}} />
+      <ListItemButton onClick={handleClick} dense>
+        <ListItemText primary={name} sx={{ color: "primary.main" }} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>

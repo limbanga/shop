@@ -14,20 +14,30 @@ import {
   Badge,
   Divider,
   Stack,
+  TextField,
+  InputAdornment,
+  Icon,
 } from "@mui/material";
 import SignalCellularAltOutlinedIcon from "@mui/icons-material/SignalCellularAltOutlined";
 import {
   ArrowRightAlt,
   ExpandMore,
   Favorite,
+  Search,
   ShoppingBag,
 } from "@mui/icons-material";
 
 import { MainDrawer } from "./MainDrawer";
 import { BrandLogo } from "./BrandLogo";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import {
+  Link as RouterLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import { CartContext } from "../../contexts/CartContext";
+import { useForm } from "react-hook-form";
 
 const UserDropDown = ({ anchorEl, setAnchorEl }) => {
   const { logout } = useContext(AuthenticationContext);
@@ -184,6 +194,43 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
   );
 };
 
+const SearchForm = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { handleSubmit, register } = useForm();
+  const handleSearch = (form) => {
+    const { q } = form;
+    console.log(q);
+    searchParams.set("q", q);
+    setSearchParams(searchParams);
+  };
+  return (
+    <Box
+      component={"form"}
+      onSubmit={handleSubmit(handleSearch)}
+      noValidate
+      sx={{ ml: "auto" }}
+    >
+      <TextField
+        {...register("q")}
+        variant="outlined"
+        size="small"
+        color="dark"
+        placeholder="Search"
+        inputMode="search"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton type="submit">
+                <Search />
+              </IconButton>
+            </InputAdornment>
+          ),
+          sx: { borderRadius: 0 },
+        }}
+      />
+    </Box>
+  );
+};
 const MainNavbar = () => {
   const { cartItems } = useContext(CartContext);
   const { currentUser } = useContext(AuthenticationContext);
@@ -212,6 +259,7 @@ const MainNavbar = () => {
                     {x}
                   </Button>
                 ))} */}
+                <SearchForm />
               </Box>
 
               <Box
