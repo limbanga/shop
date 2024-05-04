@@ -15,9 +15,10 @@ const HomePage = () => {
   const [searchParams] = useSearchParams();
 
   const fetchProducts = async () => {
-    const requestUrl = searchParams.get("category")
-      ? `/products/filter-by?category=${searchParams.get("category")}`
-      : `/products/`;
+    const requestUrl =
+      `/products/filter-by?` +
+      `category=${searchParams.get("category")}` +
+      `&orderBy=${searchParams.get("orderBy")}`;
 
     const response = await axiosInstance.get(requestUrl);
     const { data } = response;
@@ -27,7 +28,7 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [searchParams.get("category")]);
+  }, [searchParams.get("category"), searchParams.get("orderBy")]);
 
   return (
     <>
