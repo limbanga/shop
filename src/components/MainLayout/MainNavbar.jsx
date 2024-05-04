@@ -32,7 +32,6 @@ import { BrandLogo } from "./BrandLogo";
 import {
   Link as RouterLink,
   useNavigate,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
@@ -197,10 +196,11 @@ const CartPreviewPopover = ({ anchorEl, setAnchorEl }) => {
 const SearchForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { handleSubmit, register } = useForm();
+
   const handleSearch = (form) => {
     const { q } = form;
-    console.log(q);
-    searchParams.set("q", q);
+    const cleaned = q.trim();
+    searchParams.set("q", cleaned);
     setSearchParams(searchParams);
   };
   

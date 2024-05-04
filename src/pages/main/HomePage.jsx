@@ -5,20 +5,21 @@ import SortBar from "../../components/HomePage/SortBar";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { FilterDrawer } from "../../components/HomePage/FilterDrawer";
 import ProductFilterList from "../../components/HomePage/ProductFilterList";
-import ProductBoard from "../../components/HomePage/ProductBoard";
 import { useSearchParams } from "react-router-dom";
+import ProductCard from "../../components/HomePage/ProductCard";
 
 const HomePage = () => {
+  const [searchParams] = useSearchParams();
+
   const [openDrawer, setOpenDrawer] = useState(false);
   const [products, setProducts] = useState([]);
-
-  const [searchParams] = useSearchParams();
 
   const fetchProducts = async () => {
     const requestUrl =
       `/products/filter-by?` +
-      `category=${searchParams.get("category")}` +
-      `&orderBy=${searchParams.get("orderBy")}`;
+      `category=${searchParams.get("category") ?? ""}` +
+      `&orderBy=${searchParams.get("orderBy") ?? ""}` +
+      `&q=${searchParams.get("q") ?? ""}`;
 
     const response = await axiosInstance.get(requestUrl);
     const { data } = response;
@@ -28,7 +29,11 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [searchParams.get("category"), searchParams.get("orderBy")]);
+  }, [
+    searchParams.get("category"),
+    searchParams.get("orderBy"),
+    searchParams.get("q"),
+  ]);
 
   return (
     <>
@@ -43,7 +48,13 @@ const HomePage = () => {
           {/* Product board */}
           <Grid item xs={12} md={9}>
             <SortBar openFilterDrawer={() => setOpenDrawer(true)} />
-            <ProductBoard products={products} />
+            <Grid container spacing={2}>
+              {products.map((x) => (
+                <Grid item xs={6} sm={4} key={x.name}>
+                  <ProductCard product={x} />
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
       </Container>

@@ -13,7 +13,7 @@ import { useSearchParams } from "react-router-dom";
 import { axiosInstance } from "../../../api/AxiosInstance";
 
 const CategoryItemList = ({ category }) => {
-  const { id, name } = category;
+  const { name } = category;
   const [searchParams, setSearchParams] = useSearchParams();
 
   const isSelected = searchParams.get("category") === name;
@@ -28,11 +28,13 @@ const CategoryItemList = ({ category }) => {
       <ListItemButton
         onClick={() => handleOnClick(name)}
         sx={
-          isSelected && {
-            bgcolor: "primary.main",
-            color: "white",
-            "&:hover": { color: "black" },
-          }
+          isSelected
+            ? {
+                bgcolor: "primary.main",
+                color: "white",
+                "&:hover": { color: "black" },
+              }
+            : {}
         }
       >
         <ListItemText primary={name} />
