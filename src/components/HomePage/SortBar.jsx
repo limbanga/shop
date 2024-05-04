@@ -27,7 +27,7 @@ const OrderByPopover = ({
       }}
       elevation={2}
       slotProps={{
-        paper: { variant: "outlined"},
+        paper: { variant: "outlined" },
       }}
     >
       {orderByOptions.map((x) => (
@@ -57,6 +57,7 @@ const SortBar = ({ openFilterDrawer }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [orderByDisplay, setOrderByDisplay] = useState("Lastest");
+
   const orderByOptions = [
     { name: "Lastest", value: "lastest" },
     { name: "Oldest", value: "oldest" },
@@ -66,6 +67,12 @@ const SortBar = ({ openFilterDrawer }) => {
     searchParams.set("orderBy", option.value);
     setSearchParams(searchParams);
     setOrderByDisplay(option.name);
+  };
+
+  const handleClearFilter = () => {
+    console.log("clear filter");
+    searchParams.set("category", "");
+    setSearchParams(searchParams);
   };
 
   return (
@@ -82,17 +89,17 @@ const SortBar = ({ openFilterDrawer }) => {
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <FilterAltIcon onClick={openFilterDrawer} color="action" />
           {/* chip when filter */}
-          <Chip
-            label="T-Shirt"
-            size="small"
-            color="primary"
-            variant="outlined"
-            onDelete={() => {
-              console.log("delete");
-            }}
-            sx={{ px: 0.5 }}
-          />
-          <Button size="small">Clear</Button>
+          {searchParams.get("category") && (
+            <Chip
+              label={searchParams.get("category")}
+              size="small"
+              color="primary"
+              variant="outlined"
+              sx={{ px: 0.5 }}
+            />
+          )}
+
+          <Chip label={"Clear filter"} size="small" onClick={handleClearFilter} />
         </Box>
         <Box
           sx={{

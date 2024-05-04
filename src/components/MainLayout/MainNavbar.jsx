@@ -203,6 +203,7 @@ const SearchForm = () => {
     searchParams.set("q", q);
     setSearchParams(searchParams);
   };
+  
   return (
     <Box
       component={"form"}

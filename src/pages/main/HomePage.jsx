@@ -6,13 +6,20 @@ import { axiosInstance } from "../../api/AxiosInstance";
 import { FilterDrawer } from "../../components/HomePage/FilterDrawer";
 import ProductFilterList from "../../components/HomePage/ProductFilterList";
 import ProductBoard from "../../components/HomePage/ProductBoard";
+import { useSearchParams } from "react-router-dom";
 
 const HomePage = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [products, setProducts] = useState([]);
 
+  const [searchParams] = useSearchParams();
+
   const fetchProducts = async () => {
-    const response = await axiosInstance.get(`/products/`);
+    const requestUrl = searchParams.get("category")
+      ? `/products/filter-by?category=${searchParams.get("category")}`
+      : `/products/`;
+
+    const response = await axiosInstance.get(requestUrl);
     const { data } = response;
 
     setProducts(data);
@@ -20,7 +27,7 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [searchParams.get("category")]);
 
   return (
     <>
@@ -45,4 +52,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
