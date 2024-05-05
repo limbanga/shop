@@ -21,7 +21,7 @@
 > In frontend part I building Single page application using reactjs
 
 - Demo
-> [Click me to view demo]()
+> [Click me to view demo](https://drive.google.com/drive/folders/14LbKYMWyzgK59ZyFzle5ccqrzl_Rry8D?usp=sharing)
 # About this repo
 > This is frontend part of the project
 
@@ -71,7 +71,7 @@
 2. Open `cmd` (or any comand line) and run `npm i` to install dependencies
 3. run `npm run dev` to run the app.
 
-> Video guide how to run. [link]()
+> Video guide how to run. [link](https://drive.google.com/drive/folders/14LbKYMWyzgK59ZyFzle5ccqrzl_Rry8D?usp=sharing)
 
 
 

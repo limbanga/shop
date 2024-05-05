@@ -31,6 +31,7 @@ export const RegisterPage = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -57,6 +58,20 @@ export const RegisterPage = () => {
       });
       navigate("/login");
     } catch (error) {
+      const { response } = error;
+      console.error(error);
+      if (response.status === 400) {
+        const { data } = response;
+        const { username, phoneNumber } = data;
+        const errorMessages = username || phoneNumber;
+        enqueueSnackbar(<Typography>{errorMessages}</Typography>, {
+          variant: "error",
+        });
+        username && setError("username", { message: username });
+        phoneNumber && setError("phoneNumber", { message: phoneNumber });
+        return;
+      }
+
       enqueueSnackbar(<Typography>Register failed</Typography>, {
         variant: "error",
       });
