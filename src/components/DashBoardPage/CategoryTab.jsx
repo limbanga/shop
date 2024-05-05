@@ -1,32 +1,33 @@
 import { Box, Grid, IconButton, Paper, Typography } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../api/AxiosInstance";
 import { enqueueSnackbar } from "notistack";
 import { Add } from "@mui/icons-material";
 import CategoryCard from "./CategoryTab/CategoryCard";
 
-const HeaderSection = () => {
-  const navigate = useNavigate();
-
+const HeaderSection = ({ setCategories }) => {
   const handleCreateCategory = async () => {
-    // const product = {
-    //   name: "Change this to product name.",
-    //   code: "Product code",
-    //   category: {
-    //     id: 1,
-    //   },
-    // };
-    // const response = await axiosInstance.post("/products/", product);
-    // const { data } = response;
-    // console.log(data);
-    // const { id } = data;
-    // navigate(`/admin/product/${id}`);
-    // enqueueSnackbar(<Typography>Product created successfully</Typography>, {
-    //   variant: "success",
-    // });
-    console.log("Create category");
+    try {
+      const category = {
+        name: "Edit me.",
+      };
+      const response = await axiosInstance.post("/categories/", category);
+      const { data } = response;
+
+      setCategories((prev) => {
+        return [...prev, data];
+      });
+
+      enqueueSnackbar(<Typography>Category created successfully</Typography>, {
+        variant: "success",
+      });
+    } catch (error) {
+      enqueueSnackbar(<Typography>Something went wrong</Typography>, {
+        variant: "error",
+      });
+      console.error(error);
+    }
   };
 
   return (
@@ -58,7 +59,7 @@ export default function CategoryTab() {
 
   return (
     <Box>
-      <HeaderSection />
+      <HeaderSection setCategories={setCategories} />
       <Grid container spacing={1}>
         {categories ? (
           categories.map((x) => (

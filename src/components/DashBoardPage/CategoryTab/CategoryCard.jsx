@@ -64,7 +64,6 @@ const ActionPopover = ({
 const CategoryCard = ({ category, setCategory }) => {
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [categoryToUpdate, setCategoryToUpdate] = useState(null);
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const openUpdateDialog = () => {
@@ -73,7 +72,6 @@ const CategoryCard = ({ category, setCategory }) => {
   };
 
   const handleUpdate = async (form) => {
-    console.log(form);
     form.id = categoryToUpdate.id;
     try {
       const respone = await axiosInstance.put(
