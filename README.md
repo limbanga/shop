@@ -46,22 +46,41 @@
 > This is frontend part, so I will describe the routes of this application
 > `guest page`
 - Home page.
+> ![home](/previews/ui/homepage.png)
 - Product detail page.
+> ![product_detail](/previews/ui/product_detail.png)
 - Login page.
--Register page.
+> ![login](/previews/ui/login.png)
+- Register page.
+> ![register](/previews/ui/register.png)
+
 > `user page`
 - Cart page
+> ![cart](/previews/ui/cart.png)
 - Orders page
+> ![orders](/previews/ui/orders.png)
 - Order detail page
+> ![order_detail](/previews/ui/order_detail.png)
+
 > `error page`
 - 404 Page.
+> ![404](/previews/ui/404.png)
 - 403 Page.
+> ![403](/previews/ui/403.png)
 
 > `Admin page`
 - Admin dashboard page
+> ![dashboard](/previews/ui/dashboard.png)
+> ![dashboard1](/previews/ui/dashboard1.png)
+> ![dashboad2](/previews/ui/dashboad2.png)
+> ![dashboard3](/previews/ui/dashboard3.png)
 - Change product page
+> ![change_product](/previews/ui/change_product.png)
 - Change category page
+> ![change_cate](/previews/ui/change_cate.png)
+
 - Admin orders page.
+> ![dashboard](/previews/ui/dashboard.png)
 
 ## How to Run this project
 > required: nodejs >= 20.09.x
