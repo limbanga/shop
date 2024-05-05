@@ -1,8 +1,12 @@
-import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 const CategoryDialog = ({ category, setCategory, onSubmit }) => {
-  const { handleSubmit, register } = useForm();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   return (
     <Dialog
@@ -23,7 +27,7 @@ const CategoryDialog = ({ category, setCategory, onSubmit }) => {
           error={!!errors.name}
           helperText={errors.name?.message}
           fullWidth
-          label="Product name"
+          label="Category name"
           required
           variant="outlined"
           margin="normal"

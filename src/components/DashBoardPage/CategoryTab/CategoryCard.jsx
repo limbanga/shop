@@ -15,6 +15,7 @@ import {
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { axiosInstance } from "../../../api/AxiosInstance";
+import CategoryDialog from "./CategoryDialog";
 
 const ActionPopover = ({
   anchorEl,
@@ -62,10 +63,35 @@ const ActionPopover = ({
 
 const CategoryCard = ({ category, setCategory }) => {
   const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [categoryToUpdate, setCategoryToUpdate] = useState(null);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const openUpdateDialog = () => {
-    console.log("Open update dialog");
+    setCategoryToUpdate(category);
+    setAnchorEl(null);
+  };
+
+  const handleUpdate = async (form) => {
+    console.log(form);
+    form.id = categoryToUpdate.id;
+    try {
+      const respone = await axiosInstance.put(
+        `/categories/${categoryToUpdate.id}`,
+        form
+      );
+      enqueueSnackbar(<Typography>Update category successfully</Typography>, {
+        variant: "success",
+      });
+      const { data } = respone;
+      setCategoryToUpdate(null);
+      setCategory(data);
+    } catch (error) {
+      enqueueSnackbar(<Typography>Something went wrong!</Typography>, {
+        variant: "error",
+      });
+      console.error(error);
+    }
   };
 
   const openDeleteDialog = () => {
@@ -115,7 +141,12 @@ const CategoryCard = ({ category, setCategory }) => {
         openUpdateDialog={openUpdateDialog}
         openDeleteDialog={openDeleteDialog}
       />
-
+      {/* category dialog */}
+      <CategoryDialog
+        category={categoryToUpdate}
+        setCategory={setCategoryToUpdate}
+        onSubmit={handleUpdate}
+      />
       {/* delete dialog */}
       {categoryToDelete && (
         <Dialog
