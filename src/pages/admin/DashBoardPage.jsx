@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Tab,
-  Tabs,
-  Typography,
-  styled,
-} from "@mui/material";
-import { Add } from "@mui/icons-material";
+import React, { useState } from "react";
+import { Box, Container, Typography } from "@mui/material";
 
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-
-import { axiosInstance } from "../../api/AxiosInstance";
-import { enqueueSnackbar } from "notistack";
 import AntTab from "../../components/base/AntTab";
 import AntTabs from "../../components/base/AntTabs";
-import ProductTable from "../../components/DashBoardPage/ProductTable";
+import ProductTab from "../../components/DashBoardPage/ProductTab";
+import CategoryTab from "../../components/DashBoardPage/CategoryTab";
 
 const HeaderSection = () => {
   return <Typography variant="h4">Dashboard</Typography>;
@@ -25,46 +12,10 @@ const HeaderSection = () => {
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
-  return <Box sx={{ p: 3 }}>{value === index && <Box>{children}</Box>}</Box>;
+  return <Box >{value === index && <Box>{children}</Box>}</Box>;
 };
 
 export const DashBoardPage = () => {
-  const navigate = useNavigate();
-  const [products, setProducts] = React.useState(null);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axiosInstance.get("/products/");
-      const { data } = response;
-      setProducts(data);
-    } catch (error) {
-      alert("Error fetching products");
-      console.error(error);
-    }
-  };
-
-  const createNewProduct = async () => {
-    const product = {
-      name: "Change this to product name.",
-      code: "Product code",
-      category: {
-        id: 1,
-      },
-    };
-    const response = await axiosInstance.post("/products/", product);
-    const { data } = response;
-    console.log(data);
-    const { id } = data;
-    navigate(`/admin/product/${id}`);
-    enqueueSnackbar(<Typography>Product created successfully</Typography>, {
-      variant: "success",
-    });
-  };
-
-  useEffect(() => {
-    // fetchProducts();
-  }, []);
-
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleChangeTab = (event, newValue) => {
@@ -90,7 +41,13 @@ export const DashBoardPage = () => {
         Order
       </TabPanel>
       <TabPanel index={1} value={tabIndex}>
-        <ProductTable />
+        <ProductTab />
+      </TabPanel>
+      <TabPanel index={2} value={tabIndex}>
+        <CategoryTab />
+      </TabPanel>
+      <TabPanel index={3} value={tabIndex}>
+        User
       </TabPanel>
     </Container>
   );

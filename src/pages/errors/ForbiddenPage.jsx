@@ -10,6 +10,7 @@ const ForbiddenPage = () => {
         <Typography variant="h6">
           You are not allow to access this page
         </Typography>
+        <Typography variant="h6">Please use web site by your role</Typography>
       </Box>
     </Container>
   );

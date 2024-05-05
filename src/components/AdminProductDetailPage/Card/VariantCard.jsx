@@ -172,6 +172,7 @@ export const VariantCard = ({
     <>
       <Paper
         variant="outlined"
+        elevation={0}
         square
         sx={{
           position: "relative",
