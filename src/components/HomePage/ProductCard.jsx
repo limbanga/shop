@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { Link as RouterLink } from "react-router-dom";
 import { axiosInstance } from "../../api/AxiosInstance";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { Edit } from "@mui/icons-material";
 
 const ProductCard = ({ product }) => {
   const { id, name, slugUrl } = product;
+  const { currentUser } = useContext(AuthenticationContext);
   const [currentDisplayImage, setCurrentDisplayImage] = useState();
   const [variants, setVariants] = useState([]);
 
@@ -24,6 +34,7 @@ const ProductCard = ({ product }) => {
     fetchVariants();
   }, []);
 
+  console.log(currentUser);
   return (
     <>
       <Paper variant="outlined" sx={{ height: "400px" }}>
@@ -64,17 +75,28 @@ const ProductCard = ({ product }) => {
             </Typography>
           </Box>
 
-          {/* view detail */}
-          <Button
-            LinkComponent={RouterLink}
-            to={`product/${slugUrl}`}
-            color="inherit"
-            variant="text"
-            fullWidth
-            endIcon={<ArrowForwardIcon />}
-          >
-            View
-          </Button>
+          <Box display={"flex"}>
+            <Button
+              LinkComponent={RouterLink}
+              to={`product/${slugUrl}`}
+              color="inherit"
+              variant="text"
+              fullWidth
+              endIcon={<ArrowForwardIcon />}
+              sx={{ flexGrow: 1 }}
+            >
+              View
+            </Button>
+            {currentUser && currentUser.role === "ADMIN" && (
+              <IconButton
+                LinkComponent={RouterLink}
+                to={`/admin/product/${id}`}
+                variant="text"
+              >
+                <Edit color="action" />
+              </IconButton>
+            )}
+          </Box>
         </Box>
       </Paper>
     </>

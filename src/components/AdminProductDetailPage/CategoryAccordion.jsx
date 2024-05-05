@@ -52,6 +52,8 @@ export const CategoryAccordion = ({ category, setCategory }) => {
           <Typography>{category?.name || "Unselected"}</Typography>
         </AccordionSummary>
         {/* TODO: style for scroll bar */}
+
+        {/* TODO: add category CRUD */}
         <AccordionDetails
           sx={{
             maxHeight: 200,
