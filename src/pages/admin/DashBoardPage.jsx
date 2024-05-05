@@ -1,12 +1,32 @@
-import React from "react";
-import { Box, Button, Container, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+  styled,
+} from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { axiosInstance } from "../../api/AxiosInstance";
 import { enqueueSnackbar } from "notistack";
+import AntTab from "../../components/base/AntTab";
+import AntTabs from "../../components/base/AntTabs";
 import ProductTable from "../../components/DashBoardPage/ProductTable";
+
+const HeaderSection = () => {
+  return <Typography variant="h4">Dashboard</Typography>;
+};
+
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+  return <Box sx={{ p: 3 }}>{value === index && <Box>{children}</Box>}</Box>;
+};
 
 export const DashBoardPage = () => {
   const navigate = useNavigate();
@@ -41,29 +61,37 @@ export const DashBoardPage = () => {
     });
   };
 
-  React.useEffect(() => {
-    fetchProducts();
+  useEffect(() => {
+    // fetchProducts();
   }, []);
+
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleChangeTab = (event, newValue) => {
+    setTabIndex(newValue);
+  };
 
   return (
     <Container sx={{ mt: "5rem" }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "end",
-        }}
-      >
-        <Typography variant="h3">Dashboard</Typography>
-
-        <Button onClick={createNewProduct} disableElevation startIcon={<Add />}>
-          New Product
-        </Button>
+      <HeaderSection />
+      <Box sx={{ bgcolor: "#fff" }}>
+        <AntTabs
+          value={tabIndex}
+          onChange={handleChangeTab}
+          aria-label="ant example"
+        >
+          <AntTab label="Order" />
+          <AntTab label="Products" />
+          <AntTab label="Categories" />
+          <AntTab label="User" />
+        </AntTabs>
       </Box>
-
-      <Box sx={{ mt: "1rem" }}>
-        <ProductTable products={products} />
-      </Box>
+      <TabPanel index={0} value={tabIndex}>
+        Order
+      </TabPanel>
+      <TabPanel index={1} value={tabIndex}>
+        <ProductTable />
+      </TabPanel>
     </Container>
   );
 };
