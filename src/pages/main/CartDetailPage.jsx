@@ -1,13 +1,11 @@
-import { Delete, DeleteOutline, SettingsCellSharp } from "@mui/icons-material";
+import { DeleteOutline, SettingsCellSharp } from "@mui/icons-material";
 import {
   Box,
   Button,
-  ButtonGroup,
   Container,
   Divider,
   Grid,
   IconButton,
-  Paper,
   Stack,
   TextField,
   Tooltip,
@@ -40,24 +38,32 @@ export const CartDetailPage = () => {
     console.log(item, newQuantity);
     setCartItem(item.size.id, newQuantity);
     if (newQuantity <= 0) {
-      enqueueSnackbar("Item removed from cart", { variant: "success" });
+      enqueueSnackbar(<Typography>Item removed from cart</Typography>, {
+        variant: "success",
+      });
     }
   };
 
   const handleCheckout = async () => {
     if (cartItems.length === 0) {
-      enqueueSnackbar("No item in cart", { variant: "error" });
+      enqueueSnackbar(<Typography>No item in cart</Typography>, {
+        variant: "error",
+      });
       return;
     }
     if (!currentUser) {
-      enqueueSnackbar("Please login to checkout", { variant: "error" });
+      enqueueSnackbar(<Typography>Please login to checkout</Typography>, {
+        variant: "error",
+      });
       return;
     }
     const response = await axiosInstance.get("/orders/checkout");
     const { data } = response;
     console.log(data);
     await fetchCartItems();
-    enqueueSnackbar("Checkout", { variant: "success" });
+    enqueueSnackbar(<Typography>Checked out.</Typography>, {
+      variant: "success",
+    });
   };
 
   return (

@@ -127,7 +127,10 @@ function Row(props) {
                         </TableCell>
                         <TableCell align="right">
                           {orderdetail.total ? (
-                            orderdetail.total
+                            new Intl.NumberFormat("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(orderdetail.total)
                           ) : (
                             <Chip
                               label="Not pay"
@@ -155,8 +158,8 @@ const OrderTab = () => {
     try {
       const response = await axiosInstance.get("/orders/");
       const { data } = response;
-      setOrders(data);
-      console.log(data);
+      const cleaned = data.filter((order) => order.paymentStatus !== "InCart");
+      setOrders(cleaned);
     } catch (error) {
       console.error(error);
     }
