@@ -5,6 +5,7 @@ import AntTab from "../../components/base/AntTab";
 import AntTabs from "../../components/base/AntTabs";
 import ProductTab from "../../components/DashBoardPage/ProductTab";
 import CategoryTab from "../../components/DashBoardPage/CategoryTab";
+import OrderTab from "../../components/DashBoardPage/CategoryTab/OrderTab";
 
 const HeaderSection = () => {
   return <Typography variant="h4">Dashboard</Typography>;
@@ -12,7 +13,7 @@ const HeaderSection = () => {
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
-  return <Box >{value === index && <Box>{children}</Box>}</Box>;
+  return <Box>{value === index && <Box>{children}</Box>}</Box>;
 };
 
 export const DashBoardPage = () => {
@@ -38,7 +39,7 @@ export const DashBoardPage = () => {
         </AntTabs>
       </Box>
       <TabPanel index={0} value={tabIndex}>
-        Order
+        <OrderTab />
       </TabPanel>
       <TabPanel index={1} value={tabIndex}>
         <ProductTab />
