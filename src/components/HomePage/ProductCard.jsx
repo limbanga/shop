@@ -34,7 +34,6 @@ const ProductCard = ({ product }) => {
     fetchVariants();
   }, []);
 
-  console.log(currentUser);
   return (
     <>
       <Paper variant="outlined" sx={{ height: "400px" }}>

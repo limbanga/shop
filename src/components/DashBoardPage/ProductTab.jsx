@@ -11,6 +11,7 @@ const HeaderSection = () => {
   const navigate = useNavigate();
 
   const createNewProduct = async () => {
+    console.log("Creating new product");
     const product = {
       name: "Change this to product name.",
       code: "Product code",
