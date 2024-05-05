@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import HomePage from "./pages/main/HomePage";
@@ -13,12 +13,30 @@ import { CartDetailPage } from "./pages/main/CartDetailPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
 import OrderDetailPage from "./pages/main/OrderDetailPage";
 import OrdersPage from "./pages/main/OrdersPage";
+import { AuthenticationContext } from "./contexts/AuthenticationContext";
+import UserLayout from "./layouts/UserLayout";
 
 const App = () => {
+  const { currentUser } = useContext(AuthenticationContext);
   return (
     <>
       <BrowserRouter>
         <Routes>
+          {/* required logged in */}
+          <Route path="/" element={<UserLayout />}>
+            {/* cart */}
+            <Route path="/cart" element={<CartDetailPage />} />
+            <Route path="/orders/:id" element={<OrderDetailPage />} />
+            <Route path="/orders/" element={<OrdersPage />} />
+          </Route>
+
+          {/* required admin */}
+          <Route path="/admin/" element={<AdminLayout />}>
+            <Route index element={<DashBoardPage />} />
+            <Route path="product/:id" element={<AdminProductDetailPage />} />
+          </Route>
+          
+          {/* guest */}
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             {/* auth */}
@@ -29,16 +47,7 @@ const App = () => {
               path="/product/:productSlug"
               element={<ProductDetailPage />}
             />
-            {/* cart */}
-            <Route path="/cart" element={<CartDetailPage />} />
-            <Route path="/orders/:id" element={<OrderDetailPage />} />
-            <Route path="/orders/" element={<OrdersPage />} />
-
             <Route path="*" element={<NoPage />} />
-          </Route>
-          <Route path="/admin/" element={<AdminLayout />}>
-            <Route index element={<DashBoardPage />} />
-            <Route path="product/:id" element={<AdminProductDetailPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
