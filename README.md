@@ -6,6 +6,12 @@
 
 > I built an website allow the admin can manange their product as well as sell it online.
 
+- Features
+> Use case
+![hinh anh](./previews/usecase.png)
+- Data management
+> class diagram
+![class_diagram](./previews/class_diagram.png)
 - Development pricples
 > The project is develop in Scrum, with the period is 1 week. Every week I will preview the project and plan for what to do in the next week.
 
