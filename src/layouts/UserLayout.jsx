@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import MainNavbar from "../components/MainLayout/MainNavbar";
+import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../contexts/AuthenticationContext";
+import GuestLayout from "./GuestLayout";
 
 export default function UserLayout() {
   const { currentUser } = useContext(AuthenticationContext);
@@ -13,10 +13,5 @@ export default function UserLayout() {
     }
   }, [currentUser]);
 
-  return (
-    <>
-      <MainNavbar />
-      <Outlet />
-    </>
-  );
+  return <GuestLayout />;
 }

@@ -8,7 +8,7 @@ import { DashBoardPage } from "./pages/admin/DashBoardPage";
 import LoginPage from "./pages/auth/LoginPage";
 import { AdminProductDetailPage } from "./pages/admin/AdminProductDetailPage";
 import NoPage from "./pages/errors/NoPage";
-import MainLayout from "./layouts/MainLayout";
+import GuestLayout from "./layouts/GuestLayout";
 import { CartDetailPage } from "./pages/main/CartDetailPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
 import OrderDetailPage from "./pages/main/OrderDetailPage";
@@ -35,9 +35,9 @@ const App = () => {
             <Route index element={<DashBoardPage />} />
             <Route path="product/:id" element={<AdminProductDetailPage />} />
           </Route>
-          
+
           {/* guest */}
-          <Route path="/" element={<MainLayout />}>
+          <Route path="/" element={<GuestLayout />}>
             <Route index element={<HomePage />} />
             {/* auth */}
             <Route path="/login" element={<LoginPage />} />

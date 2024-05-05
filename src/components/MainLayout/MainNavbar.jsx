@@ -39,7 +39,7 @@ import { CartContext } from "../../contexts/CartContext";
 import { useForm } from "react-hook-form";
 
 const UserDropDown = ({ anchorEl, setAnchorEl }) => {
-  const { logout } = useContext(AuthenticationContext);
+  const { currentUser, logout } = useContext(AuthenticationContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -68,15 +68,18 @@ const UserDropDown = ({ anchorEl, setAnchorEl }) => {
         <Button fullWidth size="large">
           Profile
         </Button>
-        <Button
-          LinkComponent={RouterLink}
-          to="/admin/"
-          fullWidth
-          size="large"
-          color="inherit"
-        >
-          Dashboard
-        </Button>
+        {currentUser?.role === "ADMIN" && (
+          <Button
+            LinkComponent={RouterLink}
+            to="/admin/"
+            fullWidth
+            size="large"
+            color="inherit"
+          >
+            Dashboard
+          </Button>
+        )}
+
         <Button
           LinkComponent={RouterLink}
           to="/orders"
@@ -203,7 +206,7 @@ const SearchForm = () => {
     searchParams.set("q", cleaned);
     setSearchParams(searchParams);
   };
-  
+
   return (
     <Box
       component={"form"}

@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../../../api/AxiosInstance";
+import { axiosInstance } from "../../api/AxiosInstance";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
 function Row(props) {
